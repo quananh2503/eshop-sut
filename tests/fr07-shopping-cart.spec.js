@@ -17,7 +17,7 @@ test.describe("FR-07 Shopping cart", () => {
 
   test("FR07-DT-002: adding the same product twice should merge into one row and increase quantity", async ({ page }) => {
     await addFirstProductFromHome(page);
-    await addFirstProductFromHome(page);
+    await addFirstProductFromHome(page, { navigate: false });
     await openCart(page);
 
     await expect(page.locator("tbody tr"), "Duplicate products should be merged into one cart row").toHaveCount(1);

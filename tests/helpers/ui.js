@@ -23,8 +23,11 @@ async function goToAdminProducts(page) {
   await expect(page.getByText("Quản lý Sản phẩm")).toBeVisible();
 }
 
-async function addFirstProductFromHome(page) {
-  await openWeb(page, "/");
+async function addFirstProductFromHome(page, options = {}) {
+  const { navigate = true } = options;
+  if (navigate) {
+    await openWeb(page, "/");
+  }
   await expect(page.getByRole("heading", { name: "Danh sách sản phẩm" }).first()).toBeVisible();
   await page.getByRole("button", { name: "Thêm vào giỏ" }).first().click();
 }

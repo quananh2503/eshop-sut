@@ -60,5 +60,7 @@ Neu fail la bug that, dung screenshot/trace/video trong `test-results/` lam evid
 
 - Mot so test duoc viet theo dac ta dung, nen kha nang fail cao vi repo SUT co bug co y.
 - Khong test truc tiep backend API trong bo Playwright nay; backend chi duoc dung nhu service ho tro UI.
+- Voi cac feature luu state tren browser/client, test khong reload giua cac buoc neu state do can duoc giu lai. Vi du: gio hang web hien luu trong React state/context, nen test add duplicate san pham phai add hai lan trong cung mot page session.
+- Moi Playwright test mac dinh chay trong browser context rieng, nen localStorage/cookie khong bi ro ri giua cac test case.
 - Khong nen auto-create GitHub Issue ngay sau moi test fail. Nen review truoc.
 - Cac test title co ID nhu `FR07-DT-002` de trace ve `docs/hw02/test-cases.md`.
