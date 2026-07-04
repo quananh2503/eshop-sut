@@ -1,105 +1,89 @@
 const path = require("path");
 const { test, expect } = require("@playwright/test");
-const {
-  getProducts,
-  importProducts,
-  loginAsAdmin
-} = require("./helpers/api");
 const { goToAdminProducts } = require("./helpers/ui");
 
 const fixture = (...parts) => path.join(__dirname, "fixtures", "csv", ...parts);
 
-test.describe("FR-16 Product import from CSV", () => {
+async function uploadCsv(page, fileName) {
+  await goToAdminProducts(page);
+  await page.locator('input[type="file"]').setInputFiles(fixture(fileName));
+}
+
+async function importCurrentPreview(page, expectedRows) {
+  await page.getByRole("button", { name: new RegExp(`Import ${expectedRows} sản phẩm`, "i") }).click();
+}
+
+test.describe("FR-16 Product import from CSV - UI domain tests", () => {
   test("FR16-DT-001/FR16-BVA-002: admin UI should import a valid CSV with one data row", async ({ page }) => {
-    await goToAdminProducts(page);
+    await uploadCsv(page, "valid-one-product.csv");
 
-    await page.locator('input[type="file"]').setInputFiles(fixture("valid-one-product.csv"));
     await expect(page.getByText("Xem trước (1 dòng):")).toBeVisible();
-    await page.getByRole("button", { name: /Import 1 sản phẩm/i }).click();
-
+    await importCurrentPreview(page, 1);
     await expect(page.getByText(/Import hoàn tất: 1\/1 sản phẩm được thêm/i)).toBeVisible();
   });
 
   test("FR16-DT-002: admin UI should reject non-CSV file extension", async ({ page }) => {
-    await goToAdminProducts(page);
-
-    await page.locator('input[type="file"]').setInputFiles(fixture("products.txt"));
+    await uploadCsv(page, "products.txt");
 
     await expect(page.getByText(/không phải.*csv|file.*csv|đuôi.*csv/i)).toBeVisible();
   });
 
-  test("FR16-DT-005/FR16-BVA-004: import API should reject price = 0", async ({ request }) => {
-    const { token } = await loginAsAdmin(request);
-    const response = await importProducts(request, token, [
-      {
-        name: "HW02 API Zero Price",
-        price: 0,
-        description: "Invalid zero price",
-        imageUrl: "https://placehold.co/300",
-        category_id: 1
-      }
-    ]);
+  test("FR16-DT-003: admin UI should reject CSV with missing required header", async ({ page }) => {
+    await uploadCsv(page, "missing-price-header.csv");
 
-    expect(response.status(), "Spec requires price to be a positive number").toBeGreaterThanOrEqual(400);
+    await expect(page.getByText(/thiếu.*price|header.*price|sai.*header/i)).toBeVisible();
   });
 
-  test("FR16-DT-006: import API should reject negative price", async ({ request }) => {
-    const { token } = await loginAsAdmin(request);
-    const response = await importProducts(request, token, [
-      {
-        name: "HW02 API Negative Price",
-        price: -1,
-        description: "Invalid negative price",
-        imageUrl: "https://placehold.co/300",
-        category_id: 1
-      }
-    ]);
+  test("FR16-DT-004/FR16-BVA-007: admin UI should reject empty product name and rollback", async ({ page }) => {
+    await uploadCsv(page, "mixed-valid-invalid-name.csv");
 
-    expect(response.status(), "Spec requires price to be a positive number").toBeGreaterThanOrEqual(400);
+    await importCurrentPreview(page, 2);
+    await expect(page.getByText(/Thiếu tên sản phẩm/i)).toBeVisible();
+    await expect(page.getByText(/0\/2 sản phẩm được thêm|0 sản phẩm/i)).toBeVisible();
   });
 
-  test("FR16-DT-009: mixed valid/invalid rows should rollback the whole import", async ({ request }) => {
-    const { token } = await loginAsAdmin(request);
-    const before = await getProducts(request);
+  test("FR16-DT-005/FR16-BVA-004: admin UI should reject price = 0", async ({ page }) => {
+    await uploadCsv(page, "invalid-price-zero.csv");
 
-    const response = await importProducts(request, token, [
-      {
-        name: "HW02 API Rollback Candidate",
-        price: 10000,
-        description: "This row must rollback when another row is invalid",
-        imageUrl: "https://placehold.co/300",
-        category_id: 1
-      },
-      {
-        name: "",
-        price: 15000,
-        description: "Invalid missing name",
-        imageUrl: "https://placehold.co/300",
-        category_id: 1
-      }
-    ]);
+    await importCurrentPreview(page, 1);
+    await expect(page.getByText(/price|giá|số dương/i)).toBeVisible();
+    await expect(page.getByText(/0\/1 sản phẩm được thêm|0 sản phẩm/i)).toBeVisible();
+  });
 
-    expect(response.status(), "Spec requires the whole batch to fail when any row is invalid").toBeGreaterThanOrEqual(400);
-    const after = await getProducts(request);
-    expect(after.length, "Spec requires all-or-nothing rollback").toBe(before.length);
+  test("FR16-DT-006: admin UI should reject negative price", async ({ page }) => {
+    await uploadCsv(page, "invalid-price-negative.csv");
+
+    await importCurrentPreview(page, 1);
+    await expect(page.getByText(/price|giá|số dương/i)).toBeVisible();
+    await expect(page.getByText(/0\/1 sản phẩm được thêm|0 sản phẩm/i)).toBeVisible();
+  });
+
+  test("FR16-DT-007: admin UI should reject non-numeric price", async ({ page }) => {
+    await uploadCsv(page, "invalid-price-text.csv");
+
+    await importCurrentPreview(page, 1);
+    await expect(page.getByText(/price|giá|số|number/i)).toBeVisible();
+    await expect(page.getByText(/0\/1 sản phẩm được thêm|0 sản phẩm/i)).toBeVisible();
   });
 
   test("FR16-DT-008: CSV parser should preserve comma inside quoted RFC 4180 field", async ({ page }) => {
-    await goToAdminProducts(page);
-
-    await page.locator('input[type="file"]').setInputFiles(fixture("rfc4180-description-comma.csv"));
+    await uploadCsv(page, "rfc4180-description-comma.csv");
 
     const preview = page.locator("table").first();
     await expect(preview).toContainText("Description has, a comma");
   });
 
-  test("FR16-DT-010: import result should clearly report success and error counts with reasons", async ({ page }) => {
-    await goToAdminProducts(page);
+  test("FR16-BVA-001: header-only CSV should be rejected as empty data", async ({ page }) => {
+    await uploadCsv(page, "header-only.csv");
 
-    await page.locator('input[type="file"]').setInputFiles(fixture("mixed-valid-invalid-name.csv"));
-    await page.getByRole("button", { name: /Import 2 sản phẩm/i }).click();
+    await expect(page.getByText(/không có dữ liệu|0 dòng|empty/i)).toBeVisible();
+  });
 
-    await expect(page.getByText(/thành công|sản phẩm được thêm/i)).toBeVisible();
+  test("FR16-DT-010: import result should clearly report success count, error count, and reasons", async ({ page }) => {
+    await uploadCsv(page, "mixed-valid-invalid-name.csv");
+
+    await importCurrentPreview(page, 2);
+    await expect(page.getByText(/0\/2|thành công|sản phẩm được thêm/i)).toBeVisible();
     await expect(page.getByText(/lỗi|Thiếu tên sản phẩm/i)).toBeVisible();
   });
 });

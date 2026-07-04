@@ -1,0 +1,2 @@
+name,price,description,imageUrl,category_id
+HW02 CSV Negative Price,-1,Invalid negative price,https://placehold.co/300,1

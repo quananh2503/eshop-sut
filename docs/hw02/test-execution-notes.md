@@ -22,6 +22,12 @@ Chay tat ca tests:
 npm run test:e2e
 ```
 
+Bo test hien tai uu tien UI-first:
+
+- Khong goi truc tiep backend API de ket luan bug.
+- Neu UI thieu validation/chuc nang theo spec, test fail va duoc ghi la bug candidate.
+- Backend chi can chay de UI co du lieu va xu ly request.
+
 Chay rieng feature:
 
 ```bash

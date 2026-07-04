@@ -4,11 +4,13 @@
 
 | File | Feature | So test | Muc dich |
 |---|---|---:|---|
-| `tests/fr03-forgot-password.spec.js` | FR-03 | 7 | Kiem tra OTP, password reset, step UI |
+| `tests/fr03-forgot-password.spec.js` | FR-03 | 8 | Kiem tra OTP, password reset, step UI bang UI |
 | `tests/fr07-shopping-cart.spec.js` | FR-07 | 8 | Kiem tra add cart, duplicate, remove confirm, total label, empty cart, +/- |
-| `tests/fr16-product-import.spec.js` | FR-16 | 7 | Kiem tra CSV import, invalid price, rollback, RFC 4180 |
+| `tests/fr16-product-import.spec.js` | FR-16 | 10 | Kiem tra CSV import, invalid price, rollback, RFC 4180 bang Admin UI |
 
-Tong: 22 automated tests.
+Tong: 26 automated UI tests.
+
+Luu y: Theo dinh huong Domain Testing cua bai, cac test nay uu tien thao tac qua UI. Neu UI khong co chuc nang/validation theo spec, test se fail va duoc xem la bug candidate.
 
 ## 2. Dieu kien truoc khi chay
 
@@ -57,5 +59,6 @@ Neu fail la bug that, dung screenshot/trace/video trong `test-results/` lam evid
 ## 5. Luu y
 
 - Mot so test duoc viet theo dac ta dung, nen kha nang fail cao vi repo SUT co bug co y.
+- Khong test truc tiep backend API trong bo Playwright nay; backend chi duoc dung nhu service ho tro UI.
 - Khong nen auto-create GitHub Issue ngay sau moi test fail. Nen review truoc.
 - Cac test title co ID nhu `FR07-DT-002` de trace ve `docs/hw02/test-cases.md`.
