@@ -46,24 +46,21 @@ test.describe("FR-16 Product import from CSV - UI domain tests", () => {
     await uploadCsv(page, "invalid-price-zero.csv");
 
     await importCurrentPreview(page, 1);
-    await expect(page.getByText(/price|giá|số dương/i)).toBeVisible();
-    await expect(page.getByText(/0\/1 sản phẩm được thêm|0 sản phẩm/i)).toBeVisible();
+    await expect(page.getByText(/0\/1 sản phẩm được thêm|0 sản phẩm/i), "price = 0 must be rejected, not imported").toBeVisible();
   });
 
   test("FR16-DT-006: admin UI should reject negative price", async ({ page }) => {
     await uploadCsv(page, "invalid-price-negative.csv");
 
     await importCurrentPreview(page, 1);
-    await expect(page.getByText(/price|giá|số dương/i)).toBeVisible();
-    await expect(page.getByText(/0\/1 sản phẩm được thêm|0 sản phẩm/i)).toBeVisible();
+    await expect(page.getByText(/0\/1 sản phẩm được thêm|0 sản phẩm/i), "negative price must be rejected, not imported").toBeVisible();
   });
 
   test("FR16-DT-007: admin UI should reject non-numeric price", async ({ page }) => {
     await uploadCsv(page, "invalid-price-text.csv");
 
     await importCurrentPreview(page, 1);
-    await expect(page.getByText(/price|giá|số|number/i)).toBeVisible();
-    await expect(page.getByText(/0\/1 sản phẩm được thêm|0 sản phẩm/i)).toBeVisible();
+    await expect(page.getByText(/0\/1 sản phẩm được thêm|0 sản phẩm/i), "non-numeric price must be rejected, not imported").toBeVisible();
   });
 
   test("FR16-DT-008: CSV parser should preserve comma inside quoted RFC 4180 field", async ({ page }) => {

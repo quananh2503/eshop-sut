@@ -17,6 +17,19 @@ function extractOtp(text) {
   return match ? match[0] : "";
 }
 
+async function submitResetAndCaptureDialog(page) {
+  const dialogPromise = page.waitForEvent("dialog", { timeout: 5000 })
+    .then(async (dialog) => {
+      const message = dialog.message();
+      await dialog.dismiss();
+      return message;
+    })
+    .catch(() => "");
+
+  await page.getByRole("button", { name: "Đặt lại mật khẩu" }).click({ noWaitAfter: true });
+  return dialogPromise;
+}
+
 test.describe("FR-03 Forgot password and password reset - UI domain tests", () => {
   test("FR03-DT-001/FR03-BVA-002: UI should show a 6-digit OTP for registered email", async ({ page }) => {
     await requestOtpViaUi(page, "test@eshop.com");
@@ -54,29 +67,23 @@ test.describe("FR-03 Forgot password and password reset - UI domain tests", () =
     const message = page.getByText(/Mã OTP của bạn là:/i);
     const otp = extractOtp((await message.textContent()) || "");
 
-    await page.locator("input").nth(1).fill(otp);
-    await page.locator("input").nth(2).fill("weak");
+    await page.locator("input").nth(0).fill(otp);
+    await page.locator("input").nth(1).fill("weak");
 
-    const dialogPromise = page.waitForEvent("dialog");
-    await page.getByRole("button", { name: "Đặt lại mật khẩu" }).click();
-    const dialog = await dialogPromise;
+    const dialogMessage = await submitResetAndCaptureDialog(page);
 
-    expect(dialog.message()).toMatch(/Mật khẩu quá yếu/i);
-    await dialog.dismiss();
+    expect(dialogMessage).toMatch(/Mật khẩu quá yếu/i);
   });
 
   test("FR03-BVA-005: UI should accept an 8-character strong password format before checking OTP", async ({ page }) => {
     await requestOtpViaUi(page, "test@eshop.com");
 
-    await page.locator("input").nth(1).fill("000000");
-    await page.locator("input").nth(2).fill("Aa1!aaaa");
+    await page.locator("input").nth(0).fill("000000");
+    await page.locator("input").nth(1).fill("Aa1!aaaa");
 
-    const dialogPromise = page.waitForEvent("dialog");
-    await page.getByRole("button", { name: "Đặt lại mật khẩu" }).click();
-    const dialog = await dialogPromise;
+    const dialogMessage = await submitResetAndCaptureDialog(page);
 
-    expect(dialog.message(), "A valid 8-char strong password should not be rejected as weak").not.toMatch(/Mật khẩu quá yếu/i);
-    await dialog.dismiss();
+    expect(dialogMessage, "A valid 8-char strong password should proceed to OTP validation, not fail password-strength validation").toMatch(/Mã OTP không đúng|OTP/i);
   });
 
   test("FR03-DT-007: reset UI should include confirm new password field", async ({ page }) => {
