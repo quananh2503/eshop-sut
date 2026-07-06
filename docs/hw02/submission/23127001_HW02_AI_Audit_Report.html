@@ -1,0 +1,64 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 14mm; }
+body { font-family: Arial, "DejaVu Sans", sans-serif; color: #111827; line-height: 1.45; font-size: 11px; }
+h1 { font-size: 24px; margin: 0 0 18px; }
+h2 { font-size: 17px; margin: 22px 0 8px; padding-bottom: 4px; border-bottom: 1px solid #d1d5db; }
+h3 { font-size: 13px; margin: 14px 0 6px; }
+p { margin: 6px 0; }
+ul { margin: 6px 0 8px 20px; padding: 0; }
+li { margin: 3px 0; }
+table { width: 100%; border-collapse: collapse; margin: 8px 0 14px; page-break-inside: avoid; }
+th, td { border: 1px solid #d1d5db; padding: 5px 6px; vertical-align: top; }
+th { background: #f3f4f6; font-weight: 700; }
+code { font-family: "DejaVu Sans Mono", Consolas, monospace; background: #f3f4f6; padding: 1px 3px; border-radius: 3px; }
+pre { background: #f3f4f6; padding: 8px; overflow-wrap: break-word; white-space: pre-wrap; border-radius: 4px; }
+blockquote { border-left: 3px solid #9ca3af; padding-left: 10px; color: #374151; margin: 8px 0; }
+</style></head><body><h1>Phụ lục A - AI Audit Report cho HW02</h1>
+<h2>1. Thông tin sinh viên</h2>
+<table>
+<thead><tr><th>Mục</th><th>Giá trị</th></tr></thead>
+<tbody>
+<tr><td>Họ tên sinh viên</td><td>NGUYỄN LÊ QUAN ANH</td></tr>
+<tr><td>MSSV</td><td>23127001</td></tr>
+<tr><td>Lớp</td><td>23KTPM2</td></tr>
+<tr><td>Mã bài tập</td><td>HW02-AI</td></tr>
+<tr><td>Tên bài tập</td><td>Domain Testing on EShop</td></tr>
+<tr><td>Ngày làm bài</td><td>2026-07-04</td></tr>
+<tr><td>Công cụ AI đã dùng</td><td>Codex/ChatGPT</td></tr>
+<tr><td>Có dùng AI</td><td>Có</td></tr>
+</tbody></table>
+<h2>2. Bảng Audit - 1 hàng / artifact</h2>
+<table>
+<thead><tr><th>Artifact</th><th>Prompt + Công cụ</th><th>Output AI</th><th>Verdict</th><th>Lý do kiểm tra</th><th>Bản sinh viên sửa</th></tr></thead>
+<tbody>
+<tr><td>Artifact #1 - Phân tích yêu cầu HW02</td><td>Tool: Codex/ChatGPT. Prompt chính: phân tích yêu cầu HW02, lưu tài liệu, lập danh sách thông tin cần cung cấp và chiến lược dùng Playwright.</td><td>Bản nháp chiến lược Playwright, danh sách tài liệu cần có, cấu trúc thư mục HW02.</td><td>INCOMPLETE</td><td>AI mới tạo khung ban đầu, chưa đủ dữ liệu SUT và chưa thể kết luận feature nào dễ tự động hóa.</td><td>Em bổ sung thông tin sinh viên, phân công Member 1, repo fork cá nhân, xác nhận chọn FR-03, FR-07, FR-16, FR-04mb.</td></tr>
+<tr><td>Artifact #2 - Domain/BVA analysis</td><td>Tool: Codex/ChatGPT. Prompt chính: thiết kế Domain Testing và Boundary Value Analysis cho 4 feature được giao.</td><td>File <code>docs/hw02/domain-bva-analysis.md</code> và <code>docs/hw02/test-cases.md</code>.</td><td>INCOMPLETE</td><td>AI có thể bỏ sót edge case nghiệp vụ như rollback CSV hoặc trạng thái localStorage của giỏ hàng.</td><td>Em rà soát theo đặc tả, bổ sung các miền invalid: OTP length, password policy, duplicate cart item, price 0/âm/chuỗi, RFC 4180 quoted comma, all-or-nothing CSV.</td></tr>
+<tr><td>Artifact #3 - Playwright automation</td><td>Tool: Codex/ChatGPT. Prompt chính: viết Playwright automation bám theo test case đã thiết kế cho FR-03, FR-07, FR-16.</td><td>Các file test <code>tests/fr03-forgot-password.spec.js</code>, <code>tests/fr07-shopping-cart.spec.js</code>, <code>tests/fr16-product-import.spec.js</code>.</td><td>INCOMPLETE</td><td>Bản đầu có lỗi locator/dialog và có nguy cơ test backend thay vì UI-first.</td><td>Em sửa kịch bản theo UI-first, sửa locator input ở reset password, xử lý dialog đúng cách, tránh reload làm mất state giỏ hàng, làm rõ assertion CSV invalid price.</td></tr>
+<tr><td>Artifact #4 - Bug tracker và evidence</td><td>Tool: Codex/ChatGPT. Prompt chính: chạy Playwright/manual test, phân tích fail, cập nhật trạng thái bug, ảnh minh chứng và GitHub Issues.</td><td><code>bug-tracker.md</code>, <code>test-execution-notes.md</code>, <code>github-issues-summary.md</code>, <code>docs/hw02/evidence/*</code>, 20 GitHub Issues.</td><td>VALID</td><td>Kết quả được đối chiếu với Playwright run thật cho FR-03/FR-07/FR-16 và ảnh manual test trên iPhone cho FR-04mb. Tổng cộng 45 test executed, 24 passed, 21 failed, 20 bug reported.</td><td>Em xác nhận 16 bug web/admin từ Playwright evidence và 4 bug mobile từ ảnh iPhone, đánh dấu Rejected cho candidate không tái hiện, tạo GitHub Issues kèm evidence render trực tiếp.</td></tr>
+<tr><td>Artifact #5 - Báo cáo chính</td><td>Tool: Codex/ChatGPT. Prompt chính: viết báo cáo HW02 bằng tiếng Việt có dấu dựa trên artifact đã có.</td><td><code>23127001_HW02_AI_DomainTesting_Report.md</code> và PDF tương ứng.</td><td>INCOMPLETE</td><td>AI tạo bản nháp diễn đạt, nhưng sinh viên phải chịu trách nhiệm tính đúng của số liệu, bug và self-assessment.</td><td>Em kiểm tra lại số liệu test, mapping bug, commit log, evidence path và giữ ghi chú rõ phần mobile chưa automation.</td></tr>
+</tbody></table>
+<h2>3. Tổng kết độ chính xác AI</h2>
+<table>
+<thead><tr><th>Chỉ số</th><th>Số lượng</th><th>Tỉ lệ</th></tr></thead>
+<tbody>
+<tr><td>Tổng artifact AI sinh đã audit</td><td>5</td><td>100%</td></tr>
+<tr><td>VALID</td><td>1</td><td>20%</td></tr>
+<tr><td>INVALID</td><td>0</td><td>0%</td></tr>
+<tr><td>INCOMPLETE</td><td>4</td><td>80%</td></tr>
+</tbody></table>
+<h2>4. Kết luận - Khi nào nên / không nên dùng AI?</h2>
+<p>AI phù hợp để tăng tốc các bước tạo khung phân tích, gợi ý miền đầu vào, sinh test case nháp, viết Playwright ban đầu và soạn báo cáo. Tuy nhiên, AI không nên được dùng như nguồn kết luận cuối cùng. Trong bài này, một số output ban đầu cần chỉnh vì chưa bám chặt chiến lược UI-first, có locator sai sau khi UI chuyển bước, và chưa phân biệt lỗi script với bug thật. AI cũng dễ đề xuất kiểm thử API/backend khi đề yêu cầu tập trung vào Domain Testing qua UI. Vì vậy, chỉ nên dùng AI như trợ lý tạo bản nháp; sinh viên phải tự chạy test, đọc screenshot/trace, đối chiếu đặc tả, phân loại bug và khai báo đầy đủ việc sử dụng AI.</p>
+<h2>5. Mandatory Disclosure</h2>
+<p>"Báo cáo, test case, Playwright scripts và bug tracker này được sinh phiên bản đầu với sự hỗ trợ của Codex/ChatGPT; tôi đã rà soát và chỉnh sửa phần chiến lược UI-first, test locator/dialog, mapping test case sang bug, bổ sung edge cases cho localStorage/CSV/OTP/password; phần đánh giá kết quả và kết luận bug do tôi kiểm tra lại dựa trên Playwright evidence. AI Audit Report chi tiết đính kèm ở Phụ lục A. Tôi cam đoan không dùng AI để sinh bất kỳ artifact nào thuộc danh mục bị cấm."</p>
+<h2>6. Chữ ký</h2>
+<table>
+<thead><tr><th>Mục</th><th>Giá trị</th></tr></thead>
+<tbody>
+<tr><td>Họ tên sinh viên</td><td>NGUYỄN LÊ QUAN ANH</td></tr>
+<tr><td>MSSV</td><td>23127001</td></tr>
+<tr><td>Lớp</td><td>23KTPM2</td></tr>
+<tr><td>Môn học</td><td>CS423 / CSC15003 - Kiểm chứng Phần mềm</td></tr>
+<tr><td>Giảng viên</td><td>Lâm Quang Vũ</td></tr>
+<tr><td>Ngày</td><td>2026-07-04</td></tr>
+<tr><td>Chữ ký</td><td>Nguyễn Lê Quan Anh</td></tr>
+</tbody></table></body></html>

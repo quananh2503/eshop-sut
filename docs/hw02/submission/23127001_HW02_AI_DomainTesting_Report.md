@@ -317,7 +317,7 @@ Tóm tắt coverage:
 | FR-16 | 6 | BUG-FR16-001 đến BUG-FR16-006 |
 | FR-04mb | 4 | BUG-FR04MB-001 đến BUG-FR04MB-004 |
 
-Chi tiết bug nằm trong `docs/hw02/bug-tracker.md`. Nội dung draft để tạo GitHub Issue nằm trong `docs/hw02/github-issues-draft.md`.
+Chi tiết bug nằm trong `docs/hw02/bug-tracker.md`. Tất cả 20 bug đã được tạo GitHub Issues trên repository cá nhân, trạng thái trong bug tracker là `Reported`. Bảng tổng hợp issue và ảnh evidence nằm trong `docs/hw02/github-issues-summary.md`.
 
 ## 11. AI Critique
 
@@ -346,7 +346,7 @@ Các phần em đã trực tiếp rà soát/chỉnh sửa:
 
 Mandatory Disclosure:
 
-> Báo cáo, test case, Playwright scripts và bug tracker này được sinh phiên bản đầu với sự hỗ trợ của Codex/ChatGPT; tôi đã rà soát và chỉnh sửa phần chiến lược UI-first, test locator/dialog, mapping test case sang bug, bổ sung edge cases cho localStorage/CSV/OTP/password/profile mobile; phần đánh giá kết quả và kết luận bug do tôi kiểm tra lại dựa trên Playwright evidence và ảnh manual test trên iPhone. AI Audit Report chi tiết được ghi nhận trong `07_hw02_individual/06_ai_usage/prompt_log.md`. Tôi cam đoan không dùng AI để sinh bất kỳ artifact nào thuộc danh mục bị cấm.
+> Báo cáo, test case, Playwright scripts và bug tracker này được sinh phiên bản đầu với sự hỗ trợ của Codex/ChatGPT; tôi đã rà soát và chỉnh sửa phần chiến lược UI-first, test locator/dialog, mapping test case sang bug, bổ sung edge cases cho localStorage/CSV/OTP/password/profile mobile; phần đánh giá kết quả và kết luận bug do tôi kiểm tra lại dựa trên Playwright evidence và ảnh manual test trên iPhone. AI Audit Report chi tiết được đính kèm trong `23127001_HW02_AI_Audit_Report.md/pdf`; prompt log được đính kèm trong `prompt_log.md`. Tôi cam đoan không dùng AI để sinh bất kỳ artifact nào thuộc danh mục bị cấm.
 
 ## 13. Self-assessment
 
@@ -378,7 +378,12 @@ Tên file nộp đề xuất:
 | FR-04mb manual test cases | `07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/fr04mb-manual-test-cases.md` |
 | FR-04mb mobile evidence | `07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/evidence/FR04mb/` |
 | GitHub issue drafts | `07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/github-issues-draft.md` |
-| AI prompt log | `07_hw02_individual/06_ai_usage/prompt_log.md` |
+| GitHub issue summary | `07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/github-issues-summary.md` |
+| AI Audit Report | `07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/submission/23127001_HW02_AI_Audit_Report.md` |
+| AI Use Disclosure Form | `07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/submission/23127001_HW02_AI_Use_Disclosure_Form.md` |
+| AI Privacy Checklist | `07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/submission/23127001_HW02_AI_Privacy_Checklist.md` |
+| AI prompt log | `07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/submission/prompt_log.md` |
+| Git commit log | `07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/submission/git_commit_log.txt` |
 
 ## 15. Phụ lục B - Git commit log
 
@@ -394,6 +399,9 @@ Tên file nộp đề xuất:
 | `e17b621` | Cập nhật evidence bug từ Playwright |
 | `97671a7` | Tạo draft issue cho bug đã xác nhận |
 | `4dc1bd1` | Thêm screenshot evidence cho bug |
+| `adac53d` | Bổ sung traceability và report nộp bài |
+| `8c80b10` | Bổ sung báo cáo manual test FR04mb |
+| `b56db28` | Tổng hợp GitHub Issues và evidence bug |
 
 ## 16. Kết luận
 

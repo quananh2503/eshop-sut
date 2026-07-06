@@ -293,7 +293,7 @@ blockquote { border-left: 3px solid #9ca3af; padding-left: 10px; color: #374151;
 <tr><td>FR-16</td><td>6</td><td>BUG-FR16-001 đến BUG-FR16-006</td></tr>
 <tr><td>FR-04mb</td><td>4</td><td>BUG-FR04MB-001 đến BUG-FR04MB-004</td></tr>
 </tbody></table>
-<p>Chi tiết bug nằm trong <code>docs/hw02/bug-tracker.md</code>. Nội dung draft để tạo GitHub Issue nằm trong <code>docs/hw02/github-issues-draft.md</code>.</p>
+<p>Chi tiết bug nằm trong <code>docs/hw02/bug-tracker.md</code>. Tất cả 20 bug đã được tạo GitHub Issues trên repository cá nhân, trạng thái trong bug tracker là <code>Reported</code>. Bảng tổng hợp issue và ảnh evidence nằm trong <code>docs/hw02/github-issues-summary.md</code>.</p>
 <h2>11. AI Critique</h2>
 <p>AI hỗ trợ tốt ở giai đoạn đọc yêu cầu, tách feature theo pool, gợi ý miền đầu vào, sinh khung test case và viết Playwright nhanh hơn so với làm thủ công từ đầu. Tuy nhiên, output ban đầu của AI vẫn cần kiểm tra rất kỹ. Một số test đầu tiên bị lệch so với thực tế UI, ví dụ locator ở form reset password bị sai do sau khi chuyển bước chỉ còn hai input, hoặc cách chờ <code>dialog</code> của Playwright gây timeout. AI cũng dễ đề xuất kiểm thử backend/API, trong khi phạm vi bài này cần ưu tiên UI-first Domain Testing. Sau khi rà soát, em chỉnh lại test để không kết luận bug trực tiếp từ API, bổ sung xử lý localStorage của giỏ hàng, và phân biệt rõ bug thật với lỗi script. Nhìn chung, AI phù hợp để tăng tốc phân tích và tạo bản nháp, nhưng người làm vẫn phải đối chiếu đặc tả, chạy test thật, xem screenshot/trace, và chịu trách nhiệm cuối cùng về kết luận bug.</p>
 <h2>12. AI Usage Declaration</h2>
@@ -317,7 +317,7 @@ blockquote { border-left: 3px solid #9ca3af; padding-left: 10px; color: #374151;
 <li>Loại bỏ hoặc đánh dấu Rejected các candidate không tái hiện được.</li>
 </ul>
 <p>Mandatory Disclosure:</p>
-<blockquote>Báo cáo, test case, Playwright scripts và bug tracker này được sinh phiên bản đầu với sự hỗ trợ của Codex/ChatGPT; tôi đã rà soát và chỉnh sửa phần chiến lược UI-first, test locator/dialog, mapping test case sang bug, bổ sung edge cases cho localStorage/CSV/OTP/password/profile mobile; phần đánh giá kết quả và kết luận bug do tôi kiểm tra lại dựa trên Playwright evidence và ảnh manual test trên iPhone. AI Audit Report chi tiết được ghi nhận trong <code>07_hw02_individual/06_ai_usage/prompt_log.md</code>. Tôi cam đoan không dùng AI để sinh bất kỳ artifact nào thuộc danh mục bị cấm.</blockquote>
+<blockquote>Báo cáo, test case, Playwright scripts và bug tracker này được sinh phiên bản đầu với sự hỗ trợ của Codex/ChatGPT; tôi đã rà soát và chỉnh sửa phần chiến lược UI-first, test locator/dialog, mapping test case sang bug, bổ sung edge cases cho localStorage/CSV/OTP/password/profile mobile; phần đánh giá kết quả và kết luận bug do tôi kiểm tra lại dựa trên Playwright evidence và ảnh manual test trên iPhone. AI Audit Report chi tiết được đính kèm trong <code>23127001_HW02_AI_Audit_Report.md/pdf</code>; prompt log được đính kèm trong <code>prompt_log.md</code>. Tôi cam đoan không dùng AI để sinh bất kỳ artifact nào thuộc danh mục bị cấm.</blockquote>
 <h2>13. Self-assessment</h2>
 <table>
 <thead><tr><th>Tiêu chí</th><th>Điểm tối đa</th><th>Tự đánh giá</th><th>Ghi chú</th></tr></thead>
@@ -344,7 +344,12 @@ blockquote { border-left: 3px solid #9ca3af; padding-left: 10px; color: #374151;
 <tr><td>FR-04mb manual test cases</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/fr04mb-manual-test-cases.md</code></td></tr>
 <tr><td>FR-04mb mobile evidence</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/evidence/FR04mb/</code></td></tr>
 <tr><td>GitHub issue drafts</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/github-issues-draft.md</code></td></tr>
-<tr><td>AI prompt log</td><td><code>07_hw02_individual/06_ai_usage/prompt_log.md</code></td></tr>
+<tr><td>GitHub issue summary</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/github-issues-summary.md</code></td></tr>
+<tr><td>AI Audit Report</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/submission/23127001_HW02_AI_Audit_Report.md</code></td></tr>
+<tr><td>AI Use Disclosure Form</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/submission/23127001_HW02_AI_Use_Disclosure_Form.md</code></td></tr>
+<tr><td>AI Privacy Checklist</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/submission/23127001_HW02_AI_Privacy_Checklist.md</code></td></tr>
+<tr><td>AI prompt log</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/submission/prompt_log.md</code></td></tr>
+<tr><td>Git commit log</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/submission/git_commit_log.txt</code></td></tr>
 </tbody></table>
 <h2>15. Phụ lục B - Git commit log</h2>
 <table>
@@ -360,6 +365,9 @@ blockquote { border-left: 3px solid #9ca3af; padding-left: 10px; color: #374151;
 <tr><td><code>e17b621</code></td><td>Cập nhật evidence bug từ Playwright</td></tr>
 <tr><td><code>97671a7</code></td><td>Tạo draft issue cho bug đã xác nhận</td></tr>
 <tr><td><code>4dc1bd1</code></td><td>Thêm screenshot evidence cho bug</td></tr>
+<tr><td><code>adac53d</code></td><td>Bổ sung traceability và report nộp bài</td></tr>
+<tr><td><code>8c80b10</code></td><td>Bổ sung báo cáo manual test FR04mb</td></tr>
+<tr><td><code>b56db28</code></td><td>Tổng hợp GitHub Issues và evidence bug</td></tr>
 </tbody></table>
 <h2>16. Kết luận</h2>
 <p>Bài làm đã áp dụng Domain Testing và Boundary Value Analysis cho 4 feature được giao. Trong đó, 3 feature web/admin đã được tự động hóa bằng Playwright qua UI, chạy tổng cộng 26 test và xác nhận 16 bug có screenshot evidence. Feature mobile FR-04mb được kiểm thử thủ công trên iPhone bằng Expo Go, thực thi 19/20 test và xác nhận thêm 4 bug. Tổng cộng bài làm có 45 test đã chạy và 20 bug confirmed. Qua bài này, em nhận thấy Domain Testing giúp phát hiện lỗi rõ ràng ở các miền invalid và boundary như OTP length, password policy, duplicate cart item, invalid price, rollback CSV import, phone boundary trên mobile và persistence của địa chỉ giao hàng.</p></body></html>

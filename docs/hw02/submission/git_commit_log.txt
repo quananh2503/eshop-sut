@@ -1,0 +1,20 @@
+HW02 Git Commit Log
+Student: Nguyen Le Quan Anh - 23127001
+Repository: https://github.com/quananh2503/eshop-sut.git
+Branch: hw02-member1-domain-testing
+
+b56db28 tai lieu(hw02): tong hop issue va evidence bug
+8c80b10 tai lieu(hw02): bo sung bao cao manual test FR04mb
+adac53d tai lieu(hw02): bo sung traceability va report nop bai
+4dc1bd1 tai lieu(hw02): them screenshot evidence cho bug
+97671a7 tai lieu(hw02): tao draft issue cho bug da xac nhan
+e17b621 kiem thu(hw02): cap nhat evidence bug tu playwright
+95a5bb7 tu dong(hw02): tranh reload lam mat state gio hang
+5cf043e tu dong(hw02): chuyen playwright sang kiem thu ui first
+d66ec79 tai lieu(hw02): them bug tracker va mau issue
+1f0431c tai lieu(hw02): them huong dan chay playwright tests
+d5762bb tu dong(hw02): them playwright test cho fr03 fr07 fr16
+81b4f40 kiem thu(hw02): thiet ke domain va bva cho bon feature
+7954cc7 cau hinh(hw02): them playwright va huong dan chay eshop
+85af3ba first upload
+2f9bf2b Initial commit

@@ -39,14 +39,18 @@
 | `23127001_HW02_AI_DomainTesting_Report.pdf` | PDF báo cáo chính |
 | `23127001_HW02_AI_Audit_Report.md` | AI Audit Report |
 | `23127001_HW02_AI_Audit_Report.pdf` | PDF AI Audit Report |
+| `23127001_HW02_AI_Use_Disclosure_Form.md` | Biểu mẫu khai báo sử dụng AI |
+| `23127001_HW02_AI_Privacy_Checklist.md` | Bảng kiểm quyền riêng tư và sử dụng AI có trách nhiệm |
+| `prompt_log.md` | Prompt log đã audit |
+| `git_commit_log.txt` | Git commit log |
 | `../02_source_materials/eshop-sut/docs/hw02/domain-bva-analysis.md` | Phân tích Domain/BVA |
 | `../02_source_materials/eshop-sut/docs/hw02/test-cases.md` | Test cases |
 | `../02_source_materials/eshop-sut/docs/hw02/traceability-matrix.md` | Requirements traceability matrix và coverage |
 | `../02_source_materials/eshop-sut/docs/hw02/test-execution-notes.md` | Kết quả chạy Playwright |
 | `../02_source_materials/eshop-sut/docs/hw02/bug-tracker.md` | Bug tracker |
+| `../02_source_materials/eshop-sut/docs/hw02/github-issues-summary.md` | Tổng hợp GitHub Issues và ảnh evidence |
 | `../02_source_materials/eshop-sut/docs/hw02/evidence/` | Screenshot evidence cho bug Playwright và mobile |
 | `../02_source_materials/eshop-sut/docs/hw02/evidence/FR04mb/` | Evidence manual test FR-04mb |
-| `../06_ai_usage/prompt_log.md` | Prompt log khai báo sử dụng AI |
 
 ## 5. Self-assessment
 
