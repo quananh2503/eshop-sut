@@ -119,6 +119,27 @@ FR-03 là chức năng quên mật khẩu gồm hai bước. Người dùng nh�
 | BUG-FR03-004 | Form reset password thiếu trường xác nhận mật khẩu mới | High | `docs/hw02/evidence/BUG-FR03-004/screenshot.png` |
 | BUG-FR03-005 | Giao diện thiếu step indicator cho quy trình 2 bước | Medium | `docs/hw02/evidence/BUG-FR03-005/screenshot.png` |
 
+### 4.6 Test case đã thiết kế cho FR-03
+
+| ID | Kỹ thuật | Mục tiêu | Dữ liệu / lớp kiểm thử | Kết quả / Bug |
+|---|---|---|---|---|
+| FR03-DT-001 | Domain | Lấy OTP với email đã đăng ký | `test@eshop.com` | Failed - BUG-FR03-001 |
+| FR03-DT-002 | Domain | Từ chối email chưa đăng ký | `notfound@example.com` | Passed |
+| FR03-DT-003 | Domain | Từ chối email sai format | `abc`, `abc@` | Failed - BUG-FR03-002 |
+| FR03-DT-004 | Domain | Reset thành công với OTP đúng và password mạnh | OTP đúng, `NewPass123!` | Designed, chưa chạy riêng do bị chặn bởi bug OTP/password UI |
+| FR03-DT-005 | Domain | Từ chối OTP sai | `000000` | Designed, chưa chạy riêng |
+| FR03-DT-006 | Domain | Từ chối password mới yếu | `weak` | Passed |
+| FR03-DT-007 | Domain | Từ chối confirm password không khớp | `NewPass123!` vs `Other123!` | Failed - BUG-FR03-004 |
+| FR03-DT-008 | Domain | OTP chỉ hợp lệ với email đã yêu cầu | OTP email A dùng cho email B | Designed, chưa chạy riêng |
+| FR03-BVA-001 | BVA | OTP 5 chữ số | `12345` | Designed, chưa chạy riêng |
+| FR03-BVA-002 | BVA | OTP 6 chữ số | OTP 6 chữ số đúng | Failed - BUG-FR03-001 |
+| FR03-BVA-003 | BVA | OTP 7 chữ số | `1234567` | Designed, chưa chạy riêng |
+| FR03-BVA-004 | BVA | Password 7 ký tự | `Aa1!aaa` | Passed |
+| FR03-BVA-005 | BVA | Password 8 ký tự hợp lệ | `Aa1!aaaa` | Failed - BUG-FR03-003 |
+| FR03-BVA-006 | BVA | Password 9 ký tự hợp lệ | `Aa1!aaaaa` | Designed, chưa chạy riêng |
+| FR03-UI-001 | Domain/UI | Kiểm tra step indicator | Luồng 2 bước forgot/reset | Failed - BUG-FR03-005 |
+| FR03-UI-002 | Domain/UI | Kiểm tra nút quay lại đăng nhập | Trang forgot password | Passed |
+
 ## 5. Feature FR-07 - Shopping cart
 
 ### 5.1 Mô tả feature
@@ -165,6 +186,26 @@ FR-07 kiểm thử giỏ hàng của người dùng. Chức năng chính gồm t
 
 Giỏ hàng trên web UI có sử dụng state/localStorage. Vì vậy, khi kiểm thử việc thêm cùng một sản phẩm nhiều lần, test không reload trang giữa hai lần thêm. Playwright dùng browser context mới cho từng test để cô lập dữ liệu, nhưng vẫn giữ state trong cùng một test case khi cần kiểm thử tích lũy trạng thái.
 
+### 5.7 Test case đã thiết kế cho FR-07
+
+| ID | Kỹ thuật | Mục tiêu | Dữ liệu / lớp kiểm thử | Kết quả / Bug |
+|---|---|---|---|---|
+| FR07-DT-001 | Domain | Thêm sản phẩm mới vào giỏ | Product id 1, quantity 1 | Passed |
+| FR07-DT-002 | Domain | Thêm cùng sản phẩm lần 2 | Product id 1 đã có trong giỏ | Failed - BUG-FR07-001 |
+| FR07-DT-003 | Domain | Thêm 2 sản phẩm khác nhau | Product id 1 và id 2 | Passed |
+| FR07-DT-004 | Domain | Xóa sản phẩm có confirm | Click xóa, chọn confirm | Failed - BUG-FR07-002 |
+| FR07-DT-005 | Domain | Hủy xóa sản phẩm | Click xóa, chọn cancel | Failed - BUG-FR07-002 |
+| FR07-DT-006 | Domain | Empty cart UI | 0 item | Failed - BUG-FR07-004 |
+| FR07-DT-007 | Domain | Nút tiếp tục mua sắm | Trang cart | Passed |
+| FR07-DT-008 | Domain | Nhãn tổng tiền đúng spec | Giỏ có sản phẩm | Failed - BUG-FR07-003 |
+| FR07-BVA-001 | BVA | Quantity min - 1 | Quantity 0 hoặc click minus từ 1 | Failed - BUG-FR07-005 |
+| FR07-BVA-002 | BVA | Quantity min | Quantity 1 | Passed |
+| FR07-BVA-003 | BVA | Quantity min + 1 | Quantity 2 | Failed - BUG-FR07-005 |
+| FR07-BVA-004 | BVA | Quantity lớn | Quantity 100 | Designed, chưa chạy riêng vì UI thiếu control quantity |
+| FR07-BVA-005 | BVA | Cart row 0 | 0 item | Failed - BUG-FR07-004 |
+| FR07-BVA-006 | BVA | Cart row 1 | 1 item | Passed |
+| FR07-BVA-007 | BVA | Cart row 2 | 2 product khác nhau | Passed |
+
 ## 6. Feature FR-16 - Product import from CSV
 
 ### 6.1 Mô tả feature
@@ -209,6 +250,30 @@ FR-16 là chức năng admin import sản phẩm từ CSV. Theo đặc tả, fil
 | BUG-FR16-004 | Import product chấp nhận giá không phải số, ví dụ `abc` | High | `docs/hw02/evidence/BUG-FR16-004/screenshot.png` |
 | BUG-FR16-005 | CSV parser không bảo toàn dấu phẩy trong field đặt trong dấu nháy kép RFC 4180 | Medium | `docs/hw02/evidence/BUG-FR16-005/screenshot.png` |
 | BUG-FR16-006 | Header-only CSV không hiển thị lỗi "không có dữ liệu/0 dòng" rõ ràng | Medium | `docs/hw02/evidence/BUG-FR16-006/screenshot.png` |
+
+### 6.6 Test case đã thiết kế cho FR-16
+
+| ID | Kỹ thuật | Mục tiêu | Dữ liệu / lớp kiểm thử | Kết quả / Bug |
+|---|---|---|---|---|
+| FR16-DT-001 | Domain | Import CSV hợp lệ 1 dòng | Header đúng, 1 product hợp lệ | Passed |
+| FR16-DT-002 | Domain | Từ chối file không phải CSV | `products.txt` | Passed |
+| FR16-DT-003 | Domain | Từ chối header sai | Header thiếu `price` | Passed |
+| FR16-DT-004 | Domain | Từ chối name rỗng | Row có `name` rỗng | Failed - BUG-FR16-001 |
+| FR16-DT-005 | Domain | Từ chối price = 0 | `price=0` | Failed - BUG-FR16-002 |
+| FR16-DT-006 | Domain | Từ chối price âm | `price=-1` | Failed - BUG-FR16-003 |
+| FR16-DT-007 | Domain | Từ chối price không phải số | `price=abc` | Failed - BUG-FR16-004 |
+| FR16-DT-008 | Domain | Hỗ trợ RFC 4180 quoted comma | `"Mô tả có, dấu phẩy"` | Failed - BUG-FR16-005 |
+| FR16-DT-009 | Domain | Rollback khi batch có dòng lỗi | Row 1 hợp lệ, row 2 name rỗng | Covered by FR16-DT-004 - BUG-FR16-001 |
+| FR16-DT-010 | Domain | Report import rõ ràng | Batch hợp lệ/lỗi | Passed |
+| FR16-BVA-001 | BVA | File 0 data row | Chỉ có header | Failed - BUG-FR16-006 |
+| FR16-BVA-002 | BVA | File 1 data row | 1 row hợp lệ | Passed |
+| FR16-BVA-003 | BVA | File 2 data rows | 2 rows hợp lệ | Designed, chưa chạy riêng |
+| FR16-BVA-004 | BVA | Price min - 1 | `price=0` nếu min hợp lệ là 1 | Failed - BUG-FR16-002 |
+| FR16-BVA-005 | BVA | Price min | `price=1` | Passed |
+| FR16-BVA-006 | BVA | Price sát trên min | `price=2` | Designed, chưa chạy riêng |
+| FR16-BVA-007 | BVA | Name empty | `name=""` | Failed - BUG-FR16-001 |
+| FR16-BVA-008 | BVA | Name 1 char | `name="A"` | Designed, chưa chạy riêng |
+| FR16-BVA-009 | BVA | Name dài | 256 ký tự | Designed, chưa chạy riêng |
 
 ## 7. Feature FR-04mb - Personal profile management
 
@@ -281,13 +346,15 @@ Ghi chú: Thông báo lỗi phone của app ghi "9-10 chữ số", trong khi đ�
 
 ## 8. Tổng hợp kết quả
 
-| Feature | Test cases designed | Executed | Passed | Failed | Not executed | Bugs confirmed |
+| Feature | Test cases designed | Evidence-executed scenarios | Passed | Failed | Not executed / design-only | Bugs confirmed |
 |---|---:|---:|---:|---:|---:|---:|
-| FR-03 | 8 | 8 | 3 | 5 | 0 | 5 |
-| FR-07 | 8 | 8 | 3 | 5 | 0 | 5 |
-| FR-16 | 10 | 10 | 4 | 6 | 0 | 6 |
+| FR-03 | 16 | 8 | 3 | 5 | 8 | 5 |
+| FR-07 | 15 | 8 | 3 | 5 | 7 | 5 |
+| FR-16 | 19 | 10 | 4 | 6 | 9 | 6 |
 | FR-04mb | 20 | 19 | 14 | 5 | 1 | 4 |
-| Tổng | 46 | 45 | 24 | 21 | 1 | 20 |
+| Tổng | 70 | 45 | 24 | 21 | 25 | 20 |
+
+Ghi chú: `Test cases designed` là toàn bộ bộ test được thiết kế theo Domain Testing/BVA. `Evidence-executed scenarios` là các scenario/case đã có evidence thực thi bằng Playwright hoặc ảnh manual test. Một Playwright scenario có thể bao phủ nhiều test case thiết kế, nên số lượng thiết kế và số scenario thực thi không nhất thiết bằng nhau.
 
 ## 9. Requirements Traceability Matrix và Coverage
 
@@ -306,7 +373,7 @@ Tóm tắt coverage:
 | FR-16 | File type, header, row count, name, price, rollback, RFC 4180 | Bao phủ nhiều lớp invalid và phát hiện lỗi import dữ liệu nghiêm trọng | Chưa kiểm thử CSV rất lớn hoặc category_id không tồn tại |
 | FR-04mb | Auth state, name, phone boundary, address persistence, email read-only, role, logout | Có manual evidence trên iPhone/Expo Go, phát hiện 4 bug quan trọng | Chưa thực hiện TC-020 backend unavailable |
 
-Đánh giá hiện tại: bộ test bao phủ cả 4 feature được giao. Ba feature web/admin được chạy tự động bằng Playwright qua UI; feature mobile FR-04mb được chạy thủ công trên iPhone bằng Expo Go với ảnh minh chứng. Tổng cộng có 45 test đã thực thi và 20 bug confirmed/có evidence.
+Đánh giá hiện tại: bộ test bao phủ cả 4 feature được giao. Ba feature web/admin được chạy tự động bằng Playwright qua UI; feature mobile FR-04mb được chạy thủ công trên iPhone bằng Expo Go với ảnh minh chứng. Tổng cộng có 70 test case được thiết kế, 45 scenario/case có evidence thực thi và 20 bug confirmed/có evidence.
 
 ## 10. Danh sách bug confirmed
 
@@ -405,4 +472,4 @@ Tên file nộp đề xuất:
 
 ## 16. Kết luận
 
-Bài làm đã áp dụng Domain Testing và Boundary Value Analysis cho 4 feature được giao. Trong đó, 3 feature web/admin đã được tự động hóa bằng Playwright qua UI, chạy tổng cộng 26 test và xác nhận 16 bug có screenshot evidence. Feature mobile FR-04mb được kiểm thử thủ công trên iPhone bằng Expo Go, thực thi 19/20 test và xác nhận thêm 4 bug. Tổng cộng bài làm có 45 test đã chạy và 20 bug confirmed. Qua bài này, em nhận thấy Domain Testing giúp phát hiện lỗi rõ ràng ở các miền invalid và boundary như OTP length, password policy, duplicate cart item, invalid price, rollback CSV import, phone boundary trên mobile và persistence của địa chỉ giao hàng.
+Bài làm đã áp dụng Domain Testing và Boundary Value Analysis cho 4 feature được giao. Trong đó, 3 feature web/admin đã được tự động hóa bằng Playwright qua UI, chạy tổng cộng 26 scenario và xác nhận 16 bug có screenshot evidence. Feature mobile FR-04mb được kiểm thử thủ công trên iPhone bằng Expo Go, thực thi 19/20 case và xác nhận thêm 4 bug. Tổng cộng bài làm có 70 test case được thiết kế, 45 scenario/case có evidence thực thi và 20 bug confirmed. Qua bài này, em nhận thấy Domain Testing giúp phát hiện lỗi rõ ràng ở các miền invalid và boundary như OTP length, password policy, duplicate cart item, invalid price, rollback CSV import, phone boundary trên mobile và persistence của địa chỉ giao hàng.

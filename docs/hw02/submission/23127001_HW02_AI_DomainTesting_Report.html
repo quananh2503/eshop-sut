@@ -116,6 +116,27 @@ blockquote { border-left: 3px solid #9ca3af; padding-left: 10px; color: #374151;
 <tr><td>BUG-FR03-004</td><td>Form reset password thiếu trường xác nhận mật khẩu mới</td><td>High</td><td><code>docs/hw02/evidence/BUG-FR03-004/screenshot.png</code></td></tr>
 <tr><td>BUG-FR03-005</td><td>Giao diện thiếu step indicator cho quy trình 2 bước</td><td>Medium</td><td><code>docs/hw02/evidence/BUG-FR03-005/screenshot.png</code></td></tr>
 </tbody></table>
+<h3>4.6 Test case đã thiết kế cho FR-03</h3>
+<table>
+<thead><tr><th>ID</th><th>Kỹ thuật</th><th>Mục tiêu</th><th>Dữ liệu / lớp kiểm thử</th><th>Kết quả / Bug</th></tr></thead>
+<tbody>
+<tr><td>FR03-DT-001</td><td>Domain</td><td>Lấy OTP với email đã đăng ký</td><td><code>test@eshop.com</code></td><td>Failed - BUG-FR03-001</td></tr>
+<tr><td>FR03-DT-002</td><td>Domain</td><td>Từ chối email chưa đăng ký</td><td><code>notfound@example.com</code></td><td>Passed</td></tr>
+<tr><td>FR03-DT-003</td><td>Domain</td><td>Từ chối email sai format</td><td><code>abc</code>, <code>abc@</code></td><td>Failed - BUG-FR03-002</td></tr>
+<tr><td>FR03-DT-004</td><td>Domain</td><td>Reset thành công với OTP đúng và password mạnh</td><td>OTP đúng, <code>NewPass123!</code></td><td>Designed, chưa chạy riêng do bị chặn bởi bug OTP/password UI</td></tr>
+<tr><td>FR03-DT-005</td><td>Domain</td><td>Từ chối OTP sai</td><td><code>000000</code></td><td>Designed, chưa chạy riêng</td></tr>
+<tr><td>FR03-DT-006</td><td>Domain</td><td>Từ chối password mới yếu</td><td><code>weak</code></td><td>Passed</td></tr>
+<tr><td>FR03-DT-007</td><td>Domain</td><td>Từ chối confirm password không khớp</td><td><code>NewPass123!</code> vs <code>Other123!</code></td><td>Failed - BUG-FR03-004</td></tr>
+<tr><td>FR03-DT-008</td><td>Domain</td><td>OTP chỉ hợp lệ với email đã yêu cầu</td><td>OTP email A dùng cho email B</td><td>Designed, chưa chạy riêng</td></tr>
+<tr><td>FR03-BVA-001</td><td>BVA</td><td>OTP 5 chữ số</td><td><code>12345</code></td><td>Designed, chưa chạy riêng</td></tr>
+<tr><td>FR03-BVA-002</td><td>BVA</td><td>OTP 6 chữ số</td><td>OTP 6 chữ số đúng</td><td>Failed - BUG-FR03-001</td></tr>
+<tr><td>FR03-BVA-003</td><td>BVA</td><td>OTP 7 chữ số</td><td><code>1234567</code></td><td>Designed, chưa chạy riêng</td></tr>
+<tr><td>FR03-BVA-004</td><td>BVA</td><td>Password 7 ký tự</td><td><code>Aa1!aaa</code></td><td>Passed</td></tr>
+<tr><td>FR03-BVA-005</td><td>BVA</td><td>Password 8 ký tự hợp lệ</td><td><code>Aa1!aaaa</code></td><td>Failed - BUG-FR03-003</td></tr>
+<tr><td>FR03-BVA-006</td><td>BVA</td><td>Password 9 ký tự hợp lệ</td><td><code>Aa1!aaaaa</code></td><td>Designed, chưa chạy riêng</td></tr>
+<tr><td>FR03-UI-001</td><td>Domain/UI</td><td>Kiểm tra step indicator</td><td>Luồng 2 bước forgot/reset</td><td>Failed - BUG-FR03-005</td></tr>
+<tr><td>FR03-UI-002</td><td>Domain/UI</td><td>Kiểm tra nút quay lại đăng nhập</td><td>Trang forgot password</td><td>Passed</td></tr>
+</tbody></table>
 <h2>5. Feature FR-07 - Shopping cart</h2>
 <h3>5.1 Mô tả feature</h3>
 <p>FR-07 kiểm thử giỏ hàng của người dùng. Chức năng chính gồm thêm sản phẩm vào giỏ, gộp sản phẩm trùng bằng cách tăng số lượng, hiển thị số lượng, thành tiền, tổng cộng, xóa sản phẩm có xác nhận, trạng thái giỏ hàng rỗng và điều hướng tiếp tục mua sắm.</p>
@@ -157,6 +178,26 @@ blockquote { border-left: 3px solid #9ca3af; padding-left: 10px; color: #374151;
 </tbody></table>
 <h3>5.6 Ghi chú về localStorage</h3>
 <p>Giỏ hàng trên web UI có sử dụng state/localStorage. Vì vậy, khi kiểm thử việc thêm cùng một sản phẩm nhiều lần, test không reload trang giữa hai lần thêm. Playwright dùng browser context mới cho từng test để cô lập dữ liệu, nhưng vẫn giữ state trong cùng một test case khi cần kiểm thử tích lũy trạng thái.</p>
+<h3>5.7 Test case đã thiết kế cho FR-07</h3>
+<table>
+<thead><tr><th>ID</th><th>Kỹ thuật</th><th>Mục tiêu</th><th>Dữ liệu / lớp kiểm thử</th><th>Kết quả / Bug</th></tr></thead>
+<tbody>
+<tr><td>FR07-DT-001</td><td>Domain</td><td>Thêm sản phẩm mới vào giỏ</td><td>Product id 1, quantity 1</td><td>Passed</td></tr>
+<tr><td>FR07-DT-002</td><td>Domain</td><td>Thêm cùng sản phẩm lần 2</td><td>Product id 1 đã có trong giỏ</td><td>Failed - BUG-FR07-001</td></tr>
+<tr><td>FR07-DT-003</td><td>Domain</td><td>Thêm 2 sản phẩm khác nhau</td><td>Product id 1 và id 2</td><td>Passed</td></tr>
+<tr><td>FR07-DT-004</td><td>Domain</td><td>Xóa sản phẩm có confirm</td><td>Click xóa, chọn confirm</td><td>Failed - BUG-FR07-002</td></tr>
+<tr><td>FR07-DT-005</td><td>Domain</td><td>Hủy xóa sản phẩm</td><td>Click xóa, chọn cancel</td><td>Failed - BUG-FR07-002</td></tr>
+<tr><td>FR07-DT-006</td><td>Domain</td><td>Empty cart UI</td><td>0 item</td><td>Failed - BUG-FR07-004</td></tr>
+<tr><td>FR07-DT-007</td><td>Domain</td><td>Nút tiếp tục mua sắm</td><td>Trang cart</td><td>Passed</td></tr>
+<tr><td>FR07-DT-008</td><td>Domain</td><td>Nhãn tổng tiền đúng spec</td><td>Giỏ có sản phẩm</td><td>Failed - BUG-FR07-003</td></tr>
+<tr><td>FR07-BVA-001</td><td>BVA</td><td>Quantity min - 1</td><td>Quantity 0 hoặc click minus từ 1</td><td>Failed - BUG-FR07-005</td></tr>
+<tr><td>FR07-BVA-002</td><td>BVA</td><td>Quantity min</td><td>Quantity 1</td><td>Passed</td></tr>
+<tr><td>FR07-BVA-003</td><td>BVA</td><td>Quantity min + 1</td><td>Quantity 2</td><td>Failed - BUG-FR07-005</td></tr>
+<tr><td>FR07-BVA-004</td><td>BVA</td><td>Quantity lớn</td><td>Quantity 100</td><td>Designed, chưa chạy riêng vì UI thiếu control quantity</td></tr>
+<tr><td>FR07-BVA-005</td><td>BVA</td><td>Cart row 0</td><td>0 item</td><td>Failed - BUG-FR07-004</td></tr>
+<tr><td>FR07-BVA-006</td><td>BVA</td><td>Cart row 1</td><td>1 item</td><td>Passed</td></tr>
+<tr><td>FR07-BVA-007</td><td>BVA</td><td>Cart row 2</td><td>2 product khác nhau</td><td>Passed</td></tr>
+</tbody></table>
 <h2>6. Feature FR-16 - Product import from CSV</h2>
 <h3>6.1 Mô tả feature</h3>
 <p>FR-16 là chức năng admin import sản phẩm từ CSV. Theo đặc tả, file phải có định dạng <code>.csv</code>, header bắt buộc gồm <code>name,price,description,imageUrl,category_id</code>, price phải là số dương, name không được rỗng, CSV phải hỗ trợ field có dấu phẩy trong dấu nháy kép theo RFC 4180 và import phải theo nguyên tắc all-or-nothing.</p>
@@ -198,6 +239,30 @@ blockquote { border-left: 3px solid #9ca3af; padding-left: 10px; color: #374151;
 <tr><td>BUG-FR16-004</td><td>Import product chấp nhận giá không phải số, ví dụ <code>abc</code></td><td>High</td><td><code>docs/hw02/evidence/BUG-FR16-004/screenshot.png</code></td></tr>
 <tr><td>BUG-FR16-005</td><td>CSV parser không bảo toàn dấu phẩy trong field đặt trong dấu nháy kép RFC 4180</td><td>Medium</td><td><code>docs/hw02/evidence/BUG-FR16-005/screenshot.png</code></td></tr>
 <tr><td>BUG-FR16-006</td><td>Header-only CSV không hiển thị lỗi "không có dữ liệu/0 dòng" rõ ràng</td><td>Medium</td><td><code>docs/hw02/evidence/BUG-FR16-006/screenshot.png</code></td></tr>
+</tbody></table>
+<h3>6.6 Test case đã thiết kế cho FR-16</h3>
+<table>
+<thead><tr><th>ID</th><th>Kỹ thuật</th><th>Mục tiêu</th><th>Dữ liệu / lớp kiểm thử</th><th>Kết quả / Bug</th></tr></thead>
+<tbody>
+<tr><td>FR16-DT-001</td><td>Domain</td><td>Import CSV hợp lệ 1 dòng</td><td>Header đúng, 1 product hợp lệ</td><td>Passed</td></tr>
+<tr><td>FR16-DT-002</td><td>Domain</td><td>Từ chối file không phải CSV</td><td><code>products.txt</code></td><td>Passed</td></tr>
+<tr><td>FR16-DT-003</td><td>Domain</td><td>Từ chối header sai</td><td>Header thiếu <code>price</code></td><td>Passed</td></tr>
+<tr><td>FR16-DT-004</td><td>Domain</td><td>Từ chối name rỗng</td><td>Row có <code>name</code> rỗng</td><td>Failed - BUG-FR16-001</td></tr>
+<tr><td>FR16-DT-005</td><td>Domain</td><td>Từ chối price = 0</td><td><code>price=0</code></td><td>Failed - BUG-FR16-002</td></tr>
+<tr><td>FR16-DT-006</td><td>Domain</td><td>Từ chối price âm</td><td><code>price=-1</code></td><td>Failed - BUG-FR16-003</td></tr>
+<tr><td>FR16-DT-007</td><td>Domain</td><td>Từ chối price không phải số</td><td><code>price=abc</code></td><td>Failed - BUG-FR16-004</td></tr>
+<tr><td>FR16-DT-008</td><td>Domain</td><td>Hỗ trợ RFC 4180 quoted comma</td><td><code>"Mô tả có, dấu phẩy"</code></td><td>Failed - BUG-FR16-005</td></tr>
+<tr><td>FR16-DT-009</td><td>Domain</td><td>Rollback khi batch có dòng lỗi</td><td>Row 1 hợp lệ, row 2 name rỗng</td><td>Covered by FR16-DT-004 - BUG-FR16-001</td></tr>
+<tr><td>FR16-DT-010</td><td>Domain</td><td>Report import rõ ràng</td><td>Batch hợp lệ/lỗi</td><td>Passed</td></tr>
+<tr><td>FR16-BVA-001</td><td>BVA</td><td>File 0 data row</td><td>Chỉ có header</td><td>Failed - BUG-FR16-006</td></tr>
+<tr><td>FR16-BVA-002</td><td>BVA</td><td>File 1 data row</td><td>1 row hợp lệ</td><td>Passed</td></tr>
+<tr><td>FR16-BVA-003</td><td>BVA</td><td>File 2 data rows</td><td>2 rows hợp lệ</td><td>Designed, chưa chạy riêng</td></tr>
+<tr><td>FR16-BVA-004</td><td>BVA</td><td>Price min - 1</td><td><code>price=0</code> nếu min hợp lệ là 1</td><td>Failed - BUG-FR16-002</td></tr>
+<tr><td>FR16-BVA-005</td><td>BVA</td><td>Price min</td><td><code>price=1</code></td><td>Passed</td></tr>
+<tr><td>FR16-BVA-006</td><td>BVA</td><td>Price sát trên min</td><td><code>price=2</code></td><td>Designed, chưa chạy riêng</td></tr>
+<tr><td>FR16-BVA-007</td><td>BVA</td><td>Name empty</td><td><code>name=""</code></td><td>Failed - BUG-FR16-001</td></tr>
+<tr><td>FR16-BVA-008</td><td>BVA</td><td>Name 1 char</td><td><code>name="A"</code></td><td>Designed, chưa chạy riêng</td></tr>
+<tr><td>FR16-BVA-009</td><td>BVA</td><td>Name dài</td><td>256 ký tự</td><td>Designed, chưa chạy riêng</td></tr>
 </tbody></table>
 <h2>7. Feature FR-04mb - Personal profile management</h2>
 <h3>7.1 Mô tả feature</h3>
@@ -263,14 +328,15 @@ blockquote { border-left: 3px solid #9ca3af; padding-left: 10px; color: #374151;
 <p>Ghi chú: Thông báo lỗi phone của app ghi "9-10 chữ số", trong khi đặc tả yêu cầu 10-11 chữ số và bắt đầu bằng <code>0</code>. Điểm này được gom vào nhóm bug validation phone thay vì tách bug riêng.</p>
 <h2>8. Tổng hợp kết quả</h2>
 <table>
-<thead><tr><th>Feature</th><th>Test cases designed</th><th>Executed</th><th>Passed</th><th>Failed</th><th>Not executed</th><th>Bugs confirmed</th></tr></thead>
+<thead><tr><th>Feature</th><th>Test cases designed</th><th>Evidence-executed scenarios</th><th>Passed</th><th>Failed</th><th>Not executed / design-only</th><th>Bugs confirmed</th></tr></thead>
 <tbody>
-<tr><td>FR-03</td><td>8</td><td>8</td><td>3</td><td>5</td><td>0</td><td>5</td></tr>
-<tr><td>FR-07</td><td>8</td><td>8</td><td>3</td><td>5</td><td>0</td><td>5</td></tr>
-<tr><td>FR-16</td><td>10</td><td>10</td><td>4</td><td>6</td><td>0</td><td>6</td></tr>
+<tr><td>FR-03</td><td>16</td><td>8</td><td>3</td><td>5</td><td>8</td><td>5</td></tr>
+<tr><td>FR-07</td><td>15</td><td>8</td><td>3</td><td>5</td><td>7</td><td>5</td></tr>
+<tr><td>FR-16</td><td>19</td><td>10</td><td>4</td><td>6</td><td>9</td><td>6</td></tr>
 <tr><td>FR-04mb</td><td>20</td><td>19</td><td>14</td><td>5</td><td>1</td><td>4</td></tr>
-<tr><td>Tổng</td><td>46</td><td>45</td><td>24</td><td>21</td><td>1</td><td>20</td></tr>
+<tr><td>Tổng</td><td>70</td><td>45</td><td>24</td><td>21</td><td>25</td><td>20</td></tr>
 </tbody></table>
+<p>Ghi chú: <code>Test cases designed</code> là toàn bộ bộ test được thiết kế theo Domain Testing/BVA. <code>Evidence-executed scenarios</code> là các scenario/case đã có evidence thực thi bằng Playwright hoặc ảnh manual test. Một Playwright scenario có thể bao phủ nhiều test case thiết kế, nên số lượng thiết kế và số scenario thực thi không nhất thiết bằng nhau.</p>
 <h2>9. Requirements Traceability Matrix và Coverage</h2>
 <p>Để giúp việc chấm bài dễ scan hơn, em tách bảng traceability chi tiết thành file riêng:</p>
 <pre><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/traceability-matrix.md</code></pre>
@@ -283,7 +349,7 @@ blockquote { border-left: 3px solid #9ca3af; padding-left: 10px; color: #374151;
 <tr><td>FR-16</td><td>File type, header, row count, name, price, rollback, RFC 4180</td><td>Bao phủ nhiều lớp invalid và phát hiện lỗi import dữ liệu nghiêm trọng</td><td>Chưa kiểm thử CSV rất lớn hoặc category_id không tồn tại</td></tr>
 <tr><td>FR-04mb</td><td>Auth state, name, phone boundary, address persistence, email read-only, role, logout</td><td>Có manual evidence trên iPhone/Expo Go, phát hiện 4 bug quan trọng</td><td>Chưa thực hiện TC-020 backend unavailable</td></tr>
 </tbody></table>
-<p>Đánh giá hiện tại: bộ test bao phủ cả 4 feature được giao. Ba feature web/admin được chạy tự động bằng Playwright qua UI; feature mobile FR-04mb được chạy thủ công trên iPhone bằng Expo Go với ảnh minh chứng. Tổng cộng có 45 test đã thực thi và 20 bug confirmed/có evidence.</p>
+<p>Đánh giá hiện tại: bộ test bao phủ cả 4 feature được giao. Ba feature web/admin được chạy tự động bằng Playwright qua UI; feature mobile FR-04mb được chạy thủ công trên iPhone bằng Expo Go với ảnh minh chứng. Tổng cộng có 70 test case được thiết kế, 45 scenario/case có evidence thực thi và 20 bug confirmed/có evidence.</p>
 <h2>10. Danh sách bug confirmed</h2>
 <table>
 <thead><tr><th>Feature</th><th>Số bug</th><th>Bug IDs</th></tr></thead>
@@ -370,4 +436,4 @@ blockquote { border-left: 3px solid #9ca3af; padding-left: 10px; color: #374151;
 <tr><td><code>b56db28</code></td><td>Tổng hợp GitHub Issues và evidence bug</td></tr>
 </tbody></table>
 <h2>16. Kết luận</h2>
-<p>Bài làm đã áp dụng Domain Testing và Boundary Value Analysis cho 4 feature được giao. Trong đó, 3 feature web/admin đã được tự động hóa bằng Playwright qua UI, chạy tổng cộng 26 test và xác nhận 16 bug có screenshot evidence. Feature mobile FR-04mb được kiểm thử thủ công trên iPhone bằng Expo Go, thực thi 19/20 test và xác nhận thêm 4 bug. Tổng cộng bài làm có 45 test đã chạy và 20 bug confirmed. Qua bài này, em nhận thấy Domain Testing giúp phát hiện lỗi rõ ràng ở các miền invalid và boundary như OTP length, password policy, duplicate cart item, invalid price, rollback CSV import, phone boundary trên mobile và persistence của địa chỉ giao hàng.</p></body></html>
+<p>Bài làm đã áp dụng Domain Testing và Boundary Value Analysis cho 4 feature được giao. Trong đó, 3 feature web/admin đã được tự động hóa bằng Playwright qua UI, chạy tổng cộng 26 scenario và xác nhận 16 bug có screenshot evidence. Feature mobile FR-04mb được kiểm thử thủ công trên iPhone bằng Expo Go, thực thi 19/20 case và xác nhận thêm 4 bug. Tổng cộng bài làm có 70 test case được thiết kế, 45 scenario/case có evidence thực thi và 20 bug confirmed. Qua bài này, em nhận thấy Domain Testing giúp phát hiện lỗi rõ ràng ở các miền invalid và boundary như OTP length, password policy, duplicate cart item, invalid price, rollback CSV import, phone boundary trên mobile và persistence của địa chỉ giao hàng.</p></body></html>

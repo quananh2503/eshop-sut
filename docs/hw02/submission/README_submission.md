@@ -23,13 +23,13 @@
 
 ## 3. Test summary
 
-| Feature | Designed | Executed | Passed | Failed | Not executed | Bugs |
+| Feature | Designed | Evidence-executed | Passed | Failed | Design-only / not executed | Bugs |
 |---|---:|---:|---:|---:|---:|---:|
-| FR-03 | 8 | 8 | 3 | 5 | 0 | 5 |
-| FR-07 | 8 | 8 | 3 | 5 | 0 | 5 |
-| FR-16 | 10 | 10 | 4 | 6 | 0 | 6 |
+| FR-03 | 16 | 8 | 3 | 5 | 8 | 5 |
+| FR-07 | 15 | 8 | 3 | 5 | 7 | 5 |
+| FR-16 | 19 | 10 | 4 | 6 | 9 | 6 |
 | FR-04mb | 20 | 19 | 14 | 5 | 1 | 4 |
-| Tổng | 46 | 45 | 24 | 21 | 1 | 20 |
+| Tổng | 70 | 45 | 24 | 21 | 25 | 20 |
 
 ## 4. Artifact chính
 
@@ -44,7 +44,7 @@
 | `prompt_log.md` | Prompt log đã audit |
 | `git_commit_log.txt` | Git commit log |
 | `../02_source_materials/eshop-sut/docs/hw02/domain-bva-analysis.md` | Phân tích Domain/BVA |
-| `../02_source_materials/eshop-sut/docs/hw02/test-cases.md` | Test cases |
+| `../02_source_materials/eshop-sut/docs/hw02/test-cases.md` | Test cases final |
 | `../02_source_materials/eshop-sut/docs/hw02/traceability-matrix.md` | Requirements traceability matrix và coverage |
 | `../02_source_materials/eshop-sut/docs/hw02/test-execution-notes.md` | Kết quả chạy Playwright |
 | `../02_source_materials/eshop-sut/docs/hw02/bug-tracker.md` | Bug tracker |

@@ -53,17 +53,18 @@ Tài liệu này liên kết giữa feature requirement, miền kiểm thử, te
 
 ## 3. Coverage Summary
 
-| Feature | Designed | Automated/executed | Passed | Failed | Not executed | Bugs confirmed | Coverage note |
+| Feature | Designed | Evidence-executed | Passed | Failed | Design-only / not executed | Bugs confirmed | Coverage note |
 |---|---:|---:|---:|---:|---:|---:|---|
-| FR-03 | 8 | 8 | 3 | 5 | 0 | 5 | Bao phủ email, OTP, password policy, confirm password, step UI |
-| FR-07 | 8 | 8 | 3 | 5 | 0 | 5 | Bao phủ add, duplicate, empty cart, remove, total, quantity boundary |
-| FR-16 | 10 | 10 | 4 | 6 | 0 | 6 | Bao phủ file type, header, row count, invalid price, rollback, RFC 4180 |
+| FR-03 | 16 | 8 | 3 | 5 | 8 | 5 | Bao phủ email, OTP, password policy, confirm password, step UI |
+| FR-07 | 15 | 8 | 3 | 5 | 7 | 5 | Bao phủ add, duplicate, empty cart, remove, total, quantity boundary |
+| FR-16 | 19 | 10 | 4 | 6 | 9 | 6 | Bao phủ file type, header, row count, invalid price, rollback, RFC 4180 |
 | FR-04mb | 20 | 19 | 14 | 5 | 1 | 4 | Manual test trên iPhone/Expo Go, bao phủ auth, email, name, phone, address, role, logout |
-| Tổng | 46 | 45 | 24 | 21 | 1 | 20 | 3 feature web/admin có automation; FR-04mb có manual evidence |
+| Tổng | 70 | 45 | 24 | 21 | 25 | 20 | 3 feature web/admin có automation; FR-04mb có manual evidence |
 
 ## 4. Nhận xét chất lượng bộ test
 
-- Bộ test hiện tại đủ tốt cho 3 feature web/admin vì có cả happy path, invalid classes và boundary values.
+- Bộ test hiện tại có 70 test case được thiết kế theo Domain Testing/BVA; trong đó 45 scenario/case có evidence thực thi.
+- Bộ test đủ tốt cho 3 feature web/admin vì có cả happy path, invalid classes và boundary values.
 - Số bug confirmed là 16, có screenshot evidence theo từng bug.
 - FR-04mb đã được bổ sung manual execution evidence trên iPhone/Expo Go, tuy chưa tự động hóa bằng mobile automation chuyên dụng.
 - Điểm còn thiếu chính là TC-020 backend unavailable chưa thực hiện và chưa có Detox/Appium cho mobile.
