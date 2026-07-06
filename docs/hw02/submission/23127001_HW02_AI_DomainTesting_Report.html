@@ -1,0 +1,365 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 14mm; }
+body { font-family: Arial, "DejaVu Sans", sans-serif; color: #111827; line-height: 1.45; font-size: 11px; }
+h1 { font-size: 24px; margin: 0 0 18px; }
+h2 { font-size: 17px; margin: 22px 0 8px; padding-bottom: 4px; border-bottom: 1px solid #d1d5db; }
+h3 { font-size: 13px; margin: 14px 0 6px; }
+p { margin: 6px 0; }
+ul { margin: 6px 0 8px 20px; padding: 0; }
+li { margin: 3px 0; }
+table { width: 100%; border-collapse: collapse; margin: 8px 0 14px; page-break-inside: avoid; }
+th, td { border: 1px solid #d1d5db; padding: 5px 6px; vertical-align: top; }
+th { background: #f3f4f6; font-weight: 700; }
+code { font-family: "DejaVu Sans Mono", Consolas, monospace; background: #f3f4f6; padding: 1px 3px; border-radius: 3px; }
+pre { background: #f3f4f6; padding: 8px; overflow-wrap: break-word; white-space: pre-wrap; border-radius: 4px; }
+blockquote { border-left: 3px solid #9ca3af; padding-left: 10px; color: #374151; margin: 8px 0; }
+</style></head><body><h1>Báo cáo HW02 - Domain Testing trên EShop</h1>
+<h2>1. Thông tin chung</h2>
+<table>
+<thead><tr><th>Mục</th><th>Nội dung</th></tr></thead>
+<tbody>
+<tr><td>Họ tên sinh viên</td><td>Nguyễn Lê Quan Anh</td></tr>
+<tr><td>MSSV</td><td>23127001</td></tr>
+<tr><td>Lớp</td><td>23KTPM2</td></tr>
+<tr><td>Nhóm</td><td>07</td></tr>
+<tr><td>Giảng viên</td><td>Lâm Quang Vũ</td></tr>
+<tr><td>Môn học</td><td>CS423 / CSC15003 - Kiểm chứng Phần mềm</td></tr>
+<tr><td>Mã bài tập</td><td>HW02-AI</td></tr>
+<tr><td>Tên bài tập</td><td>Domain Testing on EShop</td></tr>
+<tr><td>SUT</td><td>EShop</td></tr>
+<tr><td>Repository cá nhân</td><td>https://github.com/quananh2503/eshop-sut.git</td></tr>
+<tr><td>Branch thực hiện</td><td><code>hw02-member1-domain-testing</code></td></tr>
+</tbody></table>
+<h2>2. Phạm vi bài làm</h2>
+<p>Theo phân công của nhóm, em là Member 1 và thực hiện các feature sau:</p>
+<table>
+<thead><tr><th>Pool</th><th>Feature</th><th>Nền tảng</th><th>Trạng thái thực hiện</th></tr></thead>
+<tbody>
+<tr><td>Pool A</td><td>FR-03 - Forgot password and password reset</td><td>Web</td><td>Đã thiết kế Domain/BVA, đã tự động hóa bằng Playwright</td></tr>
+<tr><td>Pool B</td><td>FR-07 - Shopping cart</td><td>Web</td><td>Đã thiết kế Domain/BVA, đã tự động hóa bằng Playwright</td></tr>
+<tr><td>Pool C</td><td>FR-16 - Product import from CSV</td><td>Admin Web</td><td>Đã thiết kế Domain/BVA, đã tự động hóa bằng Playwright</td></tr>
+<tr><td>Pool D</td><td>FR-04mb - Personal profile management</td><td>Mobile</td><td>Đã phân tích Domain/BVA và kiểm thử thủ công trên iPhone bằng Expo Go</td></tr>
+</tbody></table>
+<p>Bài làm tập trung theo hướng UI-first Domain Testing. Backend chỉ được dùng để hỗ trợ giao diện chạy đúng luồng, không dùng API/backend làm nguồn kết luận bug chính. Nếu UI không có chức năng hoặc không thể hiện đúng yêu cầu đặc tả, test được xem là fail theo đúng phạm vi kiểm thử giao diện.</p>
+<h2>3. Phương pháp kiểm thử</h2>
+<h3>3.0 Cập nhật theo phần hỏi đáp của giảng viên</h3>
+<p>Theo phần hỏi đáp trên lớp, bài làm cần thể hiện rõ quá trình làm việc qua Git, số lượng/chất lượng test case, cách áp dụng kỹ thuật Domain Testing và Boundary Value Analysis, đồng thời tổ chức file để giảng viên và công cụ AI có thể scan dễ dàng. Vì vậy, em bổ sung các điểm sau vào bài nộp:</p>
+<ul>
+<li>Toàn bộ quá trình làm việc được commit nhiều lần trên branch <code>hw02-member1-domain-testing</code>, không gom thành một commit cuối.</li>
+<li>Report, AI gap/critique, AI Audit Report, test cases, bug tracker và evidence đều được tổ chức bằng Markdown/PDF hoặc thư mục rõ ràng.</li>
+<li>Bổ sung Requirements Traceability Matrix và Coverage Summary tại <code>docs/hw02/traceability-matrix.md</code>.</li>
+<li>Test case chỉ bao gồm phần em phụ trách theo phân công Member 1, không trộn test case của thành viên khác.</li>
+<li>Báo cáo chính tập trung trình bày cách áp dụng Domain Testing/BVA để sinh test case, kết quả chạy test và bug evidence.</li>
+</ul>
+<h3>3.1 Domain Testing</h3>
+<p>Với mỗi feature, em thực hiện các bước:</p>
+<p>1. Đọc đặc tả trong <code>README.md</code>, <code>api_specification.md</code> và tài liệu yêu cầu HW02.</p>
+<p>2. Xác định các biến đầu vào quan trọng.</p>
+<p>3. Chia miền đầu vào thành các lớp tương đương hợp lệ và không hợp lệ.</p>
+<p>4. Thiết kế test case đại diện cho từng lớp.</p>
+<p>5. Đối chiếu kết quả thực tế với đặc tả, không lấy hành vi hiện tại của code làm chuẩn.</p>
+<h3>3.2 Boundary Value Analysis</h3>
+<p>Với các input có biên rõ ràng, em chọn các giá trị tại biên và sát biên như <code>min - 1</code>, <code>min</code>, <code>min + 1</code>. Với các trường không có biên số học rõ, em dùng các biên nghiệp vụ như rỗng/không rỗng, 0 dòng/1 dòng/2 dòng, file đúng định dạng/file sai định dạng, hoặc trạng thái giỏ hàng 0/1/2 sản phẩm.</p>
+<h3>3.3 Tự động hóa bằng Playwright</h3>
+<p>Các test tự động được viết trong repository cá nhân:</p>
+<ul>
+<li><code>tests/fr03-forgot-password.spec.js</code></li>
+<li><code>tests/fr07-shopping-cart.spec.js</code></li>
+<li><code>tests/fr16-product-import.spec.js</code></li>
+<li><code>tests/helpers/ui.js</code></li>
+<li><code>tests/fixtures/csv/</code></li>
+</ul>
+<p>Lệnh chạy:</p>
+<pre><code>npm run test:e2e</code></pre>
+<p>Kết quả và bằng chứng:</p>
+<ul>
+<li>Test execution notes: <code>docs/hw02/test-execution-notes.md</code></li>
+<li>Bug tracker: <code>docs/hw02/bug-tracker.md</code></li>
+<li>Screenshot evidence: <code>docs/hw02/evidence/</code></li>
+<li>Playwright report: <code>playwright-report/index.html</code></li>
+</ul>
+<h2>4. Feature FR-03 - Forgot password and password reset</h2>
+<h3>4.1 Mô tả feature</h3>
+<p>FR-03 là chức năng quên mật khẩu gồm hai bước. Người dùng nhập email đã đăng ký để lấy OTP, sau đó nhập OTP, mật khẩu mới và xác nhận mật khẩu mới để đặt lại mật khẩu. Theo đặc tả, OTP trong môi trường demo phải có 6 chữ số, mật khẩu mới phải thỏa điều kiện tối thiểu 8 ký tự, có chữ hoa, chữ thường, chữ số và ký tự đặc biệt.</p>
+<h3>4.2 Miền đầu vào</h3>
+<table>
+<thead><tr><th>Biến</th><th>Miền hợp lệ</th><th>Miền không hợp lệ</th></tr></thead>
+<tbody>
+<tr><td>Email</td><td>Email đã đăng ký, đúng định dạng</td><td>Rỗng, sai định dạng, chưa đăng ký</td></tr>
+<tr><td>OTP</td><td>6 chữ số, đúng với email vừa yêu cầu</td><td>Rỗng, sai OTP, khác 6 chữ số, OTP của email khác</td></tr>
+<tr><td>Mật khẩu mới</td><td>Tối thiểu 8 ký tự, đủ chữ hoa/thường/số/ký tự đặc biệt</td><td>Rỗng, dưới 8 ký tự, thiếu nhóm ký tự</td></tr>
+<tr><td>Xác nhận mật khẩu</td><td>Khớp mật khẩu mới</td><td>Rỗng, không khớp</td></tr>
+<tr><td>Trạng thái UI</td><td>Có chỉ báo bước và đường quay lại đăng nhập</td><td>Thiếu step indicator hoặc điều hướng</td></tr>
+</tbody></table>
+<h3>4.3 Boundary Value Analysis</h3>
+<table>
+<thead><tr><th>Biên</th><th>Giá trị kiểm thử</th></tr></thead>
+<tbody>
+<tr><td>Độ dài OTP</td><td>5, 6, 7 chữ số</td></tr>
+<tr><td>Độ dài mật khẩu</td><td>7, 8, 9 ký tự</td></tr>
+<tr><td>Nhóm ký tự mật khẩu</td><td>Thiếu chữ hoa, thiếu chữ thường, thiếu số, thiếu ký tự đặc biệt, đủ 4 nhóm</td></tr>
+<tr><td>Email</td><td>Rỗng, sai định dạng, email tồn tại, email không tồn tại</td></tr>
+</tbody></table>
+<h3>4.4 Kết quả thực thi</h3>
+<table>
+<thead><tr><th>Tổng test</th><th>Passed</th><th>Failed</th><th>Bugs confirmed</th></tr></thead>
+<tbody>
+<tr><td>8</td><td>3</td><td>5</td><td>5</td></tr>
+</tbody></table>
+<h3>4.5 Bug phát hiện</h3>
+<table>
+<thead><tr><th>Bug ID</th><th>Mô tả</th><th>Severity</th><th>Evidence</th></tr></thead>
+<tbody>
+<tr><td>BUG-FR03-001</td><td>OTP reset password chỉ có 4 chữ số thay vì 6 chữ số</td><td>High</td><td><code>docs/hw02/evidence/BUG-FR03-001/screenshot.png</code></td></tr>
+<tr><td>BUG-FR03-002</td><td>Email quên mật khẩu dùng <code>type=text</code>, không có HTML5 email validation</td><td>Medium</td><td><code>docs/hw02/evidence/BUG-FR03-002/screenshot.png</code></td></tr>
+<tr><td>BUG-FR03-003</td><td>Mật khẩu mạnh 8 ký tự có ký tự đặc biệt bị báo "Mật khẩu quá yếu"</td><td>High</td><td><code>docs/hw02/evidence/BUG-FR03-003/screenshot.png</code></td></tr>
+<tr><td>BUG-FR03-004</td><td>Form reset password thiếu trường xác nhận mật khẩu mới</td><td>High</td><td><code>docs/hw02/evidence/BUG-FR03-004/screenshot.png</code></td></tr>
+<tr><td>BUG-FR03-005</td><td>Giao diện thiếu step indicator cho quy trình 2 bước</td><td>Medium</td><td><code>docs/hw02/evidence/BUG-FR03-005/screenshot.png</code></td></tr>
+</tbody></table>
+<h2>5. Feature FR-07 - Shopping cart</h2>
+<h3>5.1 Mô tả feature</h3>
+<p>FR-07 kiểm thử giỏ hàng của người dùng. Chức năng chính gồm thêm sản phẩm vào giỏ, gộp sản phẩm trùng bằng cách tăng số lượng, hiển thị số lượng, thành tiền, tổng cộng, xóa sản phẩm có xác nhận, trạng thái giỏ hàng rỗng và điều hướng tiếp tục mua sắm.</p>
+<h3>5.2 Miền đầu vào</h3>
+<table>
+<thead><tr><th>Biến</th><th>Miền hợp lệ</th><th>Miền không hợp lệ</th></tr></thead>
+<tbody>
+<tr><td>Sản phẩm</td><td>Sản phẩm tồn tại trong danh sách</td><td>Sản phẩm không tồn tại/null</td></tr>
+<tr><td>Quantity</td><td>Số nguyên dương, tối thiểu 1</td><td>0, số âm, chuỗi, số thập phân</td></tr>
+<tr><td>Thêm sản phẩm trùng</td><td>Cùng product id</td><td>Tạo dòng mới thay vì tăng quantity</td></tr>
+<tr><td>Xóa sản phẩm</td><td>Có confirm dialog</td><td>Xóa ngay không xác nhận</td></tr>
+<tr><td>Empty cart</td><td>Có thông báo và hình minh họa</td><td>Thiếu thông báo hoặc thiếu hình</td></tr>
+<tr><td>Tổng tiền</td><td>Nhãn "Tổng cộng"</td><td>Nhãn sai hoặc không hiển thị</td></tr>
+</tbody></table>
+<h3>5.3 Boundary Value Analysis</h3>
+<table>
+<thead><tr><th>Biên</th><th>Giá trị kiểm thử</th></tr></thead>
+<tbody>
+<tr><td>Quantity tối thiểu</td><td>0, 1, 2</td></tr>
+<tr><td>Số lần thêm cùng sản phẩm</td><td>1 lần, 2 lần, 3 lần</td></tr>
+<tr><td>Số dòng trong giỏ</td><td>0 sản phẩm, 1 sản phẩm, 2 sản phẩm</td></tr>
+<tr><td>Xóa sản phẩm</td><td>Xác nhận xóa, hủy xóa</td></tr>
+</tbody></table>
+<h3>5.4 Kết quả thực thi</h3>
+<table>
+<thead><tr><th>Tổng test</th><th>Passed</th><th>Failed</th><th>Bugs confirmed</th></tr></thead>
+<tbody>
+<tr><td>8</td><td>3</td><td>5</td><td>5</td></tr>
+</tbody></table>
+<h3>5.5 Bug phát hiện</h3>
+<table>
+<thead><tr><th>Bug ID</th><th>Mô tả</th><th>Severity</th><th>Evidence</th></tr></thead>
+<tbody>
+<tr><td>BUG-FR07-001</td><td>Thêm cùng một sản phẩm tạo 2 dòng thay vì gộp dòng và tăng quantity</td><td>High</td><td><code>docs/hw02/evidence/BUG-FR07-001/screenshot.png</code></td></tr>
+<tr><td>BUG-FR07-002</td><td>Xóa sản phẩm khỏi giỏ hàng không có confirm dialog</td><td>Medium</td><td><code>docs/hw02/evidence/BUG-FR07-002/screenshot.png</code></td></tr>
+<tr><td>BUG-FR07-003</td><td>Giỏ hàng không hiển thị nhãn tổng tiền theo spec "Tổng cộng"</td><td>Low</td><td><code>docs/hw02/evidence/BUG-FR07-003/screenshot.png</code></td></tr>
+<tr><td>BUG-FR07-004</td><td>Giỏ hàng rỗng thiếu hình minh họa</td><td>Low</td><td><code>docs/hw02/evidence/BUG-FR07-004/screenshot.png</code></td></tr>
+<tr><td>BUG-FR07-005</td><td>Giỏ hàng không có nút +/- để điều chỉnh quantity theo biên</td><td>Medium</td><td><code>docs/hw02/evidence/BUG-FR07-005/screenshot.png</code></td></tr>
+</tbody></table>
+<h3>5.6 Ghi chú về localStorage</h3>
+<p>Giỏ hàng trên web UI có sử dụng state/localStorage. Vì vậy, khi kiểm thử việc thêm cùng một sản phẩm nhiều lần, test không reload trang giữa hai lần thêm. Playwright dùng browser context mới cho từng test để cô lập dữ liệu, nhưng vẫn giữ state trong cùng một test case khi cần kiểm thử tích lũy trạng thái.</p>
+<h2>6. Feature FR-16 - Product import from CSV</h2>
+<h3>6.1 Mô tả feature</h3>
+<p>FR-16 là chức năng admin import sản phẩm từ CSV. Theo đặc tả, file phải có định dạng <code>.csv</code>, header bắt buộc gồm <code>name,price,description,imageUrl,category_id</code>, price phải là số dương, name không được rỗng, CSV phải hỗ trợ field có dấu phẩy trong dấu nháy kép theo RFC 4180 và import phải theo nguyên tắc all-or-nothing.</p>
+<h3>6.2 Miền đầu vào</h3>
+<table>
+<thead><tr><th>Biến</th><th>Miền hợp lệ</th><th>Miền không hợp lệ</th></tr></thead>
+<tbody>
+<tr><td>File extension</td><td><code>.csv</code></td><td><code>.txt</code>, <code>.xlsx</code>, không chọn file</td></tr>
+<tr><td>Header</td><td>Đủ <code>name,price,description,imageUrl,category_id</code></td><td>Thiếu/sai header</td></tr>
+<tr><td>Row count</td><td>Ít nhất 1 data row</td><td>File rỗng, chỉ có header</td></tr>
+<tr><td>Name</td><td>Chuỗi không rỗng</td><td>Rỗng, chỉ khoảng trắng</td></tr>
+<tr><td>Price</td><td>Số dương &gt; 0</td><td>0, âm, chuỗi, rỗng</td></tr>
+<tr><td>Description</td><td>Chuỗi, có thể có dấu phẩy nếu quote đúng</td><td>Parser cắt sai field</td></tr>
+<tr><td>Transaction</td><td>Tất cả dòng hợp lệ</td><td>Có dòng lỗi nhưng vẫn import một phần</td></tr>
+</tbody></table>
+<h3>6.3 Boundary Value Analysis</h3>
+<table>
+<thead><tr><th>Biên</th><th>Giá trị kiểm thử</th></tr></thead>
+<tbody>
+<tr><td>Số dòng dữ liệu</td><td>0 dòng, 1 dòng, 2 dòng</td></tr>
+<tr><td>Price</td><td>-1, 0, 1</td></tr>
+<tr><td>Name length</td><td>Rỗng, 1 ký tự, chuỗi bình thường</td></tr>
+<tr><td>File extension</td><td><code>.csv</code>, <code>.txt</code></td></tr>
+<tr><td>Transaction</td><td>Batch toàn hợp lệ, batch có 1 dòng lỗi</td></tr>
+</tbody></table>
+<h3>6.4 Kết quả thực thi</h3>
+<table>
+<thead><tr><th>Tổng test</th><th>Passed</th><th>Failed</th><th>Bugs confirmed</th></tr></thead>
+<tbody>
+<tr><td>10</td><td>4</td><td>6</td><td>6</td></tr>
+</tbody></table>
+<h3>6.5 Bug phát hiện</h3>
+<table>
+<thead><tr><th>Bug ID</th><th>Mô tả</th><th>Severity</th><th>Evidence</th></tr></thead>
+<tbody>
+<tr><td>BUG-FR16-001</td><td>Import CSV không rollback all-or-nothing khi batch có dòng thiếu tên</td><td>High</td><td><code>docs/hw02/evidence/BUG-FR16-001/screenshot.png</code></td></tr>
+<tr><td>BUG-FR16-002</td><td>Import product chấp nhận <code>price = 0</code></td><td>High</td><td><code>docs/hw02/evidence/BUG-FR16-002/screenshot.png</code></td></tr>
+<tr><td>BUG-FR16-003</td><td>Import product chấp nhận <code>price &lt; 0</code></td><td>High</td><td><code>docs/hw02/evidence/BUG-FR16-003/screenshot.png</code></td></tr>
+<tr><td>BUG-FR16-004</td><td>Import product chấp nhận giá không phải số, ví dụ <code>abc</code></td><td>High</td><td><code>docs/hw02/evidence/BUG-FR16-004/screenshot.png</code></td></tr>
+<tr><td>BUG-FR16-005</td><td>CSV parser không bảo toàn dấu phẩy trong field đặt trong dấu nháy kép RFC 4180</td><td>Medium</td><td><code>docs/hw02/evidence/BUG-FR16-005/screenshot.png</code></td></tr>
+<tr><td>BUG-FR16-006</td><td>Header-only CSV không hiển thị lỗi "không có dữ liệu/0 dòng" rõ ràng</td><td>Medium</td><td><code>docs/hw02/evidence/BUG-FR16-006/screenshot.png</code></td></tr>
+</tbody></table>
+<h2>7. Feature FR-04mb - Personal profile management</h2>
+<h3>7.1 Mô tả feature</h3>
+<p>FR-04mb là chức năng quản lý hồ sơ cá nhân trên mobile. Người dùng đã đăng nhập có thể xem và cập nhật thông tin hồ sơ gồm email, họ tên, số điện thoại và địa chỉ giao hàng mặc định. Email không được phép chỉnh sửa qua giao diện; người dùng thường không được tự thay đổi <code>role</code>. Theo đặc tả, số điện thoại hợp lệ phải bắt đầu bằng <code>0</code> và có độ dài 10-11 chữ số.</p>
+<p>Feature này thuộc frontend mobile React Native/Expo. Playwright không phù hợp trực tiếp để điều khiển native UI của Expo Go, nên em thực hiện kiểm thử thủ công trên iPhone bằng Expo Go, vẫn theo phương pháp Domain Testing và Boundary Value Analysis. Backend chỉ dùng để phục vụ UI mobile chạy được; kết luận pass/fail dựa trên hành vi UI và đặc tả.</p>
+<h3>7.2 Miền đầu vào</h3>
+<table>
+<thead><tr><th>Biến</th><th>Miền hợp lệ theo đặc tả</th><th>Miền không hợp lệ</th></tr></thead>
+<tbody>
+<tr><td>Auth state</td><td>User đã đăng nhập</td><td>Chưa đăng nhập, logout/token không còn hiệu lực</td></tr>
+<tr><td>Name</td><td>Chuỗi không rỗng, ví dụ <code>Test User</code></td><td>Rỗng</td></tr>
+<tr><td>Phone</td><td>Bắt đầu bằng <code>0</code>, 10-11 chữ số, ví dụ <code>0123456789</code>, <code>01234567890</code></td><td>9 chữ số, 12 chữ số, không bắt đầu bằng <code>0</code>, chứa chữ, chứa ký tự đặc biệt</td></tr>
+<tr><td>Shipping address</td><td>Địa chỉ giao hàng hợp lệ; field có thể rỗng nếu đặc tả không bắt buộc</td><td>Giá trị không được lưu bền vững sau khi cập nhật</td></tr>
+<tr><td>Email</td><td>Read-only, không sửa được qua UI</td><td>Cho phép sửa email trái spec</td></tr>
+<tr><td>Role</td><td>Không hiển thị/chỉnh sửa qua UI</td><td>User tự sửa được role/quyền</td></tr>
+</tbody></table>
+<h3>7.3 Boundary Value Analysis</h3>
+<table>
+<thead><tr><th>Biên</th><th>Giá trị kiểm thử</th></tr></thead>
+<tbody>
+<tr><td>Độ dài số điện thoại</td><td><code>012345678</code> - 9 chữ số; <code>0123456789</code> - 10 chữ số; <code>01234567890</code> - 11 chữ số; <code>012345678901</code> - 12 chữ số</td></tr>
+<tr><td>Prefix số điện thoại</td><td>Bắt đầu bằng <code>0</code>; không bắt đầu bằng <code>0</code>, ví dụ <code>1123456789</code>, <code>987654321</code></td></tr>
+<tr><td>Ký tự trong phone</td><td>Toàn chữ số; chứa chữ <code>09abc45678</code>; chứa dấu gạch <code>091-234-5678</code></td></tr>
+<tr><td>Name</td><td>Rỗng; 1 ký tự <code>A</code>; tên bình thường</td></tr>
+<tr><td>Address</td><td>Rỗng; địa chỉ hợp lệ; kiểm tra persistence sau logout/login</td></tr>
+</tbody></table>
+<h3>7.4 Lưu ý về sai lệch giữa spec và implementation</h3>
+<p>Khi kiểm thử các field không phải phone như <code>Name</code> và <code>Shipping address</code>, em phải dùng một số điện thoại mà implementation hiện tại chấp nhận, ví dụ <code>912345678</code> hoặc <code>987654321</code>, để vượt qua validation UI. Các giá trị này không đúng đặc tả vì không bắt đầu bằng <code>0</code>. Sai lệch này không được xem là chuẩn nghiệp vụ, mà được ghi nhận riêng thành bug phone validation <code>BUG-FR04MB-002</code>.</p>
+<h3>7.5 Kết quả test thủ công trên iPhone</h3>
+<table>
+<thead><tr><th>Test ID</th><th>Mục tiêu</th><th>Dữ liệu chính</th><th>Expected</th><th>Actual</th><th>Status</th><th>Evidence</th></tr></thead>
+<tbody>
+<tr><td>FR04MB-TC-001</td><td>User đã đăng nhập xem được hồ sơ</td><td><code>test@eshop.com</code> / <code>Test1234!</code></td><td>Hiển thị <code>Hồ sơ của bạn</code></td><td>Hiển thị profile với email, tên, phone, địa chỉ</td><td>PASS</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-001-profile-after-login.jpg</code></td></tr>
+<tr><td>FR04MB-TC-002</td><td>Chưa đăng nhập không xem/sửa hồ sơ</td><td>Logout</td><td>Header về <code>Đăng nhập</code>, chỉ vào form login</td><td>Đúng như expected</td><td>PASS</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-002-logged-out-home.jpg</code>, <code>docs/hw02/evidence/FR04mb/FR04MB-TC-002-login-form-required.jpg</code></td></tr>
+<tr><td>FR04MB-TC-003</td><td>Email read-only</td><td><code>test@eshop.com</code></td><td>Không sửa được email</td><td>Ô email disabled/màu xám, không mở bàn phím</td><td>PASS</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-003-email-readonly.jpg</code></td></tr>
+<tr><td>FR04MB-TC-004</td><td>Cập nhật tên hợp lệ</td><td><code>Nguyen Le Quan Anh Mobile</code></td><td>Cập nhật thành công</td><td>Alert thành công, header hiển thị tên mới</td><td>PASS</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-004-name-valid-update.jpg</code></td></tr>
+<tr><td>FR04MB-TC-005</td><td>Từ chối họ tên rỗng</td><td>Name rỗng</td><td>Báo lỗi, không cập nhật</td><td>App báo cập nhật thành công, header chỉ còn <code>Chào,</code></td><td>FAIL</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-005-name-empty-accepted.jpg</code></td></tr>
+<tr><td>FR04MB-TC-006</td><td>Biên name 1 ký tự</td><td><code>A</code></td><td>Chấp nhận nếu spec chỉ yêu cầu non-empty</td><td>App báo cập nhật thành công</td><td>PASS</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-006-name-one-char.jpg</code></td></tr>
+<tr><td>FR04MB-TC-007</td><td>Phone 9 chữ số dưới min</td><td><code>012345678</code></td><td>Từ chối</td><td>App báo lỗi phone không hợp lệ</td><td>PASS</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-007-phone-9digits-rejected.jpg</code></td></tr>
+<tr><td>FR04MB-TC-008</td><td>Phone hợp lệ biên dưới</td><td><code>0123456789</code></td><td>Cập nhật thành công</td><td>App báo lỗi phone không hợp lệ</td><td>FAIL</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-008-phone-10digits-valid-rejected.jpg</code></td></tr>
+<tr><td>FR04MB-TC-009</td><td>Phone hợp lệ biên trên</td><td><code>01234567890</code></td><td>Cập nhật thành công</td><td>App báo lỗi phone không hợp lệ</td><td>FAIL</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-009-phone-11digits-valid-rejected.jpg</code></td></tr>
+<tr><td>FR04MB-TC-010</td><td>Phone 12 chữ số vượt max</td><td><code>012345678901</code></td><td>Từ chối</td><td>App báo lỗi phone không hợp lệ</td><td>PASS</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-010-phone-12digits-rejected.jpg</code></td></tr>
+<tr><td>FR04MB-TC-011</td><td>Phone không bắt đầu bằng 0</td><td><code>1123456789</code></td><td>Từ chối</td><td>App báo cập nhật thành công</td><td>FAIL</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-011-phone-wrong-prefix-accepted.jpg</code></td></tr>
+<tr><td>FR04MB-TC-012</td><td>Phone chứa chữ</td><td><code>09abc45678</code></td><td>Từ chối</td><td>App báo lỗi phone không hợp lệ</td><td>PASS</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-012-phone-letters-rejected.jpg</code></td></tr>
+<tr><td>FR04MB-TC-013</td><td>Phone chứa ký tự đặc biệt</td><td><code>091-234-5678</code></td><td>Từ chối</td><td>App báo lỗi phone không hợp lệ</td><td>PASS</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-013-phone-special-chars-rejected.jpg</code></td></tr>
+<tr><td>FR04MB-TC-014</td><td>Địa chỉ rỗng</td><td>Address rỗng</td><td>Chấp nhận nếu address optional</td><td>App cập nhật thành công</td><td>PASS</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-014-address-empty.jpg</code></td></tr>
+<tr><td>FR04MB-TC-015</td><td>Cập nhật địa chỉ hợp lệ</td><td><code>123 nguyễn trãi, quận 5, tphcm</code></td><td>Báo thành công, địa chỉ hiển thị trong form</td><td>Đúng như expected</td><td>PASS</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-015-address-valid-success.jpg</code>, <code>docs/hw02/evidence/FR04mb/FR04MB-TC-015-address-valid-visible.jpg</code></td></tr>
+<tr><td>FR04MB-TC-016</td><td>Địa chỉ phải lưu sau logout/login lại</td><td>Địa chỉ từ TC-015</td><td>Địa chỉ vẫn còn</td><td>Địa chỉ bị mất, ô address trống</td><td>FAIL</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-016-address-lost-after-login.jpg</code></td></tr>
+<tr><td>FR04MB-TC-017</td><td>Không có field role</td><td>User thường</td><td>Không hiển thị role/admin/quyền</td><td>Form chỉ có email, name, phone, address</td><td>PASS</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-016-address-lost-after-login.jpg</code></td></tr>
+<tr><td>FR04MB-TC-018</td><td>Logout xóa trạng thái user</td><td>Bấm <code>Thoát</code></td><td>Header về <code>Đăng nhập</code>, không còn profile user</td><td>Đúng như expected</td><td>PASS</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-018-logout.jpg</code></td></tr>
+<tr><td>FR04MB-TC-019</td><td>Có feedback khi cập nhật thành công</td><td>Name/phone/address được app chấp nhận</td><td>Có thông báo rõ ràng</td><td>App hiển thị alert <code>Thành công - Cập nhật thành công!</code></td><td>PASS</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-004-name-valid-update.jpg</code></td></tr>
+<tr><td>FR04MB-TC-020</td><td>Backend unavailable</td><td>Tắt backend</td><td>App không treo, báo lỗi dễ hiểu</td><td>Chưa thực hiện để tránh gián đoạn test session</td><td>NOT EXECUTED</td><td>N/A</td></tr>
+</tbody></table>
+<h3>7.6 Bug phát hiện trên FR-04mb</h3>
+<table>
+<thead><tr><th>Bug ID</th><th>Mô tả</th><th>Severity</th><th>Related test</th><th>Evidence</th></tr></thead>
+<tbody>
+<tr><td>BUG-FR04MB-001</td><td>Mobile từ chối số điện thoại hợp lệ bắt đầu bằng <code>0</code> ở biên 10 và 11 chữ số</td><td>High</td><td>FR04MB-TC-008, FR04MB-TC-009</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-008-phone-10digits-valid-rejected.jpg</code>, <code>docs/hw02/evidence/FR04mb/FR04MB-TC-009-phone-11digits-valid-rejected.jpg</code></td></tr>
+<tr><td>BUG-FR04MB-002</td><td>Mobile chấp nhận số điện thoại không bắt đầu bằng <code>0</code></td><td>High</td><td>FR04MB-TC-011, TC-014 hỗ trợ</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-011-phone-wrong-prefix-accepted.jpg</code>, <code>docs/hw02/evidence/FR04mb/FR04MB-TC-014-address-empty.jpg</code></td></tr>
+<tr><td>BUG-FR04MB-003</td><td>Địa chỉ giao hàng báo cập nhật thành công nhưng không được lưu sau logout/login lại</td><td>High</td><td>FR04MB-TC-015, FR04MB-TC-016</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-015-address-valid-visible.jpg</code>, <code>docs/hw02/evidence/FR04mb/FR04MB-TC-016-address-lost-after-login.jpg</code></td></tr>
+<tr><td>BUG-FR04MB-004</td><td>Ứng dụng cho phép cập nhật hồ sơ với họ tên rỗng</td><td>Medium</td><td>FR04MB-TC-005</td><td><code>docs/hw02/evidence/FR04mb/FR04MB-TC-005-name-empty-accepted.jpg</code></td></tr>
+</tbody></table>
+<p>Ghi chú: Thông báo lỗi phone của app ghi "9-10 chữ số", trong khi đặc tả yêu cầu 10-11 chữ số và bắt đầu bằng <code>0</code>. Điểm này được gom vào nhóm bug validation phone thay vì tách bug riêng.</p>
+<h2>8. Tổng hợp kết quả</h2>
+<table>
+<thead><tr><th>Feature</th><th>Test cases designed</th><th>Executed</th><th>Passed</th><th>Failed</th><th>Not executed</th><th>Bugs confirmed</th></tr></thead>
+<tbody>
+<tr><td>FR-03</td><td>8</td><td>8</td><td>3</td><td>5</td><td>0</td><td>5</td></tr>
+<tr><td>FR-07</td><td>8</td><td>8</td><td>3</td><td>5</td><td>0</td><td>5</td></tr>
+<tr><td>FR-16</td><td>10</td><td>10</td><td>4</td><td>6</td><td>0</td><td>6</td></tr>
+<tr><td>FR-04mb</td><td>20</td><td>19</td><td>14</td><td>5</td><td>1</td><td>4</td></tr>
+<tr><td>Tổng</td><td>46</td><td>45</td><td>24</td><td>21</td><td>1</td><td>20</td></tr>
+</tbody></table>
+<h2>9. Requirements Traceability Matrix và Coverage</h2>
+<p>Để giúp việc chấm bài dễ scan hơn, em tách bảng traceability chi tiết thành file riêng:</p>
+<pre><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/traceability-matrix.md</code></pre>
+<p>Tóm tắt coverage:</p>
+<table>
+<thead><tr><th>Feature</th><th>Miền đã bao phủ</th><th>Điểm mạnh</th><th>Điểm còn thiếu</th></tr></thead>
+<tbody>
+<tr><td>FR-03</td><td>Email, OTP, password policy, confirm password, step UI</td><td>Có cả happy path, invalid class và boundary password/OTP</td><td>Chưa kiểm thử hết mọi biến thể OTP như OTP của email khác</td></tr>
+<tr><td>FR-07</td><td>Add product, duplicate product, quantity boundary, remove, empty cart, total label</td><td>Bắt được nhiều lỗi UI quan trọng qua localStorage/state thực tế</td><td>Chưa kiểm thử quantity lớn 99/100/101 vì UI chưa có nút +/-</td></tr>
+<tr><td>FR-16</td><td>File type, header, row count, name, price, rollback, RFC 4180</td><td>Bao phủ nhiều lớp invalid và phát hiện lỗi import dữ liệu nghiêm trọng</td><td>Chưa kiểm thử CSV rất lớn hoặc category_id không tồn tại</td></tr>
+<tr><td>FR-04mb</td><td>Auth state, name, phone boundary, address persistence, email read-only, role, logout</td><td>Có manual evidence trên iPhone/Expo Go, phát hiện 4 bug quan trọng</td><td>Chưa thực hiện TC-020 backend unavailable</td></tr>
+</tbody></table>
+<p>Đánh giá hiện tại: bộ test bao phủ cả 4 feature được giao. Ba feature web/admin được chạy tự động bằng Playwright qua UI; feature mobile FR-04mb được chạy thủ công trên iPhone bằng Expo Go với ảnh minh chứng. Tổng cộng có 45 test đã thực thi và 20 bug confirmed/có evidence.</p>
+<h2>10. Danh sách bug confirmed</h2>
+<table>
+<thead><tr><th>Feature</th><th>Số bug</th><th>Bug IDs</th></tr></thead>
+<tbody>
+<tr><td>FR-03</td><td>5</td><td>BUG-FR03-001 đến BUG-FR03-005</td></tr>
+<tr><td>FR-07</td><td>5</td><td>BUG-FR07-001 đến BUG-FR07-005</td></tr>
+<tr><td>FR-16</td><td>6</td><td>BUG-FR16-001 đến BUG-FR16-006</td></tr>
+<tr><td>FR-04mb</td><td>4</td><td>BUG-FR04MB-001 đến BUG-FR04MB-004</td></tr>
+</tbody></table>
+<p>Chi tiết bug nằm trong <code>docs/hw02/bug-tracker.md</code>. Nội dung draft để tạo GitHub Issue nằm trong <code>docs/hw02/github-issues-draft.md</code>.</p>
+<h2>11. AI Critique</h2>
+<p>AI hỗ trợ tốt ở giai đoạn đọc yêu cầu, tách feature theo pool, gợi ý miền đầu vào, sinh khung test case và viết Playwright nhanh hơn so với làm thủ công từ đầu. Tuy nhiên, output ban đầu của AI vẫn cần kiểm tra rất kỹ. Một số test đầu tiên bị lệch so với thực tế UI, ví dụ locator ở form reset password bị sai do sau khi chuyển bước chỉ còn hai input, hoặc cách chờ <code>dialog</code> của Playwright gây timeout. AI cũng dễ đề xuất kiểm thử backend/API, trong khi phạm vi bài này cần ưu tiên UI-first Domain Testing. Sau khi rà soát, em chỉnh lại test để không kết luận bug trực tiếp từ API, bổ sung xử lý localStorage của giỏ hàng, và phân biệt rõ bug thật với lỗi script. Nhìn chung, AI phù hợp để tăng tốc phân tích và tạo bản nháp, nhưng người làm vẫn phải đối chiếu đặc tả, chạy test thật, xem screenshot/trace, và chịu trách nhiệm cuối cùng về kết luận bug.</p>
+<h2>12. AI Usage Declaration</h2>
+<p>Trong bài HW02 này, em có sử dụng Codex/ChatGPT để hỗ trợ:</p>
+<ul>
+<li>Phân tích yêu cầu bài tập và chính sách AI.</li>
+<li>Đọc cấu trúc EShop, README và API specification.</li>
+<li>Đề xuất chiến lược Domain Testing/BVA cho 4 feature được giao.</li>
+<li>Sinh bản nháp test case và Playwright automation cho FR-03, FR-07, FR-16.</li>
+<li>Hỗ trợ chạy Playwright, phân tích kết quả fail, cập nhật bug tracker và evidence.</li>
+<li>Hỗ trợ hướng dẫn chạy Expo Go, phân loại ảnh evidence manual và tổng hợp kết quả FR-04mb.</li>
+<li>Hỗ trợ soạn bản nháp báo cáo Markdown.</li>
+</ul>
+<p>Các phần em đã trực tiếp rà soát/chỉnh sửa:</p>
+<ul>
+<li>Chọn phạm vi UI-first, không kết luận bug trực tiếp bằng backend/API.</li>
+<li>Sửa test Playwright bị sai locator/dialog.</li>
+<li>Kiểm tra lại kết quả pass/fail từ Playwright report.</li>
+<li>Xác nhận 16 bug web/admin dựa trên Playwright screenshot/error context và 4 bug mobile dựa trên ảnh manual test.</li>
+<li>Tự thực thi manual test FR-04mb trên iPhone, lưu ảnh evidence và xác nhận kết quả thực tế.</li>
+<li>Loại bỏ hoặc đánh dấu Rejected các candidate không tái hiện được.</li>
+</ul>
+<p>Mandatory Disclosure:</p>
+<blockquote>Báo cáo, test case, Playwright scripts và bug tracker này được sinh phiên bản đầu với sự hỗ trợ của Codex/ChatGPT; tôi đã rà soát và chỉnh sửa phần chiến lược UI-first, test locator/dialog, mapping test case sang bug, bổ sung edge cases cho localStorage/CSV/OTP/password/profile mobile; phần đánh giá kết quả và kết luận bug do tôi kiểm tra lại dựa trên Playwright evidence và ảnh manual test trên iPhone. AI Audit Report chi tiết được ghi nhận trong <code>07_hw02_individual/06_ai_usage/prompt_log.md</code>. Tôi cam đoan không dùng AI để sinh bất kỳ artifact nào thuộc danh mục bị cấm.</blockquote>
+<h2>13. Self-assessment</h2>
+<table>
+<thead><tr><th>Tiêu chí</th><th>Điểm tối đa</th><th>Tự đánh giá</th><th>Ghi chú</th></tr></thead>
+<tbody>
+<tr><td>Pool A - FR-03 Domain + BVA</td><td>25</td><td>23</td><td>Có thiết kế và automation, phát hiện 5 bug</td></tr>
+<tr><td>Pool B - FR-07 Domain + BVA</td><td>25</td><td>23</td><td>Có thiết kế và automation, phát hiện 5 bug</td></tr>
+<tr><td>Pool C - FR-16 Domain + BVA</td><td>25</td><td>23</td><td>Có thiết kế và automation, phát hiện 6 bug</td></tr>
+<tr><td>Pool D - FR-04mb Domain + BVA</td><td>15</td><td>14</td><td>Có 20 test case, 19 test manual trên iPhone, phát hiện 4 bug</td></tr>
+<tr><td>Agent/AI workflow</td><td>10</td><td>8</td><td>Có dùng AI có kiểm soát, prompt log, commit log, evidence</td></tr>
+<tr><td>Tổng</td><td>100</td><td>91</td><td>Tự đánh giá đề xuất: 091</td></tr>
+</tbody></table>
+<p>Tên file nộp đề xuất:</p>
+<pre><code>23127001_HW02_AI_DomainTesting_091.zip</code></pre>
+<h2>14. Phụ lục A - Đường dẫn artifact</h2>
+<table>
+<thead><tr><th>Artifact</th><th>Đường dẫn</th></tr></thead>
+<tbody>
+<tr><td>Domain/BVA analysis</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/domain-bva-analysis.md</code></td></tr>
+<tr><td>Test cases</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/test-cases.md</code></td></tr>
+<tr><td>Requirements Traceability Matrix</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/traceability-matrix.md</code></td></tr>
+<tr><td>Test execution notes</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/test-execution-notes.md</code></td></tr>
+<tr><td>Bug tracker</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/bug-tracker.md</code></td></tr>
+<tr><td>Screenshot evidence</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/evidence/</code></td></tr>
+<tr><td>FR-04mb manual test cases</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/fr04mb-manual-test-cases.md</code></td></tr>
+<tr><td>FR-04mb mobile evidence</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/evidence/FR04mb/</code></td></tr>
+<tr><td>GitHub issue drafts</td><td><code>07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/github-issues-draft.md</code></td></tr>
+<tr><td>AI prompt log</td><td><code>07_hw02_individual/06_ai_usage/prompt_log.md</code></td></tr>
+</tbody></table>
+<h2>15. Phụ lục B - Git commit log</h2>
+<table>
+<thead><tr><th>Commit</th><th>Nội dung</th></tr></thead>
+<tbody>
+<tr><td><code>7954cc7</code></td><td>Cấu hình Playwright và hướng dẫn chạy EShop</td></tr>
+<tr><td><code>81b4f40</code></td><td>Thiết kế Domain/BVA cho 4 feature</td></tr>
+<tr><td><code>d5762bb</code></td><td>Thêm Playwright tests cho FR-03, FR-07, FR-16</td></tr>
+<tr><td><code>1f0431c</code></td><td>Thêm hướng dẫn chạy Playwright tests</td></tr>
+<tr><td><code>d66ec79</code></td><td>Thêm bug tracker và mẫu issue</td></tr>
+<tr><td><code>5cf043e</code></td><td>Chuyển Playwright sang kiểm thử UI-first</td></tr>
+<tr><td><code>95a5bb7</code></td><td>Tránh reload làm mất state giỏ hàng</td></tr>
+<tr><td><code>e17b621</code></td><td>Cập nhật evidence bug từ Playwright</td></tr>
+<tr><td><code>97671a7</code></td><td>Tạo draft issue cho bug đã xác nhận</td></tr>
+<tr><td><code>4dc1bd1</code></td><td>Thêm screenshot evidence cho bug</td></tr>
+</tbody></table>
+<h2>16. Kết luận</h2>
+<p>Bài làm đã áp dụng Domain Testing và Boundary Value Analysis cho 4 feature được giao. Trong đó, 3 feature web/admin đã được tự động hóa bằng Playwright qua UI, chạy tổng cộng 26 test và xác nhận 16 bug có screenshot evidence. Feature mobile FR-04mb được kiểm thử thủ công trên iPhone bằng Expo Go, thực thi 19/20 test và xác nhận thêm 4 bug. Tổng cộng bài làm có 45 test đã chạy và 20 bug confirmed. Qua bài này, em nhận thấy Domain Testing giúp phát hiện lỗi rõ ràng ở các miền invalid và boundary như OTP length, password policy, duplicate cart item, invalid price, rollback CSV import, phone boundary trên mobile và persistence của địa chỉ giao hàng.</p></body></html>

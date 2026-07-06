@@ -25,7 +25,7 @@ Theo phân công của nhóm, em là Member 1 và thực hiện các feature sau
 | Pool A | FR-03 - Forgot password and password reset | Web | Đã thiết kế Domain/BVA, đã tự động hóa bằng Playwright |
 | Pool B | FR-07 - Shopping cart | Web | Đã thiết kế Domain/BVA, đã tự động hóa bằng Playwright |
 | Pool C | FR-16 - Product import from CSV | Admin Web | Đã thiết kế Domain/BVA, đã tự động hóa bằng Playwright |
-| Pool D | FR-04mb - Personal profile management | Mobile | Đã phân tích Domain/BVA, chưa tự động hóa vì Playwright không phù hợp trực tiếp với React Native/Expo |
+| Pool D | FR-04mb - Personal profile management | Mobile | Đã phân tích Domain/BVA và kiểm thử thủ công trên iPhone bằng Expo Go |
 
 Bài làm tập trung theo hướng UI-first Domain Testing. Backend chỉ được dùng để hỗ trợ giao diện chạy đúng luồng, không dùng API/backend làm nguồn kết luận bug chính. Nếu UI không có chức năng hoặc không thể hiện đúng yêu cầu đặc tả, test được xem là fail theo đúng phạm vi kiểm thử giao diện.
 
@@ -214,31 +214,70 @@ FR-16 là chức năng admin import sản phẩm từ CSV. Theo đặc tả, fil
 
 ### 7.1 Mô tả feature
 
-FR-04mb là chức năng quản lý hồ sơ cá nhân trên mobile. Người dùng đã đăng nhập có thể xem và cập nhật thông tin hồ sơ như họ tên, số điện thoại và địa chỉ giao hàng mặc định. Đây là feature thuộc frontend mobile React Native/Expo nên chưa được tự động hóa bằng Playwright browser trong phạm vi hiện tại.
+FR-04mb là chức năng quản lý hồ sơ cá nhân trên mobile. Người dùng đã đăng nhập có thể xem và cập nhật thông tin hồ sơ gồm email, họ tên, số điện thoại và địa chỉ giao hàng mặc định. Email không được phép chỉnh sửa qua giao diện; người dùng thường không được tự thay đổi `role`. Theo đặc tả, số điện thoại hợp lệ phải bắt đầu bằng `0` và có độ dài 10-11 chữ số.
+
+Feature này thuộc frontend mobile React Native/Expo. Playwright không phù hợp trực tiếp để điều khiển native UI của Expo Go, nên em thực hiện kiểm thử thủ công trên iPhone bằng Expo Go, vẫn theo phương pháp Domain Testing và Boundary Value Analysis. Backend chỉ dùng để phục vụ UI mobile chạy được; kết luận pass/fail dựa trên hành vi UI và đặc tả.
 
 ### 7.2 Miền đầu vào
 
-| Biến | Miền hợp lệ | Miền không hợp lệ |
+| Biến | Miền hợp lệ theo đặc tả | Miền không hợp lệ |
 |---|---|---|
-| Auth state | User đã đăng nhập | Chưa đăng nhập, token sai |
-| Name | Chuỗi không rỗng | Rỗng, chỉ khoảng trắng |
-| Phone | Bắt đầu bằng 0, 10-11 chữ số | 9 chữ số, 12 chữ số, không bắt đầu bằng 0, chứa chữ |
-| Shipping address | Địa chỉ hợp lệ | Rỗng, quá dài, chứa script |
-| Email | Read-only | Cho phép sửa email trái spec |
-| Role | Không được chỉnh qua UI | User tự đổi role |
+| Auth state | User đã đăng nhập | Chưa đăng nhập, logout/token không còn hiệu lực |
+| Name | Chuỗi không rỗng, ví dụ `Test User` | Rỗng |
+| Phone | Bắt đầu bằng `0`, 10-11 chữ số, ví dụ `0123456789`, `01234567890` | 9 chữ số, 12 chữ số, không bắt đầu bằng `0`, chứa chữ, chứa ký tự đặc biệt |
+| Shipping address | Địa chỉ giao hàng hợp lệ; field có thể rỗng nếu đặc tả không bắt buộc | Giá trị không được lưu bền vững sau khi cập nhật |
+| Email | Read-only, không sửa được qua UI | Cho phép sửa email trái spec |
+| Role | Không hiển thị/chỉnh sửa qua UI | User tự sửa được role/quyền |
 
 ### 7.3 Boundary Value Analysis
 
 | Biên | Giá trị kiểm thử |
 |---|---|
-| Độ dài số điện thoại | 9, 10, 11, 12 chữ số |
-| Prefix số điện thoại | `0912345678`, `1912345678` |
-| Name | Rỗng, 1 ký tự, tên bình thường |
-| Address | Rỗng, địa chỉ bình thường, chuỗi dài |
+| Độ dài số điện thoại | `012345678` - 9 chữ số; `0123456789` - 10 chữ số; `01234567890` - 11 chữ số; `012345678901` - 12 chữ số |
+| Prefix số điện thoại | Bắt đầu bằng `0`; không bắt đầu bằng `0`, ví dụ `1123456789`, `987654321` |
+| Ký tự trong phone | Toàn chữ số; chứa chữ `09abc45678`; chứa dấu gạch `091-234-5678` |
+| Name | Rỗng; 1 ký tự `A`; tên bình thường |
+| Address | Rỗng; địa chỉ hợp lệ; kiểm tra persistence sau logout/login |
 
-### 7.4 Trạng thái thực hiện
+### 7.4 Lưu ý về sai lệch giữa spec và implementation
 
-Feature này đã được phân tích Domain/BVA nhưng chưa chạy automation bằng Playwright vì Playwright phù hợp với browser web, không trực tiếp điều khiển native mobile UI của Expo/React Native. Phần này cần được bổ sung bằng kiểm thử manual trên mobile hoặc dùng công cụ phù hợp hơn như Detox/Appium nếu muốn tự động hóa mobile.
+Khi kiểm thử các field không phải phone như `Name` và `Shipping address`, em phải dùng một số điện thoại mà implementation hiện tại chấp nhận, ví dụ `912345678` hoặc `987654321`, để vượt qua validation UI. Các giá trị này không đúng đặc tả vì không bắt đầu bằng `0`. Sai lệch này không được xem là chuẩn nghiệp vụ, mà được ghi nhận riêng thành bug phone validation `BUG-FR04MB-002`.
+
+### 7.5 Kết quả test thủ công trên iPhone
+
+| Test ID | Mục tiêu | Dữ liệu chính | Expected | Actual | Status | Evidence |
+|---|---|---|---|---|---|---|
+| FR04MB-TC-001 | User đã đăng nhập xem được hồ sơ | `test@eshop.com` / `Test1234!` | Hiển thị `Hồ sơ của bạn` | Hiển thị profile với email, tên, phone, địa chỉ | PASS | `docs/hw02/evidence/FR04mb/FR04MB-TC-001-profile-after-login.jpg` |
+| FR04MB-TC-002 | Chưa đăng nhập không xem/sửa hồ sơ | Logout | Header về `Đăng nhập`, chỉ vào form login | Đúng như expected | PASS | `docs/hw02/evidence/FR04mb/FR04MB-TC-002-logged-out-home.jpg`, `docs/hw02/evidence/FR04mb/FR04MB-TC-002-login-form-required.jpg` |
+| FR04MB-TC-003 | Email read-only | `test@eshop.com` | Không sửa được email | Ô email disabled/màu xám, không mở bàn phím | PASS | `docs/hw02/evidence/FR04mb/FR04MB-TC-003-email-readonly.jpg` |
+| FR04MB-TC-004 | Cập nhật tên hợp lệ | `Nguyen Le Quan Anh Mobile` | Cập nhật thành công | Alert thành công, header hiển thị tên mới | PASS | `docs/hw02/evidence/FR04mb/FR04MB-TC-004-name-valid-update.jpg` |
+| FR04MB-TC-005 | Từ chối họ tên rỗng | Name rỗng | Báo lỗi, không cập nhật | App báo cập nhật thành công, header chỉ còn `Chào,` | FAIL | `docs/hw02/evidence/FR04mb/FR04MB-TC-005-name-empty-accepted.jpg` |
+| FR04MB-TC-006 | Biên name 1 ký tự | `A` | Chấp nhận nếu spec chỉ yêu cầu non-empty | App báo cập nhật thành công | PASS | `docs/hw02/evidence/FR04mb/FR04MB-TC-006-name-one-char.jpg` |
+| FR04MB-TC-007 | Phone 9 chữ số dưới min | `012345678` | Từ chối | App báo lỗi phone không hợp lệ | PASS | `docs/hw02/evidence/FR04mb/FR04MB-TC-007-phone-9digits-rejected.jpg` |
+| FR04MB-TC-008 | Phone hợp lệ biên dưới | `0123456789` | Cập nhật thành công | App báo lỗi phone không hợp lệ | FAIL | `docs/hw02/evidence/FR04mb/FR04MB-TC-008-phone-10digits-valid-rejected.jpg` |
+| FR04MB-TC-009 | Phone hợp lệ biên trên | `01234567890` | Cập nhật thành công | App báo lỗi phone không hợp lệ | FAIL | `docs/hw02/evidence/FR04mb/FR04MB-TC-009-phone-11digits-valid-rejected.jpg` |
+| FR04MB-TC-010 | Phone 12 chữ số vượt max | `012345678901` | Từ chối | App báo lỗi phone không hợp lệ | PASS | `docs/hw02/evidence/FR04mb/FR04MB-TC-010-phone-12digits-rejected.jpg` |
+| FR04MB-TC-011 | Phone không bắt đầu bằng 0 | `1123456789` | Từ chối | App báo cập nhật thành công | FAIL | `docs/hw02/evidence/FR04mb/FR04MB-TC-011-phone-wrong-prefix-accepted.jpg` |
+| FR04MB-TC-012 | Phone chứa chữ | `09abc45678` | Từ chối | App báo lỗi phone không hợp lệ | PASS | `docs/hw02/evidence/FR04mb/FR04MB-TC-012-phone-letters-rejected.jpg` |
+| FR04MB-TC-013 | Phone chứa ký tự đặc biệt | `091-234-5678` | Từ chối | App báo lỗi phone không hợp lệ | PASS | `docs/hw02/evidence/FR04mb/FR04MB-TC-013-phone-special-chars-rejected.jpg` |
+| FR04MB-TC-014 | Địa chỉ rỗng | Address rỗng | Chấp nhận nếu address optional | App cập nhật thành công | PASS | `docs/hw02/evidence/FR04mb/FR04MB-TC-014-address-empty.jpg` |
+| FR04MB-TC-015 | Cập nhật địa chỉ hợp lệ | `123 nguyễn trãi, quận 5, tphcm` | Báo thành công, địa chỉ hiển thị trong form | Đúng như expected | PASS | `docs/hw02/evidence/FR04mb/FR04MB-TC-015-address-valid-success.jpg`, `docs/hw02/evidence/FR04mb/FR04MB-TC-015-address-valid-visible.jpg` |
+| FR04MB-TC-016 | Địa chỉ phải lưu sau logout/login lại | Địa chỉ từ TC-015 | Địa chỉ vẫn còn | Địa chỉ bị mất, ô address trống | FAIL | `docs/hw02/evidence/FR04mb/FR04MB-TC-016-address-lost-after-login.jpg` |
+| FR04MB-TC-017 | Không có field role | User thường | Không hiển thị role/admin/quyền | Form chỉ có email, name, phone, address | PASS | `docs/hw02/evidence/FR04mb/FR04MB-TC-016-address-lost-after-login.jpg` |
+| FR04MB-TC-018 | Logout xóa trạng thái user | Bấm `Thoát` | Header về `Đăng nhập`, không còn profile user | Đúng như expected | PASS | `docs/hw02/evidence/FR04mb/FR04MB-TC-018-logout.jpg` |
+| FR04MB-TC-019 | Có feedback khi cập nhật thành công | Name/phone/address được app chấp nhận | Có thông báo rõ ràng | App hiển thị alert `Thành công - Cập nhật thành công!` | PASS | `docs/hw02/evidence/FR04mb/FR04MB-TC-004-name-valid-update.jpg` |
+| FR04MB-TC-020 | Backend unavailable | Tắt backend | App không treo, báo lỗi dễ hiểu | Chưa thực hiện để tránh gián đoạn test session | NOT EXECUTED | N/A |
+
+### 7.6 Bug phát hiện trên FR-04mb
+
+| Bug ID | Mô tả | Severity | Related test | Evidence |
+|---|---|---|---|---|
+| BUG-FR04MB-001 | Mobile từ chối số điện thoại hợp lệ bắt đầu bằng `0` ở biên 10 và 11 chữ số | High | FR04MB-TC-008, FR04MB-TC-009 | `docs/hw02/evidence/FR04mb/FR04MB-TC-008-phone-10digits-valid-rejected.jpg`, `docs/hw02/evidence/FR04mb/FR04MB-TC-009-phone-11digits-valid-rejected.jpg` |
+| BUG-FR04MB-002 | Mobile chấp nhận số điện thoại không bắt đầu bằng `0` | High | FR04MB-TC-011, TC-014 hỗ trợ | `docs/hw02/evidence/FR04mb/FR04MB-TC-011-phone-wrong-prefix-accepted.jpg`, `docs/hw02/evidence/FR04mb/FR04MB-TC-014-address-empty.jpg` |
+| BUG-FR04MB-003 | Địa chỉ giao hàng báo cập nhật thành công nhưng không được lưu sau logout/login lại | High | FR04MB-TC-015, FR04MB-TC-016 | `docs/hw02/evidence/FR04mb/FR04MB-TC-015-address-valid-visible.jpg`, `docs/hw02/evidence/FR04mb/FR04MB-TC-016-address-lost-after-login.jpg` |
+| BUG-FR04MB-004 | Ứng dụng cho phép cập nhật hồ sơ với họ tên rỗng | Medium | FR04MB-TC-005 | `docs/hw02/evidence/FR04mb/FR04MB-TC-005-name-empty-accepted.jpg` |
+
+Ghi chú: Thông báo lỗi phone của app ghi "9-10 chữ số", trong khi đặc tả yêu cầu 10-11 chữ số và bắt đầu bằng `0`. Điểm này được gom vào nhóm bug validation phone thay vì tách bug riêng.
 
 ## 8. Tổng hợp kết quả
 
@@ -247,8 +286,8 @@ Feature này đã được phân tích Domain/BVA nhưng chưa chạy automation
 | FR-03 | 8 | 8 | 3 | 5 | 0 | 5 |
 | FR-07 | 8 | 8 | 3 | 5 | 0 | 5 |
 | FR-16 | 10 | 10 | 4 | 6 | 0 | 6 |
-| FR-04mb | 8 | 0 | 0 | 0 | 8 | 0 |
-| Tổng | 34 | 26 | 10 | 16 | 8 | 16 |
+| FR-04mb | 20 | 19 | 14 | 5 | 1 | 4 |
+| Tổng | 46 | 45 | 24 | 21 | 1 | 20 |
 
 ## 9. Requirements Traceability Matrix và Coverage
 
@@ -265,9 +304,9 @@ Tóm tắt coverage:
 | FR-03 | Email, OTP, password policy, confirm password, step UI | Có cả happy path, invalid class và boundary password/OTP | Chưa kiểm thử hết mọi biến thể OTP như OTP của email khác |
 | FR-07 | Add product, duplicate product, quantity boundary, remove, empty cart, total label | Bắt được nhiều lỗi UI quan trọng qua localStorage/state thực tế | Chưa kiểm thử quantity lớn 99/100/101 vì UI chưa có nút +/- |
 | FR-16 | File type, header, row count, name, price, rollback, RFC 4180 | Bao phủ nhiều lớp invalid và phát hiện lỗi import dữ liệu nghiêm trọng | Chưa kiểm thử CSV rất lớn hoặc category_id không tồn tại |
-| FR-04mb | Auth state, name, phone, address, email read-only, role | Đã có phân tích Domain/BVA | Chưa có manual/mobile execution evidence |
+| FR-04mb | Auth state, name, phone boundary, address persistence, email read-only, role, logout | Có manual evidence trên iPhone/Expo Go, phát hiện 4 bug quan trọng | Chưa thực hiện TC-020 backend unavailable |
 
-Đánh giá hiện tại: bộ test cho 3 feature web/admin là ổn và có chất lượng tốt hơn mức chỉ kiểm thử happy path, vì có 26 test chạy thật và 16 bug confirmed. Tuy nhiên, để tối đa điểm, phần FR-04mb cần được bổ sung bằng kiểm thử manual/mobile có ảnh minh chứng hoặc automation bằng công cụ phù hợp hơn Playwright.
+Đánh giá hiện tại: bộ test bao phủ cả 4 feature được giao. Ba feature web/admin được chạy tự động bằng Playwright qua UI; feature mobile FR-04mb được chạy thủ công trên iPhone bằng Expo Go với ảnh minh chứng. Tổng cộng có 45 test đã thực thi và 20 bug confirmed/có evidence.
 
 ## 10. Danh sách bug confirmed
 
@@ -276,7 +315,7 @@ Tóm tắt coverage:
 | FR-03 | 5 | BUG-FR03-001 đến BUG-FR03-005 |
 | FR-07 | 5 | BUG-FR07-001 đến BUG-FR07-005 |
 | FR-16 | 6 | BUG-FR16-001 đến BUG-FR16-006 |
-| FR-04mb | 0 | Chưa có evidence automation/manual chính thức |
+| FR-04mb | 4 | BUG-FR04MB-001 đến BUG-FR04MB-004 |
 
 Chi tiết bug nằm trong `docs/hw02/bug-tracker.md`. Nội dung draft để tạo GitHub Issue nằm trong `docs/hw02/github-issues-draft.md`.
 
@@ -293,6 +332,7 @@ Trong bài HW02 này, em có sử dụng Codex/ChatGPT để hỗ trợ:
 - Đề xuất chiến lược Domain Testing/BVA cho 4 feature được giao.
 - Sinh bản nháp test case và Playwright automation cho FR-03, FR-07, FR-16.
 - Hỗ trợ chạy Playwright, phân tích kết quả fail, cập nhật bug tracker và evidence.
+- Hỗ trợ hướng dẫn chạy Expo Go, phân loại ảnh evidence manual và tổng hợp kết quả FR-04mb.
 - Hỗ trợ soạn bản nháp báo cáo Markdown.
 
 Các phần em đã trực tiếp rà soát/chỉnh sửa:
@@ -300,12 +340,13 @@ Các phần em đã trực tiếp rà soát/chỉnh sửa:
 - Chọn phạm vi UI-first, không kết luận bug trực tiếp bằng backend/API.
 - Sửa test Playwright bị sai locator/dialog.
 - Kiểm tra lại kết quả pass/fail từ Playwright report.
-- Xác nhận 16 bug dựa trên screenshot/error context.
+- Xác nhận 16 bug web/admin dựa trên Playwright screenshot/error context và 4 bug mobile dựa trên ảnh manual test.
+- Tự thực thi manual test FR-04mb trên iPhone, lưu ảnh evidence và xác nhận kết quả thực tế.
 - Loại bỏ hoặc đánh dấu Rejected các candidate không tái hiện được.
 
 Mandatory Disclosure:
 
-> Báo cáo, test case, Playwright scripts và bug tracker này được sinh phiên bản đầu với sự hỗ trợ của Codex/ChatGPT; tôi đã rà soát và chỉnh sửa phần chiến lược UI-first, test locator/dialog, mapping test case sang bug, bổ sung edge cases cho localStorage/CSV/OTP/password; phần đánh giá kết quả và kết luận bug do tôi kiểm tra lại dựa trên Playwright evidence. AI Audit Report chi tiết được ghi nhận trong `07_hw02_individual/06_ai_usage/prompt_log.md`. Tôi cam đoan không dùng AI để sinh bất kỳ artifact nào thuộc danh mục bị cấm.
+> Báo cáo, test case, Playwright scripts và bug tracker này được sinh phiên bản đầu với sự hỗ trợ của Codex/ChatGPT; tôi đã rà soát và chỉnh sửa phần chiến lược UI-first, test locator/dialog, mapping test case sang bug, bổ sung edge cases cho localStorage/CSV/OTP/password/profile mobile; phần đánh giá kết quả và kết luận bug do tôi kiểm tra lại dựa trên Playwright evidence và ảnh manual test trên iPhone. AI Audit Report chi tiết được ghi nhận trong `07_hw02_individual/06_ai_usage/prompt_log.md`. Tôi cam đoan không dùng AI để sinh bất kỳ artifact nào thuộc danh mục bị cấm.
 
 ## 13. Self-assessment
 
@@ -314,14 +355,14 @@ Mandatory Disclosure:
 | Pool A - FR-03 Domain + BVA | 25 | 23 | Có thiết kế và automation, phát hiện 5 bug |
 | Pool B - FR-07 Domain + BVA | 25 | 23 | Có thiết kế và automation, phát hiện 5 bug |
 | Pool C - FR-16 Domain + BVA | 25 | 23 | Có thiết kế và automation, phát hiện 6 bug |
-| Pool D - FR-04mb Domain + BVA | 15 | 8 | Có phân tích Domain/BVA, chưa có automation/mobile evidence |
+| Pool D - FR-04mb Domain + BVA | 15 | 14 | Có 20 test case, 19 test manual trên iPhone, phát hiện 4 bug |
 | Agent/AI workflow | 10 | 8 | Có dùng AI có kiểm soát, prompt log, commit log, evidence |
-| Tổng | 100 | 85 | Tự đánh giá đề xuất: 085 |
+| Tổng | 100 | 91 | Tự đánh giá đề xuất: 091 |
 
 Tên file nộp đề xuất:
 
 ```text
-23127001_HW02_AI_DomainTesting_085.zip
+23127001_HW02_AI_DomainTesting_091.zip
 ```
 
 ## 14. Phụ lục A - Đường dẫn artifact
@@ -334,6 +375,8 @@ Tên file nộp đề xuất:
 | Test execution notes | `07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/test-execution-notes.md` |
 | Bug tracker | `07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/bug-tracker.md` |
 | Screenshot evidence | `07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/evidence/` |
+| FR-04mb manual test cases | `07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/fr04mb-manual-test-cases.md` |
+| FR-04mb mobile evidence | `07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/evidence/FR04mb/` |
 | GitHub issue drafts | `07_hw02_individual/02_source_materials/eshop-sut/docs/hw02/github-issues-draft.md` |
 | AI prompt log | `07_hw02_individual/06_ai_usage/prompt_log.md` |
 
@@ -354,4 +397,4 @@ Tên file nộp đề xuất:
 
 ## 16. Kết luận
 
-Bài làm đã áp dụng Domain Testing và Boundary Value Analysis cho 4 feature được giao. Trong đó, 3 feature web/admin đã được tự động hóa bằng Playwright qua UI, chạy tổng cộng 26 test và xác nhận 16 bug có screenshot evidence. Feature mobile FR-04mb đã được phân tích miền đầu vào và biên, nhưng cần kiểm thử thủ công hoặc công cụ mobile automation phù hợp để hoàn thiện evidence. Qua bài này, em nhận thấy Domain Testing giúp phát hiện lỗi rõ ràng ở các miền invalid và boundary như OTP length, password policy, duplicate cart item, invalid price và rollback CSV import.
+Bài làm đã áp dụng Domain Testing và Boundary Value Analysis cho 4 feature được giao. Trong đó, 3 feature web/admin đã được tự động hóa bằng Playwright qua UI, chạy tổng cộng 26 test và xác nhận 16 bug có screenshot evidence. Feature mobile FR-04mb được kiểm thử thủ công trên iPhone bằng Expo Go, thực thi 19/20 test và xác nhận thêm 4 bug. Tổng cộng bài làm có 45 test đã chạy và 20 bug confirmed. Qua bài này, em nhận thấy Domain Testing giúp phát hiện lỗi rõ ràng ở các miền invalid và boundary như OTP length, password policy, duplicate cart item, invalid price, rollback CSV import, phone boundary trên mobile và persistence của địa chỉ giao hàng.

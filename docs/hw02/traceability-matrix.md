@@ -42,10 +42,14 @@ Tài liệu này liên kết giữa feature requirement, miền kiểm thử, te
 | FR-16 | Quoted comma theo RFC 4180 | FR16-DT-008 | `tests/fr16-product-import.spec.js` | Failed | BUG-FR16-005 | `docs/hw02/evidence/BUG-FR16-005/screenshot.png` |
 | FR-16 | Header-only CSV phải báo empty data | FR16-BVA-001 | `tests/fr16-product-import.spec.js` | Failed | BUG-FR16-006 | `docs/hw02/evidence/BUG-FR16-006/screenshot.png` |
 | FR-16 | Result report có count và reason | FR16-DT-010 | `tests/fr16-product-import.spec.js` | Passed | N/A | Playwright report |
-| FR-04mb | Profile auth state | FR04MB-DT-001 | Chưa automation | Not executed | N/A | Cần manual/mobile evidence |
-| FR-04mb | Phone 10-11 số bắt đầu bằng 0 | FR04MB-BVA-002 | Chưa automation | Not executed | N/A | Cần manual/mobile evidence |
-| FR-04mb | Email read-only | FR04MB-DT-006 | Chưa automation | Not executed | N/A | Cần manual/mobile evidence |
-| FR-04mb | Không cho user tự đổi role | FR04MB-DT-008 | Chưa automation | Not executed | N/A | Cần manual/mobile evidence |
+| FR-04mb | Profile auth state | FR04MB-TC-001, FR04MB-TC-002, FR04MB-TC-018 | Manual iPhone/Expo Go | Passed | N/A | `docs/hw02/evidence/FR04mb/FR04MB-TC-001-profile-after-login.jpg`, `docs/hw02/evidence/FR04mb/FR04MB-TC-018-logout.jpg` |
+| FR-04mb | Email read-only | FR04MB-TC-003 | Manual iPhone/Expo Go | Passed | N/A | `docs/hw02/evidence/FR04mb/FR04MB-TC-003-email-readonly.jpg` |
+| FR-04mb | Name normal/empty/boundary | FR04MB-TC-004, FR04MB-TC-005, FR04MB-TC-006 | Manual iPhone/Expo Go | Mixed | BUG-FR04MB-004 | `docs/hw02/evidence/FR04mb/FR04MB-TC-005-name-empty-accepted.jpg` |
+| FR-04mb | Phone 10-11 số bắt đầu bằng 0 | FR04MB-TC-008, FR04MB-TC-009 | Manual iPhone/Expo Go | Failed | BUG-FR04MB-001 | `docs/hw02/evidence/FR04mb/FR04MB-TC-008-phone-10digits-valid-rejected.jpg`, `docs/hw02/evidence/FR04mb/FR04MB-TC-009-phone-11digits-valid-rejected.jpg` |
+| FR-04mb | Phone dưới/vượt biên và ký tự không hợp lệ | FR04MB-TC-007, FR04MB-TC-010, FR04MB-TC-012, FR04MB-TC-013 | Manual iPhone/Expo Go | Passed | N/A | `docs/hw02/evidence/FR04mb/FR04MB-TC-007-phone-9digits-rejected.jpg`, `docs/hw02/evidence/FR04mb/FR04MB-TC-013-phone-special-chars-rejected.jpg` |
+| FR-04mb | Phone không bắt đầu bằng 0 | FR04MB-TC-011, FR04MB-TC-014 | Manual iPhone/Expo Go | Failed | BUG-FR04MB-002 | `docs/hw02/evidence/FR04mb/FR04MB-TC-011-phone-wrong-prefix-accepted.jpg`, `docs/hw02/evidence/FR04mb/FR04MB-TC-014-address-empty.jpg` |
+| FR-04mb | Address update và persistence | FR04MB-TC-015, FR04MB-TC-016 | Manual iPhone/Expo Go | Mixed | BUG-FR04MB-003 | `docs/hw02/evidence/FR04mb/FR04MB-TC-015-address-valid-visible.jpg`, `docs/hw02/evidence/FR04mb/FR04MB-TC-016-address-lost-after-login.jpg` |
+| FR-04mb | Không cho user tự đổi role | FR04MB-TC-017 | Manual iPhone/Expo Go | Passed | N/A | `docs/hw02/evidence/FR04mb/FR04MB-TC-016-address-lost-after-login.jpg` |
 
 ## 3. Coverage Summary
 
@@ -54,12 +58,12 @@ Tài liệu này liên kết giữa feature requirement, miền kiểm thử, te
 | FR-03 | 8 | 8 | 3 | 5 | 0 | 5 | Bao phủ email, OTP, password policy, confirm password, step UI |
 | FR-07 | 8 | 8 | 3 | 5 | 0 | 5 | Bao phủ add, duplicate, empty cart, remove, total, quantity boundary |
 | FR-16 | 10 | 10 | 4 | 6 | 0 | 6 | Bao phủ file type, header, row count, invalid price, rollback, RFC 4180 |
-| FR-04mb | 8 | 0 | 0 | 0 | 8 | 0 | Đã thiết kế Domain/BVA, cần bổ sung manual/mobile automation |
-| Tổng | 34 | 26 | 10 | 16 | 8 | 16 | 3 feature web/admin đã có automation và evidence |
+| FR-04mb | 20 | 19 | 14 | 5 | 1 | 4 | Manual test trên iPhone/Expo Go, bao phủ auth, email, name, phone, address, role, logout |
+| Tổng | 46 | 45 | 24 | 21 | 1 | 20 | 3 feature web/admin có automation; FR-04mb có manual evidence |
 
 ## 4. Nhận xét chất lượng bộ test
 
 - Bộ test hiện tại đủ tốt cho 3 feature web/admin vì có cả happy path, invalid classes và boundary values.
 - Số bug confirmed là 16, có screenshot evidence theo từng bug.
-- Điểm còn yếu là FR-04mb mới dừng ở thiết kế Domain/BVA, chưa có execution evidence.
-- Nếu muốn tăng điểm, bước ưu tiên tiếp theo là bổ sung evidence cho FR-04mb bằng manual test có screenshot hoặc dùng công cụ mobile automation phù hợp.
+- FR-04mb đã được bổ sung manual execution evidence trên iPhone/Expo Go, tuy chưa tự động hóa bằng mobile automation chuyên dụng.
+- Điểm còn thiếu chính là TC-020 backend unavailable chưa thực hiện và chưa có Detox/Appium cho mobile.

@@ -2,7 +2,7 @@
 
 Sinh vien: Nguyen Le Quan Anh - 23127001 - 23KTPM2
 
-Pham vi hien tai: UI-first Domain Testing bang Playwright cho FR-03, FR-07, FR-16. Backend chi duoc dung de ho tro UI chay, khong ket luan bug truc tiep bang API.
+Pham vi hien tai: UI-first Domain Testing bang Playwright cho FR-03, FR-07, FR-16 va manual UI testing tren iPhone/Expo Go cho FR-04mb. Backend chi duoc dung de ho tro UI chay, khong ket luan bug truc tiep bang API.
 
 ## 1. Quy uoc trang thai bug
 
@@ -35,6 +35,10 @@ Pham vi hien tai: UI-first Domain Testing bang Playwright cho FR-03, FR-07, FR-1
 | BUG-FR16-004 | FR-16 | FR16-DT-007 | Import product chap nhan gia khong phai so (`abc`) | High | Confirmed | `test-results/fr16-product-import-FR-16--90a58-ld-reject-non-numeric-price-chromium/` | Pending |
 | BUG-FR16-005 | FR-16 | FR16-DT-008 | CSV parser khong bao toan dau phay trong field dat trong dau nhay kep RFC 4180 | Medium | Confirmed | `test-results/fr16-product-import-FR-16--96b5e-nside-quoted-RFC-4180-field-chromium/` | Pending |
 | BUG-FR16-006 | FR-16 | FR16-BVA-001 | Header-only CSV khong hien loi "khong co du lieu/0 dong" ro rang | Medium | Confirmed | `test-results/fr16-product-import-FR-16--f1ae0-d-be-rejected-as-empty-data-chromium/` | Pending |
+| BUG-FR04MB-001 | FR-04mb | FR04MB-TC-008, FR04MB-TC-009 | Mobile tu choi so dien thoai hop le bat dau bang 0 o bien 10 va 11 chu so | High | Confirmed | `docs/hw02/evidence/FR04mb/FR04MB-TC-008-phone-10digits-valid-rejected.jpg`, `docs/hw02/evidence/FR04mb/FR04MB-TC-009-phone-11digits-valid-rejected.jpg` | Pending |
+| BUG-FR04MB-002 | FR-04mb | FR04MB-TC-011, FR04MB-TC-014 | Mobile chap nhan so dien thoai khong bat dau bang 0 | High | Confirmed | `docs/hw02/evidence/FR04mb/FR04MB-TC-011-phone-wrong-prefix-accepted.jpg`, `docs/hw02/evidence/FR04mb/FR04MB-TC-014-address-empty.jpg` | Pending |
+| BUG-FR04MB-003 | FR-04mb | FR04MB-TC-015, FR04MB-TC-016 | Dia chi giao hang bao cap nhat thanh cong nhung khong duoc luu sau logout/login lai | High | Confirmed | `docs/hw02/evidence/FR04mb/FR04MB-TC-015-address-valid-visible.jpg`, `docs/hw02/evidence/FR04mb/FR04MB-TC-016-address-lost-after-login.jpg` | Pending |
+| BUG-FR04MB-004 | FR-04mb | FR04MB-TC-005 | Ung dung cho phep cap nhat ho so voi ho ten rong | Medium | Confirmed | `docs/hw02/evidence/FR04mb/FR04MB-TC-005-name-empty-accepted.jpg` | Pending |
 
 ## 3. Candidate / Rejected
 
@@ -44,7 +48,7 @@ Pham vi hien tai: UI-first Domain Testing bang Playwright cho FR-03, FR-07, FR-1
 | BUG-FR03-R02 | FR-03 | FR03-UI-002 | Buoc 1 thieu nut quay lai dang nhap | Low | Rejected | Playwright pass: header/nav co link dang nhap | N/A |
 | BUG-FR16-R01 | FR-16 | FR16-DT-002 | Admin import chap nhan file khong phai `.csv` | Medium | Rejected | Playwright pass: UI reject file `.txt` | N/A |
 | BUG-FR16-R02 | FR-16 | FR16-DT-003 | Admin import chap nhan CSV thieu header bat buoc | Medium | Rejected | Playwright pass: UI reject missing `price` header | N/A |
-| BUG-FR04MB-001 | FR-04mb | FR04MB-DT-003, FR04MB-BVA-002 | Mobile profile can duoc kiem thu manual/code evidence rieng | TBD | Candidate | Chua chay mobile UI automation trong buoc nay | Pending |
+| BUG-FR04MB-R01 | FR-04mb | FR04MB-TC-020 | Backend unavailable tren mobile | Low | Rejected/Deferred | Chua thuc hien de tranh gian doan test session; khong anh huong cac bug domain chinh | N/A |
 
 ## 4. Ghi chu evidence
 
