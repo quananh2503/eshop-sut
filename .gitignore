@@ -3,17 +3,10 @@ frontend-admin/node_modules/
 frontend-web/node_modules/
 frontend-mobile/node_modules/
 
-# HW05 runtime files and generated evidence
+# HW05 runtime secrets
 hw05/data/runtime-auth.properties
-hw05/results/jtl/*.jtl
-hw05/results/html/*
-hw05/results/analysis/*
-!hw05/results/jtl/.gitkeep
-!hw05/results/html/.gitkeep
-!hw05/results/analysis/.gitkeep
 hw05/build/
 
 # Local editor and OS files
 .DS_Store
 *.log
-
