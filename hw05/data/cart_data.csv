@@ -1,0 +1,6 @@
+case_id,product_id,product_name,price,quantity
+CART-001,1,iPhone 15 Pro Max,30000000,1
+CART-002,2,Samsung Galaxy S24 Ultra,28000000,1
+CART-003,3,MacBook Pro M3,45000000,2
+CART-004,4,Tai nghe AirPods Pro 2,6000000,1
+CART-005,5,Ban phim co Keychron Q1,4000000,2
