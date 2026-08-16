@@ -107,10 +107,15 @@ giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có t
 
 ### AI-07 — Phân tích raw JTL chính thức
 
-- Ngày/giờ: `PENDING_REAL_EXECUTION`.
-- Prompt nguyên văn: `PENDING_STUDENT_PROMPT_WITH_REAL_JTL`.
-- Output nguyên văn AI: `PENDING_REAL_AI_OUTPUT`.
-- Human review/misinterpretation: `PENDING_COMPARE_WITH_RAW_JTL`.
+- Ngày/giờ: 16/08/2026, sau Load kết thúc lúc 14:49:22 UTC.
+- Prompt/ngữ cảnh của sinh viên: xác nhận đã chạy xong nhưng chưa quay video;
+  yêu cầu tiếp tục hoàn thành các task trước, video tổng kết quay sau.
+- Output AI từ script deterministic: 1.940 samples; 0 failure; throughput
+  16,796 req/s; average 24,713 ms; p95 55 ms; p99 66 ms; max 72 ms.
+- Human review: đối chiếu summary terminal, raw JTL và hai screenshot. Ảnh steady
+  thấy Node khoảng 7,3% CPU/69.498 KiB RES nhưng chỉ là snapshot, không gọi là
+  peak hoặc hardware threshold. Interaction phân tích AI/misinterpretation hunt
+  riêng vẫn chờ đủ ba JTL.
 
 ### AI-08 — Đề xuất tối ưu và feasibility review
 
@@ -142,4 +147,3 @@ ra và lỗi đọc metric thực sự trong AI-07; không bịa misinterpretati
 > hoàn tất review cuối: `PENDING_STUDENT_FINAL_REVIEW`. Raw JTL, HTML report,
 > screenshot, hardware evidence, GitHub Issue, giọng nói và video không được AI
 > tạo hoặc giả mạo.
-

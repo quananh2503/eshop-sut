@@ -12,7 +12,7 @@
 | Phiên bản đề | **Version 1.0** |
 | SUT | EShop backend API local |
 | Công cụ | Apache JMeter 5.6.3; htop 3.3.0; OpenAI Codex |
-| Thời gian thực thi chính thức | `PENDING_REAL_EXECUTION` |
+| Thời gian thực thi chính thức | Load: 16/08/2026 14:47:22–14:49:22 UTC; các run còn lại PENDING |
 
 ## 2. Tóm tắt điều hành
 
@@ -21,7 +21,7 @@ evidence. Không suy diễn threshold trước khi chạy.
 
 | Scenario | Endpoint | Samples | Throughput | p95 | Error rate | Kết luận |
 |---|---|---:|---:|---:|---:|---|
-| Load | `GET /api/users/me` | PENDING | PENDING | PENDING | PENDING | PENDING |
+| Load | `GET /api/users/me` | 1.940 | 16,796 req/s | 55 ms | 0% | Ổn định ở cấu hình 20 threads; chưa phải hardware threshold |
 | Stress | `POST /api/cart` | PENDING | PENDING | PENDING | PENDING | PENDING |
 | Spike | `POST /api/forgot-password` | PENDING | PENDING | PENDING | PENDING | PENDING |
 
@@ -67,14 +67,16 @@ sửa hoặc `npm audit fix`.
 | Thành phần | Giá trị |
 |---|---|
 | Hostname | `DESKTOP-L0U0JQ4` |
-| CPU vật lý | PENDING_DXDIAG |
-| RAM vật lý | PENDING_DXDIAG |
+| Máy | Dell Vostro 3590; Windows 11 Home Single Language 64-bit |
+| CPU vật lý | Intel Core i5-10210U @ 1.60 GHz; 4 cores, 8 logical processors |
+| RAM vật lý | 16 GB DDR4, 2667 MT/s, 2/2 slots used |
 | WSL CPU nhìn thấy | 2 logical CPU |
 | WSL RAM nhìn thấy | 7.7 GiB |
 | WSL swap | 4.0 GiB |
-| Storage | PENDING_DXDIAG |
+| WSL virtual filesystem | 1.007 TB total; 940 GB available tại thời điểm thu evidence |
 
-Evidence: `PENDING_HARDWARE_SCREENSHOT`.
+Evidence: `evidence/hardware/dxdiag.png`, `cpu.png`, `memory.png` và
+`wsl_environment.txt`. Hostname `DESKTOP-L0U0JQ4` khớp evidence HW04.
 
 ## 5. AI-assisted test design và Human Review
 
@@ -117,11 +119,19 @@ CLI và sinh HTML dashboard từ raw JTL.
 
 ### 7.1 Load — FR-04mb profile read
 
-- Lệnh/timestamp: `PENDING_REAL_EXECUTION`
+- Lệnh: `./scripts/run_scenario.sh load`
+- Timestamp JMeter: 16/08/2026 14:47:22–14:49:22 UTC
 - JTL: `results/jtl/23127001_Load_20260816.jtl`
 - HTML: `results/html/23127001_Load_20260816/`
-- Screenshot: `PENDING_LOAD_SCREENSHOT`
-- Kết quả và diễn giải: `PENDING_REAL_EXECUTION`
+- Screenshot: `evidence/load/load_runtime_steady.png` và
+  `load_cli_final_summary.png`; JMeter CLI và htop cùng frame.
+- Kết quả raw JTL: 1.940 samples, 0 failure, 0% error, average 24,713 ms,
+  p95 55 ms, p99 66 ms, max 72 ms và throughput 16,796 req/s trên cửa sổ
+  sample 115,501 giây.
+- Resource tại ảnh steady: process `node server.js` khoảng 7,3% CPU, 0,9% MEM
+  và RES 69.498 KiB; đây là một snapshot, không được diễn giải là peak.
+- Kết luận: workload Load mặc định ổn định trên profile này nhưng chưa chứng
+  minh giới hạn phần cứng. Threshold chỉ kết luận sau Stress/Endurance.
 
 ### 7.2 Stress — FR-07 add to cart
 
@@ -251,4 +261,3 @@ xảy ra, gồm CSV blank record và ít nhất một misinterpretation từ Tas
 
 Đề ghi hàng Total là 100 dù sáu tiêu chí cộng thành 90. Báo cáo không tự thêm
 tiêu chí; chờ xác nhận TA trước khi đặt `<SelfAssessedGrade>` trong tên ZIP.
-
