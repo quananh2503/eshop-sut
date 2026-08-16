@@ -55,6 +55,25 @@ git -C /home/quananh/hw05/eshop-sut branch --show-current
 
 Expected: `quananh`, `DESKTOP-L0U0JQ4`, branch `hw05-ai-performance-v1`.
 
+### 1.5. Cô lập trạng thái trước từng scenario
+
+Không chạy bốn scenario liên tiếp trên cùng một backend process. Stress
+`POST /api/cart` làm mảng cart trong RAM tăng lên; nếu giữ process đó thì CPU/RAM
+baseline của Spike/Endurance bị nhiễu.
+
+Trước **Load, Stress, Spike và Endurance**, lặp đúng quy trình:
+
+1. Nếu backend cũ đang chạy, nhấn `Ctrl+C` ở Terminal A.
+2. Chỉ restart sau khi đã chụp final summary/resource của run trước.
+3. Chạy lại `node server.js` và chờ đủ ba dòng startup.
+4. Chạy lại `node scripts/prepare_test_data.js` ở Terminal B.
+5. Chạy lại `htop -p "$(pgrep -n node)"` vì PID Node đã thay đổi.
+6. Xác nhận CPU/RES đã trở về baseline rồi mới bắt đầu scenario mới.
+
+Việc restart này phải ghi trong video/report: source tự reset database và cart
+in-memory được làm sạch để mỗi scenario độc lập. Không restart giữa một run để
+che crash/error.
+
 ## 2. Load — khoảng 2 phút
 
 ### 2.1. Quay cấu hình trước run
@@ -220,4 +239,3 @@ Video cuối nên 8–10 phút:
 - Kết luận endurance threshold sau khi có run thật.
 
 Không quay JWT, không dùng giọng AI, không đọc metric chưa có evidence.
-
