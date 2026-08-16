@@ -1,0 +1,78 @@
+{
+  "overall": {
+    "samples": 54311,
+    "failures": 0,
+    "error_rate_percent": 0.0,
+    "average_ms": 5.575,
+    "min_ms": 1.0,
+    "p50_ms": 4.0,
+    "p90_ms": 12.0,
+    "p95_ms": 16.0,
+    "p99_ms": 28.0,
+    "max_ms": 88.0,
+    "duration_seconds": 239.737,
+    "throughput_rps": 226.544
+  },
+  "by_label": {
+    "FR07-CART-ADD CART-001": {
+      "samples": 10861,
+      "failures": 0,
+      "error_rate_percent": 0.0,
+      "average_ms": 5.539,
+      "min_ms": 1.0,
+      "p50_ms": 4.0,
+      "p90_ms": 11.0,
+      "p95_ms": 16.0,
+      "p99_ms": 28.0,
+      "max_ms": 68.0
+    },
+    "FR07-CART-ADD CART-002": {
+      "samples": 10861,
+      "failures": 0,
+      "error_rate_percent": 0.0,
+      "average_ms": 5.578,
+      "min_ms": 1.0,
+      "p50_ms": 4.0,
+      "p90_ms": 12.0,
+      "p95_ms": 16.0,
+      "p99_ms": 28.0,
+      "max_ms": 78.0
+    },
+    "FR07-CART-ADD CART-003": {
+      "samples": 10862,
+      "failures": 0,
+      "error_rate_percent": 0.0,
+      "average_ms": 5.578,
+      "min_ms": 1.0,
+      "p50_ms": 4.0,
+      "p90_ms": 12.0,
+      "p95_ms": 15.0,
+      "p99_ms": 27.0,
+      "max_ms": 83.0
+    },
+    "FR07-CART-ADD CART-004": {
+      "samples": 10863,
+      "failures": 0,
+      "error_rate_percent": 0.0,
+      "average_ms": 5.606,
+      "min_ms": 1.0,
+      "p50_ms": 4.0,
+      "p90_ms": 12.0,
+      "p95_ms": 16.0,
+      "p99_ms": 28.0,
+      "max_ms": 88.0
+    },
+    "FR07-CART-ADD CART-005": {
+      "samples": 10864,
+      "failures": 0,
+      "error_rate_percent": 0.0,
+      "average_ms": 5.573,
+      "min_ms": 1.0,
+      "p50_ms": 4.0,
+      "p90_ms": 12.0,
+      "p95_ms": 16.0,
+      "p99_ms": 27.37,
+      "max_ms": 73.0
+    }
+  }
+}
