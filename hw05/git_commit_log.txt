@@ -1,0 +1,9 @@
+82be61ce23bb43b87e24ec03b9cd9d4132cd7ef6 | 2026-08-16T12:35:32+00:00 | Quan Anh | docs(hw05): record attributable WSL environment
+a3800beda46f5c75b5d206114c4346114c7387cf | 2026-08-16T12:35:32+00:00 | Quan Anh | docs(hw05): add truthful AI reporting templates
+49a9ab4aac38cbce7bb9dea0c0a4db863aa3dcbc | 2026-08-16T12:35:31+00:00 | Quan Anh | docs(hw05): add report and video evidence templates
+fd7f5d6b5087e73756b40198942a6662a43299fb | 2026-08-16T12:35:31+00:00 | Quan Anh | feat(hw05): add jmeter performance evidence skill
+6dfcb4a6f5ecea8457b594cd0e6c96fff95968dc | 2026-08-16T12:35:31+00:00 | Quan Anh | test(hw05): add reproducible runners and evidence audits
+d36c68bc52e7fb983f2f3be50e8efbb240047416 | 2026-08-16T12:35:30+00:00 | Quan Anh | test(hw05): add auth-heavy forgot-password spike plan
+19935a1c2115b5fa0ec8561994a15a9307f1e4a0 | 2026-08-16T12:35:30+00:00 | Quan Anh | test(hw05): add transactional cart stress plan
+e8f56fdb2f035574b3c6e91e55c2dba6b5338949 | 2026-08-16T12:35:30+00:00 | Quan Anh | test(hw05): add read-heavy load profile plan
+c23fc243e016e835d66ec853f64c4b0df74758e4 | 2026-08-16T12:35:29+00:00 | Quan Anh | chore(hw05): scaffold version 1 performance submission
