@@ -1,0 +1,57 @@
+{
+  "origin_ms": 1786893403369,
+  "phase_rule": "Phase is assigned by sample start timestamp relative to JMeter test start; optional guard bands exclude ramp and queue-drain transitions.",
+  "phases": {
+    "baseline": {
+      "samples": 200,
+      "failures": 0,
+      "error_rate_percent": 0.0,
+      "average_ms": 28.1,
+      "min_ms": 10.0,
+      "p50_ms": 27.0,
+      "p90_ms": 42.1,
+      "p95_ms": 49.0,
+      "p99_ms": 66.0,
+      "max_ms": 102.0,
+      "duration_seconds": 44.156,
+      "throughput_rps": 4.529,
+      "window_start_seconds": 5.0,
+      "window_end_seconds": 50.0,
+      "window_throughput_rps": 4.444
+    },
+    "spike": {
+      "samples": 2114,
+      "failures": 0,
+      "error_rate_percent": 0.0,
+      "average_ms": 1163.789,
+      "min_ms": 433.0,
+      "p50_ms": 1139.5,
+      "p90_ms": 1418.0,
+      "p95_ms": 1497.0,
+      "p99_ms": 1703.87,
+      "max_ms": 8539.0,
+      "duration_seconds": 25.969,
+      "throughput_rps": 81.405,
+      "window_start_seconds": 60.0,
+      "window_end_seconds": 90.0,
+      "window_throughput_rps": 70.467
+    },
+    "recovery": {
+      "samples": 195,
+      "failures": 0,
+      "error_rate_percent": 0.0,
+      "average_ms": 26.862,
+      "min_ms": 9.0,
+      "p50_ms": 23.0,
+      "p90_ms": 37.2,
+      "p95_ms": 56.6,
+      "p99_ms": 111.78,
+      "max_ms": 138.0,
+      "duration_seconds": 42.793,
+      "throughput_rps": 4.557,
+      "window_start_seconds": 100.0,
+      "window_end_seconds": 145.0,
+      "window_throughput_rps": 4.333
+    }
+  }
+}

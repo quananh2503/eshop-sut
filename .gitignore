@@ -10,3 +10,5 @@ hw05/build/
 # Local editor and OS files
 .DS_Store
 *.log
+__pycache__/
+*.pyc
