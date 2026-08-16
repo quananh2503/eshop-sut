@@ -1,3 +1,5 @@
+9e7e6494a01aa9f126cfda6a91d25a5745099e69 | 2026-08-16T12:39:55+00:00 | Quan Anh | docs(hw05): add timed execution and recording runbook
+e137e330b1db1a7403140dc3dd291755903ee7cb | 2026-08-16T12:35:37+00:00 | Quan Anh | docs(hw05): attach procedural git commit log
 82be61ce23bb43b87e24ec03b9cd9d4132cd7ef6 | 2026-08-16T12:35:32+00:00 | Quan Anh | docs(hw05): record attributable WSL environment
 a3800beda46f5c75b5d206114c4346114c7387cf | 2026-08-16T12:35:32+00:00 | Quan Anh | docs(hw05): add truthful AI reporting templates
 49a9ab4aac38cbce7bb9dea0c0a4db863aa3dcbc | 2026-08-16T12:35:31+00:00 | Quan Anh | docs(hw05): add report and video evidence templates
