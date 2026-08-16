@@ -21,3 +21,4 @@
 - [ ] Video có timeline demo Agent Skill.
 - [ ] `python3 scripts/audit_submission.py --phase final` đạt 0 lỗi.
 
+Hướng dẫn thao tác theo phút: `report/execution-recording-runbook.md`.
