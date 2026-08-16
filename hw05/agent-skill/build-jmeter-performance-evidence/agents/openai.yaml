@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build JMeter Performance Evidence"
+  short_description: "Build and audit reproducible JMeter evidence"
+  default_prompt: "Use $build-jmeter-performance-evidence to design, run, and audit a JMeter performance-testing workflow."
