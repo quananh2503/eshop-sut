@@ -1,0 +1,66 @@
+{
+  "overall": {
+    "samples": 2814,
+    "failures": 0,
+    "error_rate_percent": 0.0,
+    "average_ms": 989.965,
+    "min_ms": 9.0,
+    "p50_ms": 1073.5,
+    "p90_ms": 1409.0,
+    "p95_ms": 1530.0,
+    "p99_ms": 3414.99,
+    "max_ms": 9403.0,
+    "duration_seconds": 148.752,
+    "throughput_rps": 18.917
+  },
+  "by_label": {
+    "FR03-FORGOT-BASELINE FORGOT-ADMIN-001": {
+      "samples": 283,
+      "failures": 0,
+      "error_rate_percent": 0.0,
+      "average_ms": 210.028,
+      "min_ms": 10.0,
+      "p50_ms": 29.0,
+      "p90_ms": 516.8,
+      "p95_ms": 1107.7,
+      "p99_ms": 2467.2,
+      "max_ms": 8539.0
+    },
+    "FR03-FORGOT-BASELINE FORGOT-USER-001": {
+      "samples": 284,
+      "failures": 0,
+      "error_rate_percent": 0.0,
+      "average_ms": 140.158,
+      "min_ms": 9.0,
+      "p50_ms": 28.5,
+      "p90_ms": 680.1,
+      "p95_ms": 1093.0,
+      "p99_ms": 1361.24,
+      "max_ms": 1487.0
+    },
+    "FR03-FORGOT-SPIKE FORGOT-ADMIN-001": {
+      "samples": 1124,
+      "failures": 0,
+      "error_rate_percent": 0.0,
+      "average_ms": 1197.405,
+      "min_ms": 44.0,
+      "p50_ms": 1133.0,
+      "p90_ms": 1425.4,
+      "p95_ms": 1552.1,
+      "p99_ms": 4234.74,
+      "max_ms": 9403.0
+    },
+    "FR03-FORGOT-SPIKE FORGOT-USER-001": {
+      "samples": 1123,
+      "failures": 0,
+      "error_rate_percent": 0.0,
+      "average_ms": 1193.798,
+      "min_ms": 36.0,
+      "p50_ms": 1137.0,
+      "p90_ms": 1425.8,
+      "p95_ms": 1590.9,
+      "p99_ms": 3898.62,
+      "max_ms": 9146.0
+    }
+  }
+}
