@@ -1,0 +1,34 @@
+{
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 61478,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 17.25109795373931,
+    "medianResTime" : 15.0,
+    "minResTime" : 1.0,
+    "maxResTime" : 130.0,
+    "pct1ResTime" : 32.0,
+    "pct2ResTime" : 40.0,
+    "pct3ResTime" : 50.0,
+    "throughput" : 68.38951252532152,
+    "receivedKBytesPerSec" : 30.187558263130203,
+    "sentKBytesPerSec" : 20.837429597558902
+  },
+  "FR04-PROFILE-READ PROFILE-USER-001" : {
+    "transaction" : "FR04-PROFILE-READ PROFILE-USER-001",
+    "sampleCount" : 61478,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 17.25109795373931,
+    "medianResTime" : 15.0,
+    "minResTime" : 1.0,
+    "maxResTime" : 130.0,
+    "pct1ResTime" : 32.0,
+    "pct2ResTime" : 40.0,
+    "pct3ResTime" : 50.0,
+    "throughput" : 68.38951252532152,
+    "receivedKBytesPerSec" : 30.187558263130203,
+    "sentKBytesPerSec" : 20.837429597558902
+  }
+}

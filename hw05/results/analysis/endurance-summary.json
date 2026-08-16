@@ -1,0 +1,30 @@
+{
+  "overall": {
+    "samples": 61478,
+    "failures": 0,
+    "error_rate_percent": 0.0,
+    "average_ms": 17.251,
+    "min_ms": 1.0,
+    "p50_ms": 15.0,
+    "p90_ms": 33.0,
+    "p95_ms": 40.0,
+    "p99_ms": 53.0,
+    "max_ms": 130.0,
+    "duration_seconds": 898.928,
+    "throughput_rps": 68.39
+  },
+  "by_label": {
+    "FR04-PROFILE-READ PROFILE-USER-001": {
+      "samples": 61478,
+      "failures": 0,
+      "error_rate_percent": 0.0,
+      "average_ms": 17.251,
+      "min_ms": 1.0,
+      "p50_ms": 15.0,
+      "p90_ms": 33.0,
+      "p95_ms": 40.0,
+      "p99_ms": 53.0,
+      "max_ms": 130.0
+    }
+  }
+}
