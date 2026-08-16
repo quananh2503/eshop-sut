@@ -1,0 +1,58 @@
+{
+  "origin_ms": 1786893874017,
+  "ramp_seconds_excluded": 60.0,
+  "phase_rule": "Equal steady windows by sample start timestamp; ramp excluded.",
+  "windows": {
+    "steady_1": {
+      "samples": 19668,
+      "failures": 0,
+      "error_rate_percent": 0.0,
+      "average_ms": 20.977,
+      "min_ms": 1.0,
+      "p50_ms": 18.0,
+      "p90_ms": 39.0,
+      "p95_ms": 44.0,
+      "p99_ms": 62.0,
+      "max_ms": 130.0,
+      "duration_seconds": 276.393,
+      "throughput_rps": 71.16,
+      "window_start_seconds": 60.0,
+      "window_end_seconds": 340.0,
+      "window_throughput_rps": 70.243
+    },
+    "steady_2": {
+      "samples": 19809,
+      "failures": 0,
+      "error_rate_percent": 0.0,
+      "average_ms": 14.233,
+      "min_ms": 1.0,
+      "p50_ms": 12.0,
+      "p90_ms": 27.0,
+      "p95_ms": 32.0,
+      "p99_ms": 40.0,
+      "max_ms": 69.0,
+      "duration_seconds": 279.928,
+      "throughput_rps": 70.765,
+      "window_start_seconds": 340.0,
+      "window_end_seconds": 620.0,
+      "window_throughput_rps": 70.746
+    },
+    "steady_3": {
+      "samples": 19727,
+      "failures": 0,
+      "error_rate_percent": 0.0,
+      "average_ms": 17.569,
+      "min_ms": 2.0,
+      "p50_ms": 15.0,
+      "p90_ms": 32.0,
+      "p95_ms": 40.0,
+      "p99_ms": 50.0,
+      "max_ms": 69.0,
+      "duration_seconds": 279.935,
+      "throughput_rps": 70.47,
+      "window_start_seconds": 620.0,
+      "window_end_seconds": 900.0,
+      "window_throughput_rps": 70.454
+    }
+  }
+}
