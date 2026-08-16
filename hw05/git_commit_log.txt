@@ -1,3 +1,5 @@
+84cacbb68032097a62680eba9d81f1875d624645 | 2026-08-16T12:40:18+00:00 | Quan Anh | docs(hw05): isolate backend state between scenarios
+2b87ca69ffe7689b1ed13b759662cee1a47d835d | 2026-08-16T12:39:55+00:00 | Quan Anh | docs(hw05): refresh procedural commit log
 9e7e6494a01aa9f126cfda6a91d25a5745099e69 | 2026-08-16T12:39:55+00:00 | Quan Anh | docs(hw05): add timed execution and recording runbook
 e137e330b1db1a7403140dc3dd291755903ee7cb | 2026-08-16T12:35:37+00:00 | Quan Anh | docs(hw05): attach procedural git commit log
 82be61ce23bb43b87e24ec03b9cd9d4132cd7ef6 | 2026-08-16T12:35:32+00:00 | Quan Anh | docs(hw05): record attributable WSL environment
