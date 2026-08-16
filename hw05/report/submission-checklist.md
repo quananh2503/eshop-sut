@@ -5,12 +5,12 @@
 - [x] Ba `.jmx` đúng convention.
 - [x] Ba CSV riêng, không có blank record.
 - [x] Ba raw JTL chính thức và HTML dashboard.
-- [ ] Endurance JTL/HTML/evidence 10–15 phút.
+- [x] Endurance JTL/HTML/evidence 15 phút.
 - [x] Screenshot JMeter/resource monitor cùng frame cho Load/Stress/Spike.
 - [x] dxdiag/hardware screenshot và spec table.
 - [ ] Main report Markdown/PDF không còn `PENDING`.
 - [ ] AI Audit Markdown/PDF có prompt và output thật.
-- [ ] AI Critique 200–300 từ.
+- [x] AI Critique 200–300 từ.
 - [ ] Disclosure Markdown/PDF.
 - [ ] Privacy Checklist Markdown/PDF.
 - [ ] Git commit log.

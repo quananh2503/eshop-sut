@@ -140,12 +140,37 @@ giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có t
   spike p95 1.497 ms và recovery p95 56,6 ms. Kết luận latency degradation
   khoảng 30,6 lần và có recovery; không gọi 0 HTTP error là “không ảnh hưởng”.
 
-### AI-10 — Đề xuất tối ưu và feasibility review
+### AI-10 — Endurance và maximum verified stable point
 
-- Ngày/giờ: `PENDING_AFTER_AI_09`.
-- Prompt nguyên văn: `PENDING`.
-- Output nguyên văn AI: `PENDING`.
-- Human review dựa trên source: `PENDING`.
+- Ngày/giờ: 16/08/2026, sau Endurance kết thúc lúc 15:39:34 UTC.
+- Prompt của sinh viên: cung cấp toàn bộ terminal log và yêu cầu “rồi á làm
+  tiếp đi”; năm screenshot thật đã được đặt trong thư mục evidence.
+- Output AI: 61.478 samples, 0 lỗi, overall 68,390 req/s, p95 40 ms. Ba steady
+  window sau ramp đạt 70,243/70,746/70,454 req/s và p95 44/32/40 ms.
+- Human review: Node RES ở ảnh đầu khoảng 99,4 MiB rồi giữ khoảng 101 MiB tại
+  phút 5/10/14/final. Kết luận là maximum **verified** stable point 80 threads,
+  ít nhất 70,243 req/s; không gọi đây là hardware maximum vì CPU chưa bão hòa.
+
+### AI-11 — Misinterpretation hunt
+
+- Output AI ban đầu: window Spike 0–60 s được gọi là baseline và báo average
+  670,14 ms, p95 4.284,8 ms, max 9.403 ms.
+- Human review: sample bắt đầu sát giây 60 hoàn tất khi spike đã gây queue, nên
+  window bị transition contamination. Guard band 5–50 s cho baseline đúng:
+  average 28,1 ms, p95 49 ms, max 102 ms.
+- Output AI ban đầu khác: có xu hướng gọi ceiling Stress 80 threads là breaking
+  point. Raw JTL đúng là 54.311 samples, 0 lỗi, p95 16 ms; chưa có breaking.
+
+### AI-12 — Đề xuất tối ưu và feasibility review
+
+- Ngày/giờ: 16/08/2026, sau khi đủ bốn JTL.
+- Prompt: phân tích metric thật, đề xuất index/pool/WAL/rate-limit/cache và đối
+  chiếu từng đề xuất với source EShop thay vì chấp nhận chung chung.
+- Output AI: đề xuất index email, WAL/busy timeout, rate limiting, connection
+  pool và cache.
+- Human review dựa trên source: index, WAL/busy timeout, rate-limit là feasible
+  có điều kiện; connection pool kiểu PostgreSQL không được source hỗ trợ và
+  không giải quyết SQLite single-writer; cache reset-token phá semantics.
 
 ## 4. Artifact attribution
 
@@ -160,8 +185,28 @@ giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có t
 
 ## 5. AI Critique — 200–300 từ
 
-`PENDING_AFTER_REAL_AI_ANALYSIS`. Bản cuối phải nêu lỗi CSV blank record đã xảy
-ra và lỗi đọc metric thực sự trong AI-07; không bịa misinterpretation.
+AI giúp rút ngắn đáng kể thời gian đọc đề, truy vết API, tạo JMX/CSV và tổng hợp
+JTL, nhưng đầu ra ban đầu không thể dùng trực tiếp. Lỗi rõ nhất nằm ở dữ liệu
+CSV do AI tạo: record rỗng cuối file khiến JMeter đọc email rỗng và tạo một
+Spike smoke 404 giả. Nếu chỉ nhìn error rate, lỗi test-data này rất dễ bị gán
+nhầm cho SUT. Human review đã kiểm tra label và request, xóa record rỗng, rồi
+chạy lại cả ba smoke test với 0 lỗi.
+
+AI cũng diễn giải sai cửa sổ Spike đầu tiên. Phép chia ngây thơ 0–60 giây báo
+“baseline” average 670,14 ms, p95 4.284,8 ms và max 9.403 ms. Các request bắt
+đầu sát giây 60 thực tế hoàn tất trong lúc 100 spike users tranh chấp SQLite,
+nên cửa sổ đó bị nhiễm transition. Sau review, baseline steady được giới hạn
+5–50 giây và cho average 28,1 ms, p95 49 ms, max 102 ms; spike p95 là 1.497 ms
+và recovery p95 là 56,6 ms. AI còn có xu hướng gọi 80 threads là breaking
+point chỉ vì đó là ceiling của plan, trong khi Stress JTL có 0 lỗi và p95 16
+ms. Kết luận đã sửa thành “chưa quan sát breaking point”.
+
+Cuối cùng, các đề xuất tối ưu chỉ được chấp nhận sau khi đối chiếu source.
+Index email, WAL/busy-timeout và rate limiting là khả thi có điều kiện; connection
+pool kiểu PostgreSQL và cache reset-token không phù hợp với SQLite/semantics
+hiện tại. Vì vậy AI hữu ích nhất ở vai trò tạo giả thuyết và tự động hóa phép
+tính, còn phân loại dữ liệu, ranh giới pha và quyết định kỹ thuật vẫn cần người
+review chịu trách nhiệm.
 
 ## 6. Mandatory Disclosure
 

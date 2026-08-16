@@ -9,7 +9,7 @@
 | Họ tên | Nguyễn Lê Quan Anh |
 | MSSV | 23127001 |
 | Lớp | 23KTPM2 |
-| Ngày | `PENDING_SUBMISSION_DATE` |
+| Ngày | 16/08/2026 |
 
 ## 2. Công cụ AI
 
@@ -23,7 +23,7 @@
 - [x] Outline và test design.
 - [x] Sinh code/JMX/CSV/script.
 - [x] Review và sửa testware.
-- [ ] Phân tích raw results chính thức — chờ run thật.
+- [x] Phân tích raw results chính thức.
 - [x] Viết nháp báo cáo.
 - [x] Tạo Agent Skill.
 
@@ -43,10 +43,10 @@ giọng nói hoặc số liệu performance chưa đo.
 - Parse XML của ba JMX.
 - Smoke-test cực nhỏ; phát hiện và sửa CSV blank record.
 - Chạy `scripts/audit_submission.py` và Agent Skill audit.
-- `PENDING_FINAL`: đối chiếu summary với raw JTL/HTML/resource evidence.
+- Đối chiếu summary với bốn raw JTL, HTML dashboard và resource evidence;
+  chạy testware/build audit với 0 failure.
 
 ## 6. Cam đoan
 
 Tôi cam đoan khai báo đầy đủ việc sử dụng AI và chịu trách nhiệm cuối cùng về
 bài nộp. Chữ ký/ngày: `PENDING_STUDENT_SIGNATURE`.
-

@@ -18,11 +18,11 @@
 
 ## Trước khi nộp
 
-- [ ] Ba raw JTL và HTML dashboard được JMeter tạo từ run thật.
-- [ ] Screenshot có JMeter/resource monitor cùng frame.
-- [ ] Hardware evidence/hostname đúng máy sinh viên.
-- [ ] AI analysis được kiểm tra lại bằng raw JTL.
-- [ ] AI Critique đủ 200–300 từ và dựa trên sự kiện thật.
+- [x] Ba raw JTL và HTML dashboard được JMeter tạo từ run thật.
+- [x] Screenshot có JMeter/resource monitor cùng frame.
+- [x] Hardware evidence/hostname đúng máy sinh viên.
+- [x] AI analysis được kiểm tra lại bằng raw JTL.
+- [x] AI Critique đủ 200–300 từ và dựa trên sự kiện thật.
 - [ ] AI Audit không còn placeholder.
 - [ ] Video là giọng thật của sinh viên.
 - [ ] Script final audit đạt 0 lỗi.
@@ -32,4 +32,3 @@
 
 Trách nhiệm cuối cùng về độ chính xác, tính nguyên bản và liêm chính thuộc về
 sinh viên. Chữ ký/ngày: `PENDING_STUDENT_SIGNATURE`.
-

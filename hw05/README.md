@@ -2,8 +2,8 @@
 
 Sinh viên: **Nguyễn Lê Quan Anh — 23127001 — 23KTPM2 — Nhóm 07**
 
-> Trạng thái: testware đang được chuẩn bị. Mọi metric, screenshot, `.jtl`,
-> HTML dashboard và video chỉ được điền sau khi thực thi thật.
+> Trạng thái: Load, Stress, Spike và Endurance đã thực thi thật; báo cáo/video
+> cuối và GitHub Issue link đang được hoàn thiện.
 
 ## Phiên bản và phạm vi
 
@@ -98,13 +98,16 @@ python3 scripts/summarize_jtl.py results/jtl/23127001_Load_20260816.jtl \
   breaking point tại ceiling 80 threads.
 - Spike: 2.814 samples, 0% lỗi; p95 tăng từ 49 ms baseline lên 1.497 ms ở
   spike và recovery về 56,6 ms.
-- Raw JTL, HTML dashboard và screenshot thật của ba scenario chính nằm trong
-  `results/` và `evidence/`; Endurance vẫn chờ thực thi.
+- Endurance 15 phút: 61.478 samples, 0% lỗi; ba steady window đạt
+  70,243/70,746/70,454 req/s, p95 44/32/40 ms; Node RES snapshot giữ khoảng
+  101 MiB.
+- Maximum verified stable point: 80 threads và ít nhất 70,243 req/s steady.
+  Đây là lower bound đã đo, không phải hardware maximum.
+- Raw JTL, HTML dashboard và screenshot thật nằm trong `results/` và
+  `evidence/`.
 
 ## Evidence chưa được phép dựng trước
 
-- Metric, raw `.jtl`, HTML và screenshot của các run chưa thực thi.
-- Memory ceiling/maximum stable RPS khi chưa có Endurance evidence.
 - GitHub Issue và screenshot của bug/performance issue.
 - Video YouTube unlisted tối thiểu 6 phút, giọng thật của sinh viên.
 
@@ -113,8 +116,8 @@ python3 scripts/summarize_jtl.py results/jtl/23127001_Load_20260816.jtl \
 - Repository: <https://github.com/quananh2503/eshop-sut>
 - Branch: `hw05-ai-performance-v1`
 - Video: `PENDING_STUDENT_VIDEO`
-- Endurance threshold: `PENDING_REAL_EXECUTION`
-- Bug/performance issue: `PENDING_REAL_EXECUTION`
+- Endurance: 80 threads; >=70,243 req/s steady; p95 32–44 ms; Node RES ~101 MiB.
+- Bug/performance issue: 1 draft về Spike latency; URL chờ đăng trên fork.
 
 Rubric trong đề cộng thành 90 dù hàng tổng ghi 100. Bài giữ nguyên rubric và
 không tự tạo tiêu chí 10 điểm còn thiếu; cần xác nhận TA trước khi chốt tên ZIP.

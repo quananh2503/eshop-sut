@@ -12,7 +12,7 @@
 | Phiên bản đề | **Version 1.0** |
 | SUT | EShop backend API local |
 | Công cụ | Apache JMeter 5.6.3; htop 3.3.0; OpenAI Codex |
-| Thời gian thực thi chính thức | Load: 16/08/2026 14:47:22–14:49:22 UTC; Stress: 15:05:59–15:09:59 UTC; Spike: 15:16:43–15:19:13 UTC; Endurance PENDING |
+| Thời gian thực thi chính thức | Load: 16/08/2026 14:47:22–14:49:22 UTC; Stress: 15:05:59–15:09:59 UTC; Spike: 15:16:43–15:19:13 UTC; Endurance: 15:24:34–15:39:34 UTC |
 
 ## 2. Tóm tắt điều hành
 
@@ -27,7 +27,9 @@ về 56,6 ms. Kết luận maximum stable RPS vẫn chờ Endurance.
 | Stress | `POST /api/cart` | 54.311 | 226,544 req/s | 16 ms | 0% | Chưa suy giảm tại trần thử nghiệm 80 threads; đây chưa phải hardware threshold |
 | Spike | `POST /api/forgot-password` | 2.814 | 18,917 req/s | 1.530 ms | 0% | Spike gây latency degradation rõ rệt nhưng recovery gần baseline |
 
-Endurance threshold: `PENDING_REAL_EXECUTION`.
+Endurance xác minh 80 threads duy trì ít nhất 70,243 req/s steady, p95
+32–44 ms và Node RES snapshot khoảng 101 MiB; đây là lower bound, không phải
+hardware maximum.
 
 ## 3. Test basis, phạm vi và lý do chọn endpoint
 
@@ -201,35 +203,65 @@ hoạt cơ chế khóa do ba lần đăng nhập sai. Không có bước reset l
 Load plan được chạy lại bằng CLI với duration mặc định 900 giây và output riêng:
 
 ```bash
-./scripts/run_scenario.sh endurance
+ENDURANCE_THREADS=80 ENDURANCE_DURATION=900 ./scripts/run_scenario.sh endurance
 ```
 
-- JTL/HTML/screenshot: `PENDING_REAL_EXECUTION`
-- Maximum stable RPS: `PENDING_REAL_EXECUTION`
-- p95 ổn định: `PENDING_REAL_EXECUTION`
-- Memory ceiling: `PENDING_REAL_EXECUTION`
-- Tiêu chí “stable” được dùng: `PENDING_DEFINE_FROM_LECTURE_OR_EVIDENCE`
+- Timestamp JMeter: 16/08/2026 15:24:34–15:39:34 UTC.
+- JTL: `results/jtl/23127001_Endurance_20260816.jtl`; HTML:
+  `results/html/23127001_Endurance_20260816/`.
+- Screenshot: `evidence/endurance/endurance_02min.png`, `endurance_05min.png`,
+  `endurance_10min.png`, `endurance_14min.png` và
+  `endurance_cli_final_summary.png`.
+- Toàn run: 61.478 samples, 0 failure, 0% error, throughput 68,390 req/s,
+  average 17,251 ms, p95 40 ms, p99 53 ms, max 130 ms trên 898,928 giây.
+- Loại 60 giây ramp rồi chia phần steady thành ba window bằng nhau:
+
+| Steady window | Throughput | Average | p95 | p99 | Max | Lỗi |
+|---|---:|---:|---:|---:|---:|---:|
+| 60–340 s | 70,243 req/s | 20,977 ms | 44 ms | 62 ms | 130 ms | 0 |
+| 340–620 s | 70,746 req/s | 14,233 ms | 32 ms | 40 ms | 69 ms | 0 |
+| 620–900 s | 70,454 req/s | 17,569 ms | 40 ms | 50 ms | 69 ms | 0 |
+
+- Tiêu chí stable: 0 lỗi; throughput cuối không giảm quá 5% so với đầu; p95
+  cuối không tăng quá 20%; Node RES không có xu hướng tăng liên tục. Cả ba
+  tiêu chí đều đạt: throughput chỉ dao động 0,503 req/s (0,72%), p95 cuối thấp
+  hơn đầu 4 ms và Node RES từ 99,4 MiB lên khoảng 101 MiB rồi giữ phẳng.
+- **Maximum verified stable operating point:** 80 threads và ít nhất
+  70,243 req/s steady; đây là lower bound đã đo, không phải hardware maximum.
+- **Observed memory ceiling:** khoảng 101 MiB Node RES trong các snapshot phút
+  5/10/14/final. Đây là operating ceiling quan sát được, không phải giới hạn
+  cấp phát tuyệt đối. Hai CPU WSL ở ảnh phút 14 khoảng 18,5%/12,8%, nên run
+  chưa làm bão hòa hardware.
 
 ## 8. Task 2 — AI analysis và misinterpretation hunt
 
 ### 8.1 Dữ liệu đưa cho AI
 
-Chỉ sử dụng ba raw JTL thật, summary sinh bởi `scripts/summarize_jtl.py` và
-resource evidence. Prompt/output nguyên văn phải nằm trong AI Audit Report.
+Sử dụng bốn raw JTL thật, summary sinh bởi `scripts/summarize_jtl.py`, phân tích
+window deterministic và resource evidence. Prompt yêu cầu AI tính throughput,
+p95/p99/error, so sánh baseline/spike/recovery, đánh giá endurance stability
+và đề xuất tối ưu có thể kiểm tra với source. Prompt/output được lưu trong AI
+Audit Report.
 
 ### 8.2 Misinterpretation
 
-| AI claim | Giá trị đúng từ raw JTL | Cách kiểm tra | Nguyên nhân sai |
+| AI claim ban đầu | Giá trị đúng từ raw JTL | Cách kiểm tra | Nguyên nhân sai |
 |---|---:|---|---|
-| PENDING_AI_ANALYSIS | PENDING_RAW_JTL | PENDING | PENDING |
+| Gọi window 0–60 s là baseline và báo average 670,14 ms, p95 4.284,8 ms, max 9.403 ms | Baseline steady 5–50 s: average 28,1 ms, p95 49 ms, max 102 ms | `summarize_spike_phases.py` với guard band; đối chiếu sample start/elapsed và log tại giây 47 | Request bắt đầu sát giây 60 hoàn tất trong lúc 100 spike users tranh chấp DB; chia chỉ theo start timestamp đã làm transition contamination bị gắn nhãn baseline |
+| Có thể gọi 80 threads là Stress breaking point | 54.311 samples, 0 lỗi, p95 16 ms; interval cuối 389,1 req/s | Raw Stress JTL và terminal summary | AI đồng nhất tải cao nhất được cấu hình với điểm suy giảm; run không có evidence breaking |
 
-Không tạo sẵn lỗi diễn giải giả. Chỉ điền khi AI thực sự đọc sai metric.
+Đây là hai diễn giải đã thực sự xuất hiện trong quá trình làm và được sửa; báo
+cáo không dựng thêm lỗi AI giả để đủ rubric.
 
 ### 8.3 Đề xuất tối ưu
 
-| Đề xuất của AI | Feasible/Hallucinated | Evidence source | Lý do |
+| Đề xuất của AI | Phân loại | Evidence source | Lý do |
 |---|---|---|---|
-| PENDING_AI_ANALYSIS | PENDING | PENDING_SOURCE_REVIEW | PENDING |
+| Thêm index/UNIQUE index cho `users(email)` | Feasible, cần migration | `database.js:49–60`; query `server.js:70` | Email được tra cứu thường xuyên nhưng schema không có index; cần kiểm tra duplicate trước UNIQUE |
+| Thử SQLite WAL và cấu hình busy timeout | Feasible có điều kiện | `database.js:5`; không có `PRAGMA`/`busyTimeout` | Có thể giảm reader/writer blocking; phải benchmark lại và không hứa loại bỏ single-writer contention |
+| Thêm rate limit/backpressure cho forgot-password | Feasible có điều kiện | Spike p95 1.497 ms, max 8.539 ms | Bảo vệ auth endpoint nhưng thay đổi contract bằng 429; cần SLO và test riêng |
+| “Thêm connection pool” như với PostgreSQL | Unsupported/hallucinated trong SUT hiện tại | Một `sqlite3.Database` tại `database.js:5` | Pool tổng quát không tự giải quyết SQLite single-writer và có thể tăng tranh chấp |
+| Cache response forgot-password | Hallucinated/không an toàn | Endpoint tạo rồi ghi reset token mới | Cache có thể trả token cũ hoặc sai người dùng, phá semantics/security |
 
 ## 9. Task 3 — Continuous Performance Testing proposal
 
@@ -266,8 +298,11 @@ Trade-off:
 
 ## 10. Bug/performance issue
 
-`PENDING_REAL_EXECUTION`. Chỉ tạo GitHub Issue khi tái hiện bằng run thật và có
-screenshot. Bug functional cũ từ HW02 không được tính lại như bug HW05 mới.
+Một performance issue mới đã được tái hiện: `POST /api/forgot-password` có p95
+tăng từ 49 ms lên 1.497 ms (30,6 lần) và max 8.539 ms khi spike 100 users, dù
+0% lỗi và có recovery. Draft có evidence/source tại
+`report/github-issue-draft-spike-latency.md`; chỉ thêm URL sau khi issue thật
+được đăng trên fork. Bug functional cũ từ HW02 không được tính lại.
 
 ## 11. Agent Skill
 
@@ -277,30 +312,55 @@ Skill hướng dẫn đọc test basis, giữ SUT bất biến, thiết kế sce
 smoke-test, thu raw evidence, phân tích JTL và audit submission. Script audit
 được chạy trên chính suite này.
 
-- Kết quả validation: `PENDING_FINAL_SKILL_AUDIT`
+- Kết quả testware/build validation: 0 failure; final audit chờ PDF/video/link.
 - Video/timeline demo skill trên một endpoint group: `PENDING_STUDENT_VIDEO`
 
 ## 12. AI Critique — 200–300 từ
 
-`PENDING_AFTER_REAL_AI_ANALYSIS`. Đoạn cuối phải dựa trên lỗi AI thực sự đã
-xảy ra, gồm CSV blank record và ít nhất một misinterpretation từ Task 2; không
-được bịa một claim mà AI chưa từng đưa ra.
+AI giúp rút ngắn đáng kể thời gian đọc đề, truy vết API, tạo JMX/CSV và tổng hợp
+JTL, nhưng đầu ra ban đầu không thể dùng trực tiếp. Lỗi rõ nhất nằm ở dữ liệu
+CSV do AI tạo: record rỗng cuối file khiến JMeter đọc email rỗng và tạo một
+Spike smoke 404 giả. Nếu chỉ nhìn error rate, lỗi test-data này rất dễ bị gán
+nhầm cho SUT. Human review đã kiểm tra label và request, xóa record rỗng, rồi
+chạy lại cả ba smoke test với 0 lỗi.
+
+AI cũng diễn giải sai cửa sổ Spike đầu tiên. Phép chia ngây thơ 0–60 giây báo
+“baseline” average 670,14 ms, p95 4.284,8 ms và max 9.403 ms. Các request bắt
+đầu sát giây 60 thực tế hoàn tất trong lúc 100 spike users tranh chấp SQLite,
+nên cửa sổ đó bị nhiễm transition. Sau review, baseline steady được giới hạn
+5–50 giây và cho average 28,1 ms, p95 49 ms, max 102 ms; spike p95 là 1.497 ms
+và recovery p95 là 56,6 ms. AI còn có xu hướng gọi 80 threads là breaking
+point chỉ vì đó là ceiling của plan, trong khi Stress JTL có 0 lỗi và p95 16
+ms. Kết luận đã sửa thành “chưa quan sát breaking point”.
+
+Cuối cùng, các đề xuất tối ưu chỉ được chấp nhận sau khi đối chiếu source.
+Index email, WAL/busy-timeout và rate limiting là khả thi có điều kiện; connection
+pool kiểu PostgreSQL và cache reset-token không phù hợp với SQLite/semantics
+hiện tại. Vì vậy AI hữu ích nhất ở vai trò tạo giả thuyết và tự động hóa phép
+tính, còn phân loại dữ liệu, ranh giới pha và quyết định kỹ thuật vẫn cần người
+review chịu trách nhiệm.
 
 ## 13. Kết luận
 
-`PENDING_REAL_EXECUTION`.
+Ba scenario và Endurance đều chạy chính thức với 0 lỗi HTTP/assertion. Load
+ổn định ở 20 threads; Stress chưa chạm breaking point ở ceiling 80 threads;
+Spike gây p95 tăng 30,6 lần nhưng recovery gần baseline. Endurance xác minh
+80 threads duy trì ít nhất 70,243 req/s steady, p95 32–44 ms và Node RES quan
+sát khoảng 101 MiB mà không có drift. Đây là lower bound của capacity trên
+profile WSL, không phải hardware maximum. Performance issue Spike đủ evidence
+để báo cáo; video, chữ ký và link xuất bản vẫn phải do sinh viên hoàn tất.
 
 ## 14. Tự đánh giá
 
 | Tiêu chí | Tối đa theo đề | Tự đánh giá |
 |---|---:|---:|
-| Load testing | 20 | PENDING |
-| Stress testing | 20 | PENDING |
-| Spike testing | 20 | PENDING |
-| AI analysis + misinterpretation | 10 | PENDING |
-| Continuous Performance Testing | 10 | PENDING |
-| Agent Skill | 10 | PENDING |
-| **Tổng số học của rubric** | **90** | **PENDING** |
+| Load testing | 20 | 20 |
+| Stress testing | 20 | 20 |
+| Spike testing | 20 | 20 |
+| AI analysis + misinterpretation | 10 | 10 |
+| Continuous Performance Testing | 10 | 10 |
+| Agent Skill | 10 | 10 (sau khi gắn video demo) |
+| **Tổng số học của rubric** | **90** | **90/90 theo các dòng rubric** |
 
 Đề ghi hàng Total là 100 dù sáu tiêu chí cộng thành 90. Báo cáo không tự thêm
 tiêu chí; chờ xác nhận TA trước khi đặt `<SelfAssessedGrade>` trong tên ZIP.
