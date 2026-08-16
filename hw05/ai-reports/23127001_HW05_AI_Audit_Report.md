@@ -117,9 +117,21 @@ giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có t
   peak hoặc hardware threshold. Interaction phân tích AI/misinterpretation hunt
   riêng vẫn chờ đủ ba JTL.
 
-### AI-08 — Đề xuất tối ưu và feasibility review
+### AI-08 — Phân tích Stress chính thức và sửa cách gọi threshold
 
-- Ngày/giờ: `PENDING_AFTER_AI_07`.
+- Ngày/giờ: 16/08/2026, sau Stress kết thúc lúc 15:09:59 UTC.
+- Prompt của sinh viên: cung cấp toàn bộ log Stress và ba screenshot thật,
+  yêu cầu AI xem ảnh, đổi tên và tiếp tục xử lý.
+- Output AI từ raw JTL: 54.311 samples; 0 failure; throughput 226,544 req/s;
+  average 5,575 ms; p95 16 ms; p99 28 ms; max 88 ms.
+- Human review: ba ảnh được phân loại thành ramp/peak/final. Vì 80 threads vẫn
+  có 0 lỗi và interval cuối đạt 389,1 req/s, kết luận đúng là chưa quan sát
+  breaking point; 80 chỉ là ceiling cấu hình, không phải hardware threshold.
+  CPU/RAM chỉ được ghi như snapshot nhìn thấy trong htop.
+
+### AI-09 — Đề xuất tối ưu và feasibility review
+
+- Ngày/giờ: `PENDING_AFTER_AI_08`.
 - Prompt nguyên văn: `PENDING`.
 - Output nguyên văn AI: `PENDING`.
 - Human review dựa trên source: `PENDING`.

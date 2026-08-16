@@ -12,17 +12,19 @@
 | Phiên bản đề | **Version 1.0** |
 | SUT | EShop backend API local |
 | Công cụ | Apache JMeter 5.6.3; htop 3.3.0; OpenAI Codex |
-| Thời gian thực thi chính thức | Load: 16/08/2026 14:47:22–14:49:22 UTC; các run còn lại PENDING |
+| Thời gian thực thi chính thức | Load: 16/08/2026 14:47:22–14:49:22 UTC; Stress: 16/08/2026 15:05:59–15:09:59 UTC; các run còn lại PENDING |
 
 ## 2. Tóm tắt điều hành
 
-`PENDING_REAL_EXECUTION`: điền kết luận ngắn dựa trên ba raw JTL và endurance
-evidence. Không suy diễn threshold trước khi chạy.
+Hai run chính thức đã hoàn tất đều không có request lỗi. Load ổn định ở 20
+threads; Stress tăng tuyến tính đến 80 threads mà chưa thấy breaking point.
+Kết luận tổng thể vẫn chờ Spike và Endurance; không suy diễn threshold trước
+khi có evidence tương ứng.
 
 | Scenario | Endpoint | Samples | Throughput | p95 | Error rate | Kết luận |
 |---|---|---:|---:|---:|---:|---|
 | Load | `GET /api/users/me` | 1.940 | 16,796 req/s | 55 ms | 0% | Ổn định ở cấu hình 20 threads; chưa phải hardware threshold |
-| Stress | `POST /api/cart` | PENDING | PENDING | PENDING | PENDING | PENDING |
+| Stress | `POST /api/cart` | 54.311 | 226,544 req/s | 16 ms | 0% | Chưa suy giảm tại trần thử nghiệm 80 threads; đây chưa phải hardware threshold |
 | Spike | `POST /api/forgot-password` | PENDING | PENDING | PENDING | PENDING | PENDING |
 
 Endurance threshold: `PENDING_REAL_EXECUTION`.
@@ -97,8 +99,9 @@ Evidence: `evidence/hardware/dxdiag.png`, `cpu.png`, `memory.png` và
 | `npm audit fix` được npm gợi ý | Có thể thay dependency/SUT | Không chạy; giữ SUT bất biến |
 | Assertion FR-03 chỉ kiểm tra `resetToken` tồn tại | Không xác nhận OTP đúng 6 chữ số theo spec | Ghi nhận rõ performance availability khác functional conformance; BUG-FR03-001 đã có evidence HW02, không che giấu hoặc gọi OTP 4 số là đúng |
 
-`PENDING_POST_RUN_HUMAN_REVIEW`: bổ sung thông số AI đề xuất sai/chưa thực tế
-và cách sinh viên sửa sau khi xem resource/JTL thật.
+Sau Stress, human review bác bỏ cách gọi 80 threads là breaking point: đây chỉ
+là trần cấu hình của plan. Raw JTL vẫn có 0 lỗi và latency thấp tại trần, nên
+chưa có evidence về điểm suy giảm hoặc giới hạn phần cứng.
 
 ## 6. Test plan và dữ liệu
 
@@ -135,12 +138,28 @@ CLI và sinh HTML dashboard từ raw JTL.
 
 ### 7.2 Stress — FR-07 add to cart
 
-- Lệnh/timestamp: `PENDING_REAL_EXECUTION`
+- Lệnh: `./scripts/run_scenario.sh stress`
+- Timestamp JMeter: 16/08/2026 15:05:59–15:09:59 UTC
 - JTL: `results/jtl/23127001_Stress_20260816.jtl`
 - HTML: `results/html/23127001_Stress_20260816/`
-- Screenshot: `PENDING_STRESS_SCREENSHOT`
-- Breaking/degradation point: `PENDING_REAL_EXECUTION`
-- Phân tích memory growth của `userCarts`: `PENDING_REAL_EXECUTION`
+- Screenshot: `evidence/stress/stress_runtime_ramp.png`,
+  `stress_runtime_peak.png` và `stress_cli_final_summary.png`; terminal JMeter
+  và htop xuất hiện cùng frame.
+- Kết quả raw JTL: 54.311 samples, 0 failure, 0% error, average 5,575 ms,
+  p50 4 ms, p90 12 ms, p95 16 ms, p99 28 ms, max 88 ms và throughput
+  226,544 req/s trên cửa sổ sample 239,737 giây.
+- Tải tăng từ 1 đến 80 active threads trong 180 giây. Interval 30 giây cuối
+  đạt 389,1 req/s, average 4 ms, max 41 ms và 0 lỗi.
+- Breaking/degradation point: **chưa quan sát thấy trong phạm vi đã thử**. Mức
+  80 threads là ceiling cấu hình, không phải hardware threshold.
+- Resource evidence: ảnh ramp ở 13 active threads cho thấy Node khoảng 35,9%
+  CPU và RES 84.852 KiB. Ảnh tại 80 active threads cho thấy Node RES khoảng
+  106 MiB; hai logical CPU WSL lần lượt khoảng 44,3% và 47,3%. Sau khi kết
+  thúc, Node RES khoảng 73.792 KiB. Đây là các snapshot, và CPU tổng của WSL
+  còn bao gồm JMeter nên không được diễn giải thành peak CPU riêng của backend.
+- `userCarts` có tăng theo write workload, nhưng RES giảm sau run và latency
+  không suy giảm; run bốn phút này chưa đủ để kết luận memory leak hoặc memory
+  ceiling. Endurance sẽ kiểm tra khả năng ổn định lâu hơn.
 
 ### 7.3 Spike — FR-03 forgot password
 

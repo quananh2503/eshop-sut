@@ -91,11 +91,18 @@ python3 scripts/summarize_jtl.py results/jtl/23127001_Load_20260816.jtl \
   --json results/analysis/load-summary.json
 ```
 
+## Evidence và kết quả đã xác minh
+
+- Load: 1.940 samples, 0% lỗi, 16,796 req/s, p95 55 ms.
+- Stress: 54.311 samples, 0% lỗi, 226,544 req/s, p95 16 ms; chưa thấy
+  breaking point tại ceiling 80 threads.
+- Raw JTL, HTML dashboard và screenshot thật của hai run nằm trong
+  `results/` và `evidence/`; Spike và Endurance vẫn chờ thực thi.
+
 ## Evidence chưa được phép dựng trước
 
-- p95, throughput/RPS, error rate và memory ceiling.
-- Raw `.jtl` và HTML dashboard của run chính thức.
-- Screenshot JMeter/resource monitor/hardware.
+- Metric, raw `.jtl`, HTML và screenshot của các run chưa thực thi.
+- Memory ceiling/maximum stable RPS khi chưa có Endurance evidence.
 - GitHub Issue và screenshot của bug/performance issue.
 - Video YouTube unlisted tối thiểu 6 phút, giọng thật của sinh viên.
 
@@ -109,4 +116,3 @@ python3 scripts/summarize_jtl.py results/jtl/23127001_Load_20260816.jtl \
 
 Rubric trong đề cộng thành 90 dù hàng tổng ghi 100. Bài giữ nguyên rubric và
 không tự tạo tiêu chí 10 điểm còn thiếu; cần xác nhận TA trước khi chốt tên ZIP.
-
