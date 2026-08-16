@@ -96,8 +96,10 @@ python3 scripts/summarize_jtl.py results/jtl/23127001_Load_20260816.jtl \
 - Load: 1.940 samples, 0% lỗi, 16,796 req/s, p95 55 ms.
 - Stress: 54.311 samples, 0% lỗi, 226,544 req/s, p95 16 ms; chưa thấy
   breaking point tại ceiling 80 threads.
-- Raw JTL, HTML dashboard và screenshot thật của hai run nằm trong
-  `results/` và `evidence/`; Spike và Endurance vẫn chờ thực thi.
+- Spike: 2.814 samples, 0% lỗi; p95 tăng từ 49 ms baseline lên 1.497 ms ở
+  spike và recovery về 56,6 ms.
+- Raw JTL, HTML dashboard và screenshot thật của ba scenario chính nằm trong
+  `results/` và `evidence/`; Endurance vẫn chờ thực thi.
 
 ## Evidence chưa được phép dựng trước
 

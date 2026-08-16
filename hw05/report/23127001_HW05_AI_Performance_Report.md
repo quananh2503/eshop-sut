@@ -12,20 +12,20 @@
 | Phiên bản đề | **Version 1.0** |
 | SUT | EShop backend API local |
 | Công cụ | Apache JMeter 5.6.3; htop 3.3.0; OpenAI Codex |
-| Thời gian thực thi chính thức | Load: 16/08/2026 14:47:22–14:49:22 UTC; Stress: 16/08/2026 15:05:59–15:09:59 UTC; các run còn lại PENDING |
+| Thời gian thực thi chính thức | Load: 16/08/2026 14:47:22–14:49:22 UTC; Stress: 15:05:59–15:09:59 UTC; Spike: 15:16:43–15:19:13 UTC; Endurance PENDING |
 
 ## 2. Tóm tắt điều hành
 
-Hai run chính thức đã hoàn tất đều không có request lỗi. Load ổn định ở 20
-threads; Stress tăng tuyến tính đến 80 threads mà chưa thấy breaking point.
-Kết luận tổng thể vẫn chờ Spike và Endurance; không suy diễn threshold trước
-khi có evidence tương ứng.
+Ba scenario chính thức đều không có request lỗi. Load ổn định ở 20 threads;
+Stress tăng tuyến tính đến 80 threads mà chưa thấy breaking point. Spike 100
+threads làm p95 tăng từ 49 ms ở baseline steady lên 1.497 ms, sau đó recovery
+về 56,6 ms. Kết luận maximum stable RPS vẫn chờ Endurance.
 
 | Scenario | Endpoint | Samples | Throughput | p95 | Error rate | Kết luận |
 |---|---|---:|---:|---:|---:|---|
 | Load | `GET /api/users/me` | 1.940 | 16,796 req/s | 55 ms | 0% | Ổn định ở cấu hình 20 threads; chưa phải hardware threshold |
 | Stress | `POST /api/cart` | 54.311 | 226,544 req/s | 16 ms | 0% | Chưa suy giảm tại trần thử nghiệm 80 threads; đây chưa phải hardware threshold |
-| Spike | `POST /api/forgot-password` | PENDING | PENDING | PENDING | PENDING | PENDING |
+| Spike | `POST /api/forgot-password` | 2.814 | 18,917 req/s | 1.530 ms | 0% | Spike gây latency degradation rõ rệt nhưng recovery gần baseline |
 
 Endurance threshold: `PENDING_REAL_EXECUTION`.
 
@@ -163,11 +163,35 @@ CLI và sinh HTML dashboard từ raw JTL.
 
 ### 7.3 Spike — FR-03 forgot password
 
-- Lệnh/timestamp: `PENDING_REAL_EXECUTION`
+- Lệnh: `./scripts/run_scenario.sh spike`
+- Timestamp JMeter: 16/08/2026 15:16:43–15:19:13 UTC
 - JTL: `results/jtl/23127001_Spike_20260816.jtl`
 - HTML: `results/html/23127001_Spike_20260816/`
-- Screenshot: `PENDING_SPIKE_SCREENSHOT`
-- So sánh baseline/spike/recovery: `PENDING_REAL_EXECUTION`
+- Screenshot: `evidence/spike/spike_runtime_baseline_17s.png`,
+  `spike_runtime_baseline_47s.png`, `spike_runtime_peak.png` và
+  `spike_recovery_cli_final_summary.png`.
+- Kết quả toàn raw JTL: 2.814 samples, 0 failure, 0% error, average 989,965 ms,
+  p95 1.530 ms, p99 3.414,99 ms, max 9.403 ms và throughput 18,917 req/s trên
+  cửa sổ sample 148,752 giây.
+- So sánh pha dùng timestamp bắt đầu sample so với JMeter test start. Guard
+  band loại ramp/queue-drain: baseline steady 5–50 s, spike 60–90 s và
+  recovery steady 100–145 s. Script và output nằm tại
+  `scripts/summarize_spike_phases.py` và `results/analysis/spike-phases.*`.
+
+| Pha steady | Samples | Throughput theo window | Average | p95 | p99 | Max | Lỗi |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Baseline 5–50 s | 200 | 4,444 req/s | 28,1 ms | 49 ms | 66 ms | 102 ms | 0 |
+| Spike 60–90 s | 2.114 | 70,467 req/s | 1.163,789 ms | 1.497 ms | 1.703,87 ms | 8.539 ms | 0 |
+| Recovery 100–145 s | 195 | 4,333 req/s | 26,862 ms | 56,6 ms | 111,78 ms | 138 ms | 0 |
+
+- Spike làm p95 tăng khoảng 30,6 lần so với baseline steady. Recovery p95 chỉ
+  cao hơn baseline 7,6 ms, nên dịch vụ phục hồi trong cửa sổ quan sát.
+- Resource snapshot: Node RES khoảng 66.084 KiB ở giây 17, 82.284 KiB ở giây
+  47, khoảng 102 MiB lúc 105 active users và 79.160 KiB sau run. Snapshot cuối
+  cho thấy hai CPU WSL khoảng 9,5%/9,9%; không đủ để tuyên bố peak backend CPU.
+- Source thực hiện `SELECT` rồi `UPDATE users` qua SQLite cho mỗi request.
+  Latency tăng do tranh chấp/queue ghi là giả thuyết phù hợp source và shape,
+  nhưng cần profiling DB để xác nhận nguyên nhân gốc.
 
 Spike sử dụng email/password hợp lệ và không gọi `/api/login`, nên không kích
 hoạt cơ chế khóa do ba lần đăng nhập sai. Không có bước reset lockout giả tạo.

@@ -129,9 +129,20 @@ giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có t
   breaking point; 80 chỉ là ceiling cấu hình, không phải hardware threshold.
   CPU/RAM chỉ được ghi như snapshot nhìn thấy trong htop.
 
-### AI-09 — Đề xuất tối ưu và feasibility review
+### AI-09 — Phân tích Spike theo baseline/peak/recovery
 
-- Ngày/giờ: `PENDING_AFTER_AI_08`.
+- Ngày/giờ: 16/08/2026, sau Spike kết thúc lúc 15:19:13 UTC.
+- Prompt của sinh viên: “rồi á” sau khi chạy theo hướng dẫn và đặt bốn ảnh thật
+  vào thư mục Spike.
+- Output AI toàn JTL: 2.814 samples, 0 lỗi, p95 1.530 ms, max 9.403 ms.
+- Human review: hai ảnh đầu đều là baseline, không đổi tên ảnh thứ hai thành
+  recovery. Phân tích timestamp có guard band cho thấy baseline p95 49 ms,
+  spike p95 1.497 ms và recovery p95 56,6 ms. Kết luận latency degradation
+  khoảng 30,6 lần và có recovery; không gọi 0 HTTP error là “không ảnh hưởng”.
+
+### AI-10 — Đề xuất tối ưu và feasibility review
+
+- Ngày/giờ: `PENDING_AFTER_AI_09`.
 - Prompt nguyên văn: `PENDING`.
 - Output nguyên văn AI: `PENDING`.
 - Human review dựa trên source: `PENDING`.
