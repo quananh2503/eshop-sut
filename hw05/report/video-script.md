@@ -14,18 +14,25 @@ hoặc terminal chạy JMeter và htop/Task Manager phải cùng frame.
    - Load/profile, Stress/cart, Spike/forgot password.
    - Mở ba CSV và ba report view khác nhau.
 4. **3:30–5:30 — Chạy và evidence**
-   - Demo ít nhất một run từ lệnh đến JTL/HTML.
-   - Mở HTML p95/throughput/error và chỉ resource monitor cùng frame.
+   - Không cần chạy lại run dài: mở command, raw JTL, HTML và screenshot thật.
+   - Load: 1.940 samples, p95 55 ms, 0 lỗi.
+   - Stress: 54.311 samples, p95 16 ms, 0 lỗi; 80 threads chưa phải breaking.
+   - Spike: baseline/spike/recovery p95 là 49/1.497/56,6 ms.
 5. **5:30–6:40 — Human Review**
    - Giải thích CSV blank record làm Spike smoke có 404 và cách sửa.
-   - Phân biệt smoke metric với run chính thức.
+   - Giải thích vì sao window 0–60 s bị transition contamination và dùng
+     baseline steady 5–50 s.
 6. **6:40–7:40 — AI analysis/critique**
-   - Chỉ đúng một misinterpretation thật và giá trị đúng trong raw JTL.
+   - Chỉ misinterpretation thật: 80 threads là ceiling, không phải breaking.
+   - Nói index/WAL/rate-limit có điều kiện; pool/cache reset-token không phù hợp.
 7. **7:40–8:40 — Agent Skill**
-   - Mở `SKILL.md`, chạy script audit trên một endpoint group hoặc toàn suite.
+   - Mở `SKILL.md`, giải thích giữ raw evidence và không dựng metric.
+   - Chạy `python3 scripts/audit_submission.py --phase build` và chỉ 0 failure.
 8. **8:40–9:10 — Kết luận**
-   - Threshold endurance, số issue thật và trade-off pipeline.
+   - Endurance: 80 threads, >=70,243 req/s steady, p95 32–44 ms, Node RES
+     khoảng 101 MiB; đây là maximum verified point, không phải hardware max.
+   - Mở flowchart continuous testing và issue Spike; chỉ nói “đã đăng” khi có
+     URL thật trên fork.
 
 Không đọc số liệu chưa có trên màn hình. Không quay token JWT, mật khẩu hoặc
 file `runtime-auth.properties`.
-
