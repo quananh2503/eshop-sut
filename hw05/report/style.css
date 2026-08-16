@@ -1,0 +1,44 @@
+@page {
+  size: A4;
+  margin: 18mm;
+}
+
+body {
+  color: #1f2937;
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.45;
+  max-width: 100%;
+}
+
+h1, h2, h3 {
+  color: #17365d;
+  page-break-after: avoid;
+}
+
+table {
+  border-collapse: collapse;
+  font-size: 9pt;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #9ca3af;
+  padding: 5px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #e5eef8;
+}
+
+pre, code {
+  font-family: Consolas, monospace;
+  overflow-wrap: anywhere;
+}
+
+img {
+  max-width: 100%;
+}
+
