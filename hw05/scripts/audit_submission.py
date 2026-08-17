@@ -131,11 +131,15 @@ def audit_final(audit: Audit, hw05: Path) -> None:
         images = [item for item in folder.rglob("*") if item.suffix.lower() in image_extensions]
         audit.require(bool(images), f"real image evidence exists: evidence/{group}")
 
+    def root_or_source(filename: str, source_folder: str) -> Path:
+        root_copy = hw05 / filename
+        return root_copy if root_copy.is_file() else hw05 / source_folder / filename
+
     required_markdown = (
-        hw05 / "report" / "23127001_HW05_AI_Performance_Report.md",
-        hw05 / "ai-reports" / "23127001_HW05_AI_Audit_Report.md",
-        hw05 / "ai-reports" / "23127001_HW05_AI_Disclosure_Form.md",
-        hw05 / "ai-reports" / "23127001_HW05_AI_Privacy_Checklist.md",
+        root_or_source("23127001_HW05_AI_Performance_Report.md", "report"),
+        root_or_source("23127001_HW05_AI_Audit_Report.md", "ai-reports"),
+        root_or_source("23127001_HW05_AI_Disclosure_Form.md", "ai-reports"),
+        root_or_source("23127001_HW05_AI_Privacy_Checklist.md", "ai-reports"),
         hw05 / "README.md",
     )
     for path in required_markdown:
@@ -181,4 +185,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

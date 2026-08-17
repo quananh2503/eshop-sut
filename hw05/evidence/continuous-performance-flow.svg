@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="660" viewBox="0 0 1400 660" role="img" aria-labelledby="title desc">
+  <title id="title">Luồng Continuous Performance Testing đề xuất</title>
+  <desc id="desc">Từ commit hoặc pull request, lọc thay đổi liên quan hiệu năng, dựng SUT, smoke test, chạy JMeter, so sánh baseline, chạy lại khi vượt ngưỡng và lưu bằng chứng.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+    <style>
+      .box{fill:#eff6ff;stroke:#2563eb;stroke-width:2;rx:14}.decision{fill:#fff7ed;stroke:#ea580c;stroke-width:2}.ok{fill:#ecfdf5;stroke:#059669;stroke-width:2;rx:14}.fail{fill:#fef2f2;stroke:#dc2626;stroke-width:2;rx:14}.line{stroke:#334155;stroke-width:2.4;fill:none;marker-end:url(#arrow)}.t{font:600 21px Arial,sans-serif;fill:#0f172a;text-anchor:middle}.s{font:17px Arial,sans-serif;fill:#334155;text-anchor:middle}.label{font:600 16px Arial,sans-serif;fill:#475569}
+    </style>
+  </defs>
+  <rect width="1400" height="660" fill="white"/>
+  <rect class="box" x="40" y="50" width="230" height="80"/>
+  <text class="t" x="155" y="83">Commit / Pull Request</text><text class="s" x="155" y="111">kích hoạt pipeline</text>
+  <path class="line" d="M270 90 H350"/>
+  <polygon class="decision" points="485,25 625,90 485,155 345,90"/>
+  <text class="t" x="485" y="78">Có ảnh hưởng</text><text class="s" x="485" y="105">backend / DB / API?</text>
+  <path class="line" d="M625 90 H705"/><text class="label" x="654" y="77">Có</text>
+  <rect class="box" x="705" y="50" width="245" height="80"/>
+  <text class="t" x="827" y="82">Build + seed SUT</text><text class="s" x="827" y="110">môi trường cô lập</text>
+  <path class="line" d="M950 90 H1030"/>
+  <rect class="box" x="1030" y="50" width="260" height="80"/>
+  <text class="t" x="1160" y="82">Smoke validation</text><text class="s" x="1160" y="110">testware + dữ liệu</text>
+  <path class="line" d="M485 155 V225 H290"/><text class="label" x="500" y="192">Không</text>
+  <rect class="ok" x="65" y="225" width="450" height="80"/>
+  <text class="t" x="290" y="257">Bỏ qua performance suite</text><text class="s" x="290" y="285">ghi rõ lý do và lưu log pipeline</text>
+  <path class="line" d="M1160 130 V225"/><text class="label" x="1173" y="182">Pass</text>
+  <rect class="box" x="1010" y="225" width="300" height="80"/>
+  <text class="t" x="1160" y="257">Chạy JMeter non-GUI</text><text class="s" x="1160" y="285">workload chuẩn + resource metrics</text>
+  <path class="line" d="M1030 90 V180 H850 V225"/><text class="label" x="918" y="168">Fail</text>
+  <rect class="fail" x="650" y="225" width="300" height="80"/>
+  <text class="t" x="800" y="257">Chặn: lỗi chức năng</text><text class="s" x="800" y="285">hoặc lỗi môi trường/testware</text>
+  <path class="line" d="M1160 305 V375"/>
+  <polygon class="decision" points="1160,350 1325,430 1160,510 995,430"/>
+  <text class="t" x="1160" y="418">p95 / error rate</text><text class="s" x="1160" y="445">vượt baseline?</text>
+  <path class="line" d="M995 430 H820"/><text class="label" x="895" y="417">Không</text>
+  <rect class="ok" x="520" y="390" width="300" height="80"/>
+  <text class="t" x="670" y="422">Pass và lưu artifact</text><text class="s" x="670" y="450">JTL, HTML, diff, resource log</text>
+  <path class="line" d="M1160 510 V570 H950"/><text class="label" x="1173" y="548">Có</text>
+  <rect class="box" x="700" y="535" width="250" height="80"/>
+  <text class="t" x="825" y="567">Rerun xác nhận</text><text class="s" x="825" y="595">loại nhiễu / warm-up</text>
+  <path class="line" d="M700 575 H555"/>
+  <polygon class="decision" points="430,515 555,575 430,635 305,575"/>
+  <text class="t" x="430" y="568">Tái hiện?</text><text class="s" x="430" y="593">cùng profile</text>
+  <path class="line" d="M305 575 H255"/><text class="label" x="265" y="562">Có</text>
+  <rect class="fail" x="25" y="535" width="230" height="80"/>
+  <text class="t" x="140" y="567">Flag regression</text><text class="s" x="140" y="595">đính evidence, review</text>
+  <path class="line" d="M430 515 V470 H520"/><text class="label" x="442" y="497">Không</text>
+</svg>

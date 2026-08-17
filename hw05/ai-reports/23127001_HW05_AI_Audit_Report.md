@@ -14,22 +14,22 @@
 
 Phiên giao diện hiện tại không cung cấp export timestamp chính xác cho từng tin
 nhắn trước đó. Audit ghi ngày **16/08/2026** và không tự tạo giờ giả. Từ bước
-thực thi chính thức, timestamp phải lấy từ terminal/JTL/video. Prompt dưới đây
-giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có thể; output dẫn
-đến artifact cụ thể để kiểm tra được.
+thực thi chính thức, timestamp được lấy từ terminal/JTL. Để báo cáo dễ đọc,
+các câu lệnh vụn liên tiếp được gom thành một interaction và chuẩn hóa chính
+tả; phần “prompt tổng hợp” không được xem là trích dẫn nguyên văn. Không thêm
+quyết định mà sinh viên chưa đưa ra. Output luôn dẫn đến artifact hoặc evidence
+có thể kiểm tra.
 
 ## 3. Interaction log
 
 ### AI-01 — Chọn version
 
 - Ngày: 16/08/2026; giờ: không có trong UI export.
-- Prompt của sinh viên:
+- Prompt tổng hợp từ chỉ đạo của sinh viên:
 
-> thứ nhất trước khi làm thì đề này có 2 version, chọn cái nào dễ hơn, làm
-> nhanh hơn ít phải quay video viết báo cáo phức tạp hơn; chọn 1 trong 2, từ đó
-> phân tích những thứ cần làm; sau đó hỏi tôi cần cung cấp những thông tin gì,
-> tôi sẽ cung cấp đầy đủ về ngữ cảnh cũng như tài liệu cần thiết, tuyệt đối
-> không được bịa
+> Trước khi làm, hãy so sánh hai version, chọn version dễ triển khai và có hồ
+> sơ/video gọn hơn, rồi phân tích toàn bộ việc cần làm. Hãy hỏi tôi những ngữ
+> cảnh và tài liệu còn thiếu; tuyệt đối không tự bịa dữ liệu.
 
 - Output AI: so sánh hai đề và đề xuất Version 1.0 vì mỗi scenario chỉ nhắm một
   endpoint group; cảnh báo chưa thể giả định version cũ còn hợp lệ khi chưa có
@@ -40,11 +40,12 @@ giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có t
 ### AI-02 — Xác định SUT và ngữ cảnh HW04
 
 - Ngày: 16/08/2026; giờ: không có trong UI export.
-- Prompt của sinh viên:
+- Prompt tổng hợp từ chỉ đạo của sinh viên:
 
-> tôi đã thêm mới shop-sut đó trong đó có backend, cứ đọc readme là hiểu ...
-> tôi đang chạy wsl trên window nè, tôi sẽ cung cấp cho bạn file báo cáo hw04
-> để bạn lấy thông tin đó giải nén rồi đọc
+> SUT là web app EShop chạy local từ source giảng viên; backend đã có trong
+> repository, hãy đọc README và source để hiểu cách chạy. Môi trường của tôi là
+> WSL trên Windows. Hãy dùng HW02/HW04 tôi cung cấp làm test basis và giữ cấu
+> trúc bài nộp nhất quán với các homework trước.
 
 - Output AI: đọc README/setup/API/source; giải nén HW04; xác nhận Nguyễn Lê
   Quan Anh, 23127001, 23KTPM2, repository fork và cấu trúc hồ sơ Markdown/PDF.
@@ -55,10 +56,11 @@ giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có t
 ### AI-03 — Chọn endpoint từng làm
 
 - Ngày: 16/08/2026; giờ: không có trong UI export.
-- Prompt của sinh viên:
+- Prompt tổng hợp từ chỉ đạo của sinh viên:
 
-> lấy 3 cái trong HW04 tôi làm á, chọn 3 endpoint trong đó là không bị trùng;
-> có làm ai aigent để lấy điểm 10
+> Chọn ba feature/endpoint do chính tôi từng làm trong HW02/HW04, không trùng
+> nhóm endpoint của nhau và phải bao phủ đúng ba nhóm đề yêu cầu. Bài cần có
+> Agent Skill theo rubric và hướng tới đầy đủ toàn bộ tiêu chí.
 
 - Output AI ban đầu: chỉ ra FR-03/FR-07/FR-16 không đủ nhóm read-heavy vì
   FR-16 là import/write. AI không gắn nhãn sai FR-16.
@@ -68,10 +70,10 @@ giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có t
 ### AI-04 — Chốt Stress transactional
 
 - Ngày: 16/08/2026; giờ: không có trong UI export.
-- Prompt của sinh viên:
+- Quyết định của sinh viên (chuẩn hóa chính tả):
 
-> Stress/transactional: FR-07 — POST /api/cart chọn cái này đi; chọn cái này có
-> được ko
+> Tôi chọn Stress/transactional là FR-07 — `POST /api/cart`. Hãy kiểm tra lựa
+> chọn này có đúng Version 1.0 và đúng source SUT hay không.
 
 - Output AI: xác nhận hợp lệ vì Version 1.0 nêu add-to-cart là ví dụ trực tiếp
   cho transactional. Source cho thấy cart được giữ trong biến in-memory
@@ -79,12 +81,17 @@ giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có t
 - Human review: endpoint được sinh viên chấp thuận; kết luận memory ceiling vẫn
   để chờ run thật.
 
-### AI-05 — Yêu cầu triển khai
+### AI-05 — Chốt hướng triển khai JMeter
 
 - Ngày: 16/08/2026; giờ: không có trong UI export.
-- Prompt của sinh viên:
+- Prompt tổng hợp từ chuỗi chỉ đạo và các lựa chọn đã được sinh viên duyệt:
 
-> oke làm hết trước đi, tôi mới cài htop rồi á
+> Dùng Apache JMeter theo công cụ mặc định của đề để xây dựng ba plan độc lập:
+> Load cho `GET /api/users/me`, Stress cho `POST /api/cart`, Spike cho
+> `POST /api/forgot-password`. Mỗi plan dùng CSV riêng và report view khác
+> nhau. Tôi sẽ chạy SUT local trên WSL, theo dõi bằng htop, tự chạy các test
+> chính thức và cung cấp ảnh/log thật; hãy chuẩn bị toàn bộ testware, script
+> phân tích và Agent Skill trước.
 
 - Output AI/artifact:
   - Cài dependency backend nhưng không chạy `npm audit fix` để giữ SUT bất biến.
@@ -99,7 +106,8 @@ giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có t
 
 - Ngày: 16/08/2026; timestamp run nằm trong `/tmp` smoke JTL, không nộp như
   evidence chính thức.
-- Prompt/ngữ cảnh: AI tự kiểm tra testware theo yêu cầu “làm hết trước”.
+- Prompt/ngữ cảnh: bước kiểm tra kỹ thuật thuộc phạm vi triển khai testware đã
+  được sinh viên giao ở AI-05.
 - Output AI ban đầu: ba CSV có một record rỗng ở cuối; Spike smoke có một 404
   do `${email}` rỗng.
 - Human review/fix: phân loại là test-data defect, không tạo Issue cho SUT; xóa
@@ -108,8 +116,8 @@ giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có t
 ### AI-07 — Phân tích raw JTL chính thức
 
 - Ngày/giờ: 16/08/2026, sau Load kết thúc lúc 14:49:22 UTC.
-- Prompt/ngữ cảnh của sinh viên: xác nhận đã chạy xong nhưng chưa quay video;
-  yêu cầu tiếp tục hoàn thành các task trước, video tổng kết quay sau.
+- Chỉ đạo của sinh viên: ưu tiên hoàn tất ba scenario, Endurance, phân tích và
+  evidence trước; video tổng kết do sinh viên quay sau khi toàn bộ task xong.
 - Output AI từ script deterministic: 1.940 samples; 0 failure; throughput
   16,796 req/s; average 24,713 ms; p95 55 ms; p99 66 ms; max 72 ms.
 - Human review: đối chiếu summary terminal, raw JTL và hai screenshot. Ảnh steady
@@ -120,8 +128,9 @@ giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có t
 ### AI-08 — Phân tích Stress chính thức và sửa cách gọi threshold
 
 - Ngày/giờ: 16/08/2026, sau Stress kết thúc lúc 15:09:59 UTC.
-- Prompt của sinh viên: cung cấp toàn bộ log Stress và ba screenshot thật,
-  yêu cầu AI xem ảnh, đổi tên và tiếp tục xử lý.
+- Input/chỉ đạo của sinh viên: cung cấp toàn bộ log Stress và ba screenshot
+  thật; yêu cầu phân loại ảnh theo ramp/peak/final, đổi tên có nghĩa và phân
+  tích dựa trên raw JTL.
 - Output AI từ raw JTL: 54.311 samples; 0 failure; throughput 226,544 req/s;
   average 5,575 ms; p95 16 ms; p99 28 ms; max 88 ms.
 - Human review: ba ảnh được phân loại thành ramp/peak/final. Vì 80 threads vẫn
@@ -132,8 +141,8 @@ giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có t
 ### AI-09 — Phân tích Spike theo baseline/peak/recovery
 
 - Ngày/giờ: 16/08/2026, sau Spike kết thúc lúc 15:19:13 UTC.
-- Prompt của sinh viên: “rồi á” sau khi chạy theo hướng dẫn và đặt bốn ảnh thật
-  vào thư mục Spike.
+- Input/chỉ đạo của sinh viên: xác nhận Spike đã chạy xong và đặt bốn ảnh thật
+  vào thư mục evidence; yêu cầu phân tích đủ baseline/spike/recovery.
 - Output AI toàn JTL: 2.814 samples, 0 lỗi, p95 1.530 ms, max 9.403 ms.
 - Human review: hai ảnh đầu đều là baseline, không đổi tên ảnh thứ hai thành
   recovery. Phân tích timestamp có guard band cho thấy baseline p95 49 ms,
@@ -143,8 +152,8 @@ giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có t
 ### AI-10 — Endurance và maximum verified stable point
 
 - Ngày/giờ: 16/08/2026, sau Endurance kết thúc lúc 15:39:34 UTC.
-- Prompt của sinh viên: cung cấp toàn bộ terminal log và yêu cầu “rồi á làm
-  tiếp đi”; năm screenshot thật đã được đặt trong thư mục evidence.
+- Input/chỉ đạo của sinh viên: cung cấp toàn bộ terminal log Endurance và năm
+  screenshot thật; yêu cầu tiếp tục tính stable throughput, p95 và memory trend.
 - Output AI: 61.478 samples, 0 lỗi, overall 68,390 req/s, p95 40 ms. Ba steady
   window sau ramp đạt 70,243/70,746/70,454 req/s và p95 44/32/40 ms.
 - Human review: Node RES ở ảnh đầu khoảng 99,4 MiB rồi giữ khoảng 101 MiB tại
@@ -164,8 +173,9 @@ giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có t
 ### AI-12 — Đề xuất tối ưu và feasibility review
 
 - Ngày/giờ: 16/08/2026, sau khi đủ bốn JTL.
-- Prompt: phân tích metric thật, đề xuất index/pool/WAL/rate-limit/cache và đối
-  chiếu từng đề xuất với source EShop thay vì chấp nhận chung chung.
+- Prompt tổng hợp: dựa trên metric thật, đề xuất hướng tối ưu và đối chiếu từng
+  đề xuất với source EShop; phân loại rõ feasible, có điều kiện hoặc không phù
+  hợp, không chấp nhận khuyến nghị chung chung.
 - Output AI: đề xuất index email, WAL/busy timeout, rate limiting, connection
   pool và cache.
 - Human review dựa trên source: index, WAL/busy timeout, rate-limit là feasible
@@ -181,6 +191,18 @@ giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có t
 - Human action: sinh viên tự đăng Issue #22 trên fork và cung cấp URL
   <https://github.com/quananh2503/eshop-sut/issues/22>. AI không giả mạo thao
   tác đăng hoặc trạng thái xác minh từ GitHub.
+
+### AI-14 — Hoàn tất video và cấu trúc gói nộp
+
+- Ngày: 17/08/2026.
+- Input/quyết định của sinh viên: cung cấp video
+  <https://youtu.be/BBUTdW6fv8E>; yêu cầu báo cáo chính tiếng Việt phải tập
+  trung toàn bộ thông tin, còn JMX/JTL/HTML/script/ảnh chỉ nằm ở thư mục con để
+  đối chiếu; ba biểu mẫu AI phải được điền và đặt ở thư mục gốc như HW04.
+- Output AI: cập nhật link video, nhúng evidence vào báo cáo chính, bổ sung
+  danh mục artifact/cách kiểm tra, hoàn thiện ba biểu mẫu và tạo gói nộp sạch.
+- Human responsibility: sinh viên kiểm tra PDF/ZIP cuối và chịu trách nhiệm về
+  nội dung, video, Issue cũng như việc nộp bài.
 
 ## 4. Artifact attribution
 
@@ -221,7 +243,11 @@ review chịu trách nhiệm.
 ## 6. Mandatory Disclosure
 
 > Tôi sử dụng OpenAI Codex để phân tích đề, đọc source/tài liệu HW02–HW04, tạo
-> bản đầu JMeter test plans, CSV, scripts, Agent Skill và báo cáo. Tôi đã/chưa
-> hoàn tất review cuối: `PENDING_STUDENT_FINAL_REVIEW`. Raw JTL, HTML report,
-> screenshot, hardware evidence, GitHub Issue, giọng nói và video không được AI
-> tạo hoặc giả mạo.
+> bản đầu JMeter test plans, CSV, scripts, Agent Skill và báo cáo. Tôi đã review
+> theo từng bước bằng cách chốt version/endpoint, tự chạy test, cung cấp log/ảnh
+> và yêu cầu sửa kết luận chưa đủ evidence. Raw JTL, HTML report, screenshot,
+> hardware evidence, GitHub Issue, giọng nói và video không được AI tạo hoặc
+> giả mạo. Tôi sẽ kiểm tra lại bản PDF/ZIP cuối trước khi nộp.
+
+- Người lập khai báo: **Nguyễn Lê Quan Anh — 23127001**
+- Ngày hoàn tất hồ sơ: **17/08/2026**

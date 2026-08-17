@@ -9,7 +9,7 @@
 | Họ tên | Nguyễn Lê Quan Anh |
 | MSSV | 23127001 |
 | Lớp | 23KTPM2 |
-| Ngày | 16/08/2026 |
+| Ngày hoàn tất hồ sơ | 17/08/2026 |
 
 ## 2. Công cụ AI
 
@@ -35,7 +35,8 @@ Version/endpoint, cung cấp tài liệu, review mapping, tự chạy test chín
 chụp evidence, quay video và chịu trách nhiệm kết luận.
 
 Codex không tạo raw execution evidence, screenshot hardware/resource, video,
-giọng nói hoặc số liệu performance chưa đo.
+giọng nói hoặc số liệu performance chưa đo. Video tổng kết do sinh viên cung
+cấp tại <https://youtu.be/BBUTdW6fv8E>.
 
 ## 5. Xác minh đầu ra AI
 
@@ -49,4 +50,8 @@ giọng nói hoặc số liệu performance chưa đo.
 ## 6. Cam đoan
 
 Tôi cam đoan khai báo đầy đủ việc sử dụng AI và chịu trách nhiệm cuối cùng về
-bài nộp. Chữ ký/ngày: `PENDING_STUDENT_SIGNATURE`.
+bài nộp.
+
+- Người lập khai báo: **Nguyễn Lê Quan Anh — 23127001**
+- Ngày hoàn tất hồ sơ: **17/08/2026**
+- Xác nhận chữ ký khi nộp: sinh viên tự ký nếu hệ thống/giảng viên yêu cầu.

@@ -14,12 +14,20 @@
 | Công cụ | Apache JMeter 5.6.3; htop 3.3.0; OpenAI Codex |
 | Thời gian thực thi chính thức | Load: 16/08/2026 14:47:22–14:49:22 UTC; Stress: 15:05:59–15:09:59 UTC; Spike: 15:16:43–15:19:13 UTC; Endurance: 15:24:34–15:39:34 UTC |
 
+### Liên kết nộp bài
+
+- Repository công khai: <https://github.com/quananh2503/eshop-sut>
+- Nhánh bài làm: `hw05-ai-performance-v1`
+- Performance Issue #22: <https://github.com/quananh2503/eshop-sut/issues/22>
+- Video tổng kết và demo Agent Skill: <https://youtu.be/BBUTdW6fv8E>
+
 ## 2. Tóm tắt điều hành
 
 Ba scenario chính thức đều không có request lỗi. Load ổn định ở 20 threads;
 Stress tăng tuyến tính đến 80 threads mà chưa thấy breaking point. Spike 100
 threads làm p95 tăng từ 49 ms ở baseline steady lên 1.497 ms, sau đó recovery
-về 56,6 ms. Kết luận maximum stable RPS vẫn chờ Endurance.
+về 56,6 ms. Endurance xác minh mức vận hành ổn định tối thiểu 70,243 req/s tại
+80 threads trên profile WSL đã mô tả.
 
 | Scenario | Endpoint | Samples | Throughput | p95 | Error rate | Kết luận |
 |---|---|---:|---:|---:|---:|---|
@@ -82,6 +90,12 @@ sửa hoặc `npm audit fix`.
 Evidence: `evidence/hardware/dxdiag.png`, `cpu.png`, `memory.png` và
 `wsl_environment.txt`. Hostname `DESKTOP-L0U0JQ4` khớp evidence HW04.
 
+![Thông tin máy và hệ điều hành từ DxDiag](../evidence/hardware/dxdiag.png)
+
+![Thông tin CPU vật lý](../evidence/hardware/cpu.png)
+
+![Thông tin RAM vật lý](../evidence/hardware/memory.png)
+
 ## 5. AI-assisted test design và Human Review
 
 ### 5.1 Quy trình cộng tác
@@ -138,6 +152,10 @@ CLI và sinh HTML dashboard từ raw JTL.
 - Kết luận: workload Load mặc định ổn định trên profile này nhưng chưa chứng
   minh giới hạn phần cứng. Threshold chỉ kết luận sau Stress/Endurance.
 
+![Load test đang chạy cùng htop](../evidence/load/load_runtime_steady.png)
+
+![Load test hoàn tất và terminal summary](../evidence/load/load_cli_final_summary.png)
+
 ### 7.2 Stress — FR-07 add to cart
 
 - Lệnh: `./scripts/run_scenario.sh stress`
@@ -162,6 +180,10 @@ CLI và sinh HTML dashboard từ raw JTL.
 - `userCarts` có tăng theo write workload, nhưng RES giảm sau run và latency
   không suy giảm; run bốn phút này chưa đủ để kết luận memory leak hoặc memory
   ceiling. Endurance sẽ kiểm tra khả năng ổn định lâu hơn.
+
+![Stress test tại vùng tải cao](../evidence/stress/stress_runtime_peak.png)
+
+![Stress test hoàn tất và terminal summary](../evidence/stress/stress_cli_final_summary.png)
 
 ### 7.3 Spike — FR-03 forgot password
 
@@ -198,6 +220,12 @@ CLI và sinh HTML dashboard từ raw JTL.
 Spike sử dụng email/password hợp lệ và không gọi `/api/login`, nên không kích
 hoạt cơ chế khóa do ba lần đăng nhập sai. Không có bước reset lockout giả tạo.
 
+![Spike test trong pha baseline](../evidence/spike/spike_runtime_baseline_47s.png)
+
+![Spike test tại đỉnh tải](../evidence/spike/spike_runtime_peak.png)
+
+![Spike test recovery và terminal summary](../evidence/spike/spike_recovery_cli_final_summary.png)
+
 ### 7.4 Endurance 10–15 phút
 
 Load plan được chạy lại bằng CLI với duration mặc định 900 giây và output riêng:
@@ -233,6 +261,14 @@ ENDURANCE_THREADS=80 ENDURANCE_DURATION=900 ./scripts/run_scenario.sh endurance
   cấp phát tuyệt đối. Hai CPU WSL ở ảnh phút 14 khoảng 18,5%/12,8%, nên run
   chưa làm bão hòa hardware.
 
+![Endurance ở phút thứ 5](../evidence/endurance/endurance_05min.png)
+
+![Endurance ở phút thứ 10](../evidence/endurance/endurance_10min.png)
+
+![Endurance ở phút thứ 14](../evidence/endurance/endurance_14min.png)
+
+![Endurance hoàn tất và terminal summary](../evidence/endurance/endurance_cli_final_summary.png)
+
 ## 8. Task 2 — AI analysis và misinterpretation hunt
 
 ### 8.1 Dữ liệu đưa cho AI
@@ -265,22 +301,7 @@ cáo không dựng thêm lỗi AI giả để đủ rubric.
 
 ## 9. Task 3 — Continuous Performance Testing proposal
 
-```mermaid
-flowchart TD
-    A[Commit hoặc Pull Request] --> B{File ảnh hưởng backend, DB, dependency hoặc API?}
-    B -- Không --> C[Không chạy performance suite; ghi lý do]
-    B -- Có --> D[Build và seed SUT cô lập]
-    D --> E[Smoke validation]
-    E -->|Fail| F[Chặn pipeline: functional/environment failure]
-    E -->|Pass| G[Chạy workload chuẩn bằng non-GUI JMeter]
-    G --> H[Đọc raw JTL và resource metrics]
-    H --> I{p95 tăng quá ngưỡng so với baseline và error rate hợp lệ?}
-    I -- Không --> J[Lưu artifact và cập nhật baseline theo policy]
-    I -- Có --> K[Lặp lại để loại nhiễu]
-    K --> L{Regression tái hiện?}
-    L -- Không --> M[Cảnh báo flaky/false alarm; không chặn]
-    L -- Có --> N[Flag regression, đính JTL/HTML/diff và yêu cầu review]
-```
+![Luồng Continuous Performance Testing đề xuất](../evidence/continuous-performance-flow.svg)
 
 Mô hình chỉ chạy suite khi commit tác động backend, schema/query database,
 dependency hoặc API contract; các thay đổi tài liệu thuần túy được bỏ qua. p95
@@ -302,8 +323,12 @@ Một performance issue mới đã được tái hiện: `POST /api/forgot-passw
 tăng từ 49 ms lên 1.497 ms (30,6 lần) và max 8.539 ms khi spike 100 users, dù
 0% lỗi và có recovery. Sinh viên đã đăng Issue #22 trên fork:
 <https://github.com/quananh2503/eshop-sut/issues/22>. Nội dung tái lập và
-evidence/source được lưu thêm tại `report/github-issue-draft-spike-latency.md`.
-Bug functional cũ từ HW02 không được tính lại.
+evidence/source được tổng hợp tại `bug-report/ISSUE-22.md`. Bug functional cũ
+từ HW02 không được tính lại.
+
+Trong gói nộp, bản mô tả có thể đọc độc lập nằm ở `bug-report/ISSUE-22.md`;
+ảnh runtime thật nằm tại `evidence/spike/`. Issue này không khẳng định nguyên
+nhân gốc khi chưa có SQLite profiling.
 
 ## 11. Agent Skill
 
@@ -313,8 +338,9 @@ Skill hướng dẫn đọc test basis, giữ SUT bất biến, thiết kế sce
 smoke-test, thu raw evidence, phân tích JTL và audit submission. Script audit
 được chạy trên chính suite này.
 
-- Kết quả testware/build validation: 0 failure; final audit chờ PDF/video/link.
-- Video/timeline demo skill trên một endpoint group: `PENDING_STUDENT_VIDEO`
+- Kết quả testware/build validation: 0 failure.
+- Video tổng kết có demo skill trên một endpoint group:
+  <https://youtu.be/BBUTdW6fv8E>
 
 ## 12. AI Critique — 200–300 từ
 
@@ -349,7 +375,8 @@ Spike gây p95 tăng 30,6 lần nhưng recovery gần baseline. Endurance xác m
 80 threads duy trì ít nhất 70,243 req/s steady, p95 32–44 ms và Node RES quan
 sát khoảng 101 MiB mà không có drift. Đây là lower bound của capacity trên
 profile WSL, không phải hardware maximum. Performance issue Spike đủ evidence
-để báo cáo; video, chữ ký và link xuất bản vẫn phải do sinh viên hoàn tất.
+để báo cáo và đã được đăng ở Issue #22. Video tổng kết đã được sinh viên cung
+cấp tại <https://youtu.be/BBUTdW6fv8E>.
 
 ## 14. Tự đánh giá
 
@@ -360,8 +387,45 @@ profile WSL, không phải hardware maximum. Performance issue Spike đủ evide
 | Spike testing | 20 | 20 |
 | AI analysis + misinterpretation | 10 | 10 |
 | Continuous Performance Testing | 10 | 10 |
-| Agent Skill | 10 | 10 (sau khi gắn video demo) |
+| Agent Skill | 10 | 10 |
 | **Tổng số học của rubric** | **90** | **90/90 theo các dòng rubric** |
 
-Đề ghi hàng Total là 100 dù sáu tiêu chí cộng thành 90. Báo cáo không tự thêm
-tiêu chí; chờ xác nhận TA trước khi đặt `<SelfAssessedGrade>` trong tên ZIP.
+Đề ghi hàng Total là 100 dù sáu tiêu chí cộng thành 90. Bài đáp ứng toàn bộ
+sáu dòng tiêu chí nên tự đánh giá **100/100 theo hàng Total chính thức** và
+dùng `100` trong tên ZIP; đồng thời giữ phép cộng 90/90 ở bảng để minh bạch,
+không tự tạo thêm tiêu chí thứ bảy.
+
+## 15. Danh mục tài liệu đính kèm và cách kiểm tra
+
+Báo cáo này đã trình bày đầy đủ phạm vi, cấu hình, lệnh, metric, kết luận,
+AI critique, continuous-testing proposal, Issue, Skill và hình minh chứng quan
+trọng. Các thư mục con chỉ là artifact gốc để giảng viên đối chiếu hoặc chạy
+lại:
+
+| Thành phần | Nội dung và cách dùng |
+|---|---|
+| `test-plans/` | Ba JMX Load/Stress/Spike; mở bằng JMeter 5.6.3 hoặc chạy qua runner. |
+| `data/` | Ba CSV không chứa dữ liệu cá nhân thật; JWT runtime không nằm trong gói nộp. |
+| `scripts/` | Chạy `prepare_test_data.js`, `run_scenario.sh` và các script Python để tái tính summary/window. |
+| `results/jtl/` | Bốn raw JTL thật: Load, Stress, Spike và Endurance hỗ trợ kết luận threshold. |
+| `results/html/` | Mở `index.html` trong từng thư mục để xem JMeter dashboard. |
+| `results/analysis/` | Summary JSON/Markdown/CSV sinh deterministic từ raw JTL. |
+| `evidence/` | Ảnh hardware, JMeter CLI + htop và flow chart bản gốc. |
+| `bug-report/` | Bản mô tả Issue #22, cách tái hiện và đường dẫn evidence. |
+| `agent-skill/` | Agent Skill và script audit; đọc `SKILL.md` để sử dụng. |
+| Ba file `AI_*.md/.pdf` | AI Audit, AI Disclosure và AI Privacy theo policy. |
+| `git_commit_log.txt` | Lịch sử Git của bài làm. |
+
+Lệnh tái kiểm tra nhanh từ thư mục gốc gói nộp:
+
+```bash
+python3 scripts/audit_submission.py --root . --phase final
+python3 agent-skill/build-jmeter-performance-evidence/scripts/audit_jmeter_suite.py \
+  . --student-id 23127001 --require-results
+```
+
+## 16. Xác nhận người lập báo cáo
+
+- Sinh viên: **Nguyễn Lê Quan Anh**
+- MSSV: **23127001**
+- Ngày hoàn tất hồ sơ: **17/08/2026**

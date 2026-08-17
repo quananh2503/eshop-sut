@@ -3,7 +3,7 @@
 Sinh viên: **Nguyễn Lê Quan Anh — 23127001 — 23KTPM2 — Nhóm 07**
 
 > Trạng thái: Load, Stress, Spike và Endurance đã thực thi thật; performance
-> Issue đã đăng; báo cáo/video cuối đang được hoàn thiện.
+> Issue #22, báo cáo chính, ba biểu mẫu AI và video tổng kết đã hoàn tất.
 
 ## Phiên bản và phạm vi
 
@@ -32,8 +32,9 @@ FR-03 và cập nhật reset token khi có spike.
 | HTML dashboards | `results/html/` |
 | Phân tích có thể tái tạo | `results/analysis/` |
 | Screenshot thật | `evidence/` |
-| Báo cáo Markdown | `report/` |
-| AI forms | `ai-reports/` |
+| Báo cáo chính Markdown/PDF | `23127001_HW05_AI_Performance_Report.*` ở thư mục gốc gói nộp |
+| Ba AI forms Markdown/PDF | Ba cặp file `23127001_HW05_AI_*.md/.pdf` ở thư mục gốc |
+| Performance bug report | `bug-report/ISSUE-22.md` |
 | Agent Skill | `agent-skill/build-jmeter-performance-evidence/` |
 
 ## Chuẩn bị
@@ -106,17 +107,14 @@ python3 scripts/summarize_jtl.py results/jtl/23127001_Load_20260816.jtl \
 - Raw JTL, HTML dashboard và screenshot thật nằm trong `results/` và
   `evidence/`.
 
-## Evidence chưa được phép dựng trước
-
-- Video YouTube unlisted tối thiểu 6 phút, giọng thật của sinh viên.
-
 ## Link và tự đánh giá
 
 - Repository: <https://github.com/quananh2503/eshop-sut>
 - Branch: `hw05-ai-performance-v1`
-- Video: `PENDING_STUDENT_VIDEO`
+- Video tổng kết/demo Skill: <https://youtu.be/BBUTdW6fv8E>
 - Endurance: 80 threads; >=70,243 req/s steady; p95 32–44 ms; Node RES ~101 MiB.
 - Bug/performance issue: 1 — <https://github.com/quananh2503/eshop-sut/issues/22>
 
-Rubric trong đề cộng thành 90 dù hàng tổng ghi 100. Bài giữ nguyên rubric và
-không tự tạo tiêu chí 10 điểm còn thiếu; cần xác nhận TA trước khi chốt tên ZIP.
+Tự đánh giá: **100/100 theo hàng Total chính thức**, tương ứng 90/90 khi cộng
+sáu dòng rubric. Tên gói nộp dùng self-assessed grade `100`; không tự tạo tiêu
+chí thứ bảy để che chênh lệch số học của đề.

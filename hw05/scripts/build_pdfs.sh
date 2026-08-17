@@ -42,6 +42,8 @@ for markdown in "${DOCUMENTS[@]}"; do
     --from gfm \
     --to html5 \
     --standalone \
+    --embed-resources \
+    --resource-path="$(dirname "${markdown}"):${HW05_DIR}" \
     --toc \
     --css "${CSS_FILE}" \
     --metadata title="${stem}" \
@@ -61,4 +63,3 @@ for markdown in "${DOCUMENTS[@]}"; do
   [[ -s "${pdf}" ]] || { echo "PDF generation failed: ${pdf}" >&2; exit 3; }
   echo "Wrote ${pdf}"
 done
-

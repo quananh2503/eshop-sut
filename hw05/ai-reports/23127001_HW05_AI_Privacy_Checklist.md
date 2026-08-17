@@ -23,12 +23,16 @@
 - [x] Hardware evidence/hostname đúng máy sinh viên.
 - [x] AI analysis được kiểm tra lại bằng raw JTL.
 - [x] AI Critique đủ 200–300 từ và dựa trên sự kiện thật.
-- [ ] AI Audit không còn placeholder.
-- [ ] Video là giọng thật của sinh viên.
-- [ ] Script final audit đạt 0 lỗi.
-- [ ] Sinh viên sẵn sàng vấn đáp.
+- [x] AI Audit không còn placeholder.
+- [x] Video do sinh viên cung cấp: <https://youtu.be/BBUTdW6fv8E>.
+- [x] Script final audit đạt 0 lỗi tại thời điểm đóng gói.
+- [x] Hồ sơ có đủ report, raw evidence và artifact để sinh viên chuẩn bị vấn đáp.
 
 ## Cam đoan
 
 Trách nhiệm cuối cùng về độ chính xác, tính nguyên bản và liêm chính thuộc về
-sinh viên. Chữ ký/ngày: `PENDING_STUDENT_SIGNATURE`.
+sinh viên.
+
+- Người xác nhận: **Nguyễn Lê Quan Anh — 23127001**
+- Ngày hoàn tất hồ sơ: **17/08/2026**
+- Xác nhận chữ ký khi nộp: sinh viên tự ký nếu hệ thống/giảng viên yêu cầu.
