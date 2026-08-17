@@ -1,3 +1,5 @@
+d86eae2cae93914a388556fdefb193fabdde7f25 | 2026-08-17T18:01:48+00:00 | Quan Anh | docs(hw05): finalize performance testing submission
+2f1526107247f135b23b01afe94f0dfbd9d2bbb8 | 2026-08-17T17:30:04+00:00 | Quan Anh | docs(hw05): refresh git log after concise video guide
 d112e52e272762793155d6a76dc1e7ad64e00671 | 2026-08-17T17:30:03+00:00 | Quan Anh | docs(hw05): simplify final video narration and demo
 862b2b80da2880b851f95fd959af54d7dbf22c53 | 2026-08-17T17:00:28+00:00 | Quan Anh | docs(hw05): export complete video guide as PDF
 2ffd8726f5384e4340c0c45cce4b8044a5da7681 | 2026-08-17T15:54:10+00:00 | Quan Anh | docs(hw05): refresh git log after video script
