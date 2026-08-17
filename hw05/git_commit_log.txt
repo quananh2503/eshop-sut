@@ -1,3 +1,5 @@
+dd8888492f7c34e855243d2f322c2eb88431c440 | 2026-08-17T15:48:55+00:00 | Quan Anh | docs(hw05): link published spike performance issue
+b3d9790061341275b1192bde40320540c320349e | 2026-08-16T15:52:47+00:00 | Quan Anh | docs(hw05): refresh procedural git history
 e17179755d22124bc82b09bf094abac6ebd26897 | 2026-08-16T15:52:47+00:00 | Quan Anh | docs(hw05): prepare evidence-based final video script
 eb7da9190434f215901fe00962e4787de0b1a7e1 | 2026-08-16T15:51:47+00:00 | Quan Anh | docs(hw05): complete evidence-based analysis and critique
 799576e55c9b48f8c845e0dcccbfe596db33923a | 2026-08-16T15:51:47+00:00 | Quan Anh | feat(hw05): verify endurance stability across time windows
