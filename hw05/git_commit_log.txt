@@ -1,3 +1,6 @@
+d112e52e272762793155d6a76dc1e7ad64e00671 | 2026-08-17T17:30:03+00:00 | Quan Anh | docs(hw05): simplify final video narration and demo
+862b2b80da2880b851f95fd959af54d7dbf22c53 | 2026-08-17T17:00:28+00:00 | Quan Anh | docs(hw05): export complete video guide as PDF
+2ffd8726f5384e4340c0c45cce4b8044a5da7681 | 2026-08-17T15:54:10+00:00 | Quan Anh | docs(hw05): refresh git log after video script
 2cd8468aa48cd61fbdc07d65085dc91454045b17 | 2026-08-17T15:54:10+00:00 | Quan Anh | docs(hw05): add complete Vietnamese narration and demo commands
 a6b49b54ea25fa5384c21c00c09ac1139547acd6 | 2026-08-17T15:48:55+00:00 | Quan Anh | docs(hw05): refresh git log after issue publication
 dd8888492f7c34e855243d2f322c2eb88431c440 | 2026-08-17T15:48:55+00:00 | Quan Anh | docs(hw05): link published spike performance issue
