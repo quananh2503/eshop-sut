@@ -2,8 +2,8 @@
 
 Sinh viên: **Nguyễn Lê Quan Anh — 23127001 — 23KTPM2 — Nhóm 07**
 
-> Trạng thái: Load, Stress, Spike và Endurance đã thực thi thật; báo cáo/video
-> cuối và GitHub Issue link đang được hoàn thiện.
+> Trạng thái: Load, Stress, Spike và Endurance đã thực thi thật; performance
+> Issue đã đăng; báo cáo/video cuối đang được hoàn thiện.
 
 ## Phiên bản và phạm vi
 
@@ -108,7 +108,6 @@ python3 scripts/summarize_jtl.py results/jtl/23127001_Load_20260816.jtl \
 
 ## Evidence chưa được phép dựng trước
 
-- GitHub Issue và screenshot của bug/performance issue.
 - Video YouTube unlisted tối thiểu 6 phút, giọng thật của sinh viên.
 
 ## Link và tự đánh giá
@@ -117,7 +116,7 @@ python3 scripts/summarize_jtl.py results/jtl/23127001_Load_20260816.jtl \
 - Branch: `hw05-ai-performance-v1`
 - Video: `PENDING_STUDENT_VIDEO`
 - Endurance: 80 threads; >=70,243 req/s steady; p95 32–44 ms; Node RES ~101 MiB.
-- Bug/performance issue: 1 draft về Spike latency; URL chờ đăng trên fork.
+- Bug/performance issue: 1 — <https://github.com/quananh2503/eshop-sut/issues/22>
 
 Rubric trong đề cộng thành 90 dù hàng tổng ghi 100. Bài giữ nguyên rubric và
 không tự tạo tiêu chí 10 điểm còn thiếu; cần xác nhận TA trước khi chốt tên ZIP.

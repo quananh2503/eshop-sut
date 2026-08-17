@@ -31,8 +31,8 @@ hoặc terminal chạy JMeter và htop/Task Manager phải cùng frame.
 8. **8:40–9:10 — Kết luận**
    - Endurance: 80 threads, >=70,243 req/s steady, p95 32–44 ms, Node RES
      khoảng 101 MiB; đây là maximum verified point, không phải hardware max.
-   - Mở flowchart continuous testing và issue Spike; chỉ nói “đã đăng” khi có
-     URL thật trên fork.
+   - Mở flowchart continuous testing và Issue #22 trên fork:
+     `https://github.com/quananh2503/eshop-sut/issues/22`.
 
 Không đọc số liệu chưa có trên màn hình. Không quay token JWT, mật khẩu hoặc
 file `runtime-auth.properties`.

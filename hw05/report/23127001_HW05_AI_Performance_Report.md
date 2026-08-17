@@ -300,9 +300,10 @@ Trade-off:
 
 Một performance issue mới đã được tái hiện: `POST /api/forgot-password` có p95
 tăng từ 49 ms lên 1.497 ms (30,6 lần) và max 8.539 ms khi spike 100 users, dù
-0% lỗi và có recovery. Draft có evidence/source tại
-`report/github-issue-draft-spike-latency.md`; chỉ thêm URL sau khi issue thật
-được đăng trên fork. Bug functional cũ từ HW02 không được tính lại.
+0% lỗi và có recovery. Sinh viên đã đăng Issue #22 trên fork:
+<https://github.com/quananh2503/eshop-sut/issues/22>. Nội dung tái lập và
+evidence/source được lưu thêm tại `report/github-issue-draft-spike-latency.md`.
+Bug functional cũ từ HW02 không được tính lại.
 
 ## 11. Agent Skill
 

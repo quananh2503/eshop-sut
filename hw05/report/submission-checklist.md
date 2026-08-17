@@ -14,7 +14,7 @@
 - [ ] Disclosure Markdown/PDF.
 - [ ] Privacy Checklist Markdown/PDF.
 - [ ] Git commit log.
-- [ ] GitHub Issue có screenshot nếu tìm thấy issue thật.
+- [x] GitHub Issue #22 được sinh viên đăng từ evidence Spike thật.
 - [ ] README có summary, threshold, issue count và video.
 - [ ] Video unlisted >= 6 phút, giọng thật.
 - [x] Agent Skill có script/reference/metadata.

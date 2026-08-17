@@ -172,6 +172,16 @@ giữ nguyên nội dung chính và lỗi chính tả của sinh viên khi có t
   có điều kiện; connection pool kiểu PostgreSQL không được source hỗ trợ và
   không giải quyết SQLite single-writer; cache reset-token phá semantics.
 
+### AI-13 — Đăng performance issue có evidence
+
+- Ngày: 17/08/2026.
+- Prompt của sinh viên: yêu cầu hướng dẫn tiếng Việt để đăng issue từ draft.
+- Output AI: cung cấp tiêu đề, mô tả tiếng Việt, metric thật và hai đường dẫn
+  screenshot Spike cần đính kèm.
+- Human action: sinh viên tự đăng Issue #22 trên fork và cung cấp URL
+  <https://github.com/quananh2503/eshop-sut/issues/22>. AI không giả mạo thao
+  tác đăng hoặc trạng thái xác minh từ GitHub.
+
 ## 4. Artifact attribution
 
 | Artifact | AI contribution | Student responsibility/evidence |
