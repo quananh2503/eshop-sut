@@ -1,31 +1,31 @@
-# BUG-LOGIN-001 — Login response exposes plaintext password
+# BUG-LOGIN-001 — API đăng nhập làm lộ mật khẩu dạng plaintext
 
-## Status
+## Trạng thái
 
-Confirmed locally with Newman on 2026-08-23 UTC; GitHub Issue not yet published.
+Đã xác nhận bằng Newman local ngày 23/08/2026 UTC. Cập nhật Issue GitHub bằng nội dung tiếng Việt bên dưới.
 
-## Requirement
+## Yêu cầu bị vi phạm
 
-SEC-01: passwords must not be stored or disclosed as plaintext. A login response should not include a password field.
+SEC-01: mật khẩu không được lưu trữ hoặc trả về dưới dạng plaintext. Response đăng nhập không được chứa trường `password`.
 
-## Steps
+## Các bước tái hiện
 
-1. Start an isolated EShop backend.
-2. Send `POST /api/login` with `{"email":"test@eshop.com","password":"Test1234!"}` and `X-Student-Id: 23127001`.
-3. Inspect `response.user`.
+1. Khởi động EShop backend.
+2. Gửi `POST /api/login` với body `{"email":"test@eshop.com","password":"Test1234!"}` và header `X-Student-Id: 23127001`.
+3. Kiểm tra object `user` trong response.
 
-## Expected
+## Kết quả mong đợi
 
-`200 OK` may return a token and safe user profile fields, but must not return `password`.
+API có thể trả về `200 OK`, token JWT và các trường hồ sơ an toàn, nhưng không được trả về `password`.
 
-## Actual
+## Kết quả thực tế
 
-`200 OK`; Newman assertion `password not disclosed` failed because `response.user.password` exists.
+API trả về `200 OK`; assertion Newman `password not disclosed` thất bại vì tồn tại `response.user.password`.
 
-## Evidence
+## Bằng chứng
 
 `../results/newman-report.json` and `../results/newman-report.html`, collection item `LOGIN-001 valid user`.
 
-## Proposed GitHub Issue title
+## Tiêu đề GitHub Issue
 
-`[SEC-01] POST /api/login exposes plaintext password in response`
+`[SEC-01] POST /api/login làm lộ mật khẩu plaintext trong response`

@@ -1,32 +1,32 @@
-# BUG-ADMINSTATUS-001 — Ordinary user can update an order through an admin endpoint
+# BUG-ADMINSTATUS-001 — User thường có thể cập nhật đơn hàng qua API admin
 
-## Status
+## Trạng thái
 
-Confirmed locally with Newman on 2026-08-23 UTC; GitHub Issue not yet published.
+Đã xác nhận bằng Newman local ngày 23/08/2026 UTC. Cập nhật Issue GitHub bằng nội dung tiếng Việt bên dưới.
 
-## Requirement
+## Yêu cầu bị vi phạm
 
-SEC-03 and FR-12/FR-18 require `/api/admin/*` endpoints to verify `role = admin`, not merely a valid JWT.
+SEC-03 và FR-12/FR-18 yêu cầu mọi API `/api/admin/*` phải kiểm tra `role = admin`, không chỉ kiểm tra JWT hợp lệ.
 
-## Steps
+## Các bước tái hiện
 
-1. Login as the seeded ordinary user and retain the JWT.
-2. Create a pending order with that user via `POST /api/checkout`.
-3. Send `PUT /api/admin/orders/{orderId}/status` with the ordinary user JWT and body `{"status":"confirmed"}`.
-4. Include `X-Student-Id: 23127001`.
+1. Đăng nhập bằng tài khoản user thường và lưu JWT nhận được.
+2. Tạo đơn hàng ở trạng thái `pending` bằng user đó qua `POST /api/checkout`.
+3. Gửi `PUT /api/admin/orders/{orderId}/status` với JWT của user thường và body `{"status":"confirmed"}`.
+4. Gửi kèm header `X-Student-Id: 23127001`.
 
-## Expected
+## Kết quả mong đợi
 
-The API rejects the request with `401` or `403`, and the order remains pending.
+API phải từ chối bằng `401` hoặc `403`; đơn hàng phải giữ nguyên trạng thái `pending`.
 
-## Actual
+## Kết quả thực tế
 
-The API returned `200 OK`; Newman failed the assertion `ordinary user denied`.
+API trả về `200 OK`; assertion Newman `ordinary user denied` thất bại.
 
-## Evidence
+## Bằng chứng
 
 `../results/newman-report.json` and `../results/newman-report.html`, collection item `ADMINSTATUS ordinary user denied`.
 
-## Proposed GitHub Issue title
+## Tiêu đề GitHub Issue
 
-`[SEC-03] Ordinary user JWT can call PUT /api/admin/orders/:id/status`
+`[SEC-03] JWT của user thường vẫn gọi được PUT /api/admin/orders/:id/status`
