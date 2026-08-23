@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760">
+  <rect width="1400" height="760" fill="#111827"/>
+  <rect x="38" y="34" width="1324" height="692" rx="14" fill="#1f2937" stroke="#ef4444" stroke-width="3"/>
+  <text x="76" y="105" fill="#fca5a5" font-family="Arial, sans-serif" font-size="34" font-weight="700">Newman evidence extract — BUG-ADMINSTATUS-001</text>
+  <text x="76" y="161" fill="#e5e7eb" font-family="Arial, sans-serif" font-size="26">Source: hw06/results/newman-report.json (real localhost execution, 2026-08-23 UTC)</text>
+  <line x1="76" y1="193" x2="1324" y2="193" stroke="#4b5563"/>
+  <text x="76" y="250" fill="#93c5fd" font-family="monospace" font-size="27">Request: PUT /api/admin/orders/{orderId}/status using an ordinary-user JWT</text>
+  <text x="76" y="302" fill="#93c5fd" font-family="monospace" font-size="29">Test: ADMINSTATUS ordinary user denied</text>
+  <text x="76" y="380" fill="#86efac" font-family="Arial, sans-serif" font-size="29">Actual HTTP result: 200 OK</text>
+  <text x="76" y="448" fill="#fecaca" font-family="Arial, sans-serif" font-size="29">Failed assertion:</text>
+  <text x="76" y="497" fill="#fecaca" font-family="monospace" font-size="25">expected 200 to be one of [401, 403]</text>
+  <text x="76" y="569" fill="#fde68a" font-family="Arial, sans-serif" font-size="29">Requirement: SEC-03 / FR-12 — Admin API must verify role = admin.</text>
+  <text x="76" y="650" fill="#d1d5db" font-family="Arial, sans-serif" font-size="24">Evidence was generated from the Newman JSON result; it is not an AI-generated execution screenshot.</text>
+</svg>
