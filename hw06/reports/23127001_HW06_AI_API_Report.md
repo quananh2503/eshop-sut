@@ -29,14 +29,15 @@ Every AI-derived case is initially marked `INCOMPLETE` until reviewed against re
 
 ## 4. Real execution record
 
-An isolated temporary copy of the backend/database was started on localhost, so the working `backend/database.sqlite` in this repository was not modified. Newman ran the generated collection on 2026-08-23 UTC.
+An isolated temporary copy of the backend/database was started on localhost, so the working `backend/database.sqlite` in this repository was not modified. Newman ran the full generated collection on 2026-08-23 UTC. All 120 unique primary test IDs were invoked; asynchronous setup calls account for the total request count being higher than 120.
 
 | Metric | Actual result |
 |---|---:|
-| Requests | 7 |
-| Assertions | 9 |
-| Passed assertions | 7 |
-| Failed assertions | 2 |
+| Requests (primary + setup) | 316 |
+| Unique primary IDs invoked | 120/120 |
+| Assertions | 130 |
+| Passed assertions | 95 |
+| Failed assertions | 35 |
 | Transport/request errors | 0 |
 
 The collection-level pre-request script printed `HW06 pre-request: X-Student-Id=23127001` before every request in the Newman console. The raw report and HTML report are `results/newman-report.json` and `results/newman-report.html`.
@@ -46,7 +47,7 @@ The collection-level pre-request script printed `HW06 pre-request: X-Student-Id=
 1. `LOGIN-001`: response `user` object contained `password`, violating SEC-01.
 2. `ADMINSTATUS ordinary user denied`: an ordinary user JWT received `200 OK` when setting a real owned order to `confirmed`, violating SEC-03/FR-12/FR-18.
 
-These are documented as local issue drafts in `bugs/`. They must be re-run by the student and then published manually to GitHub with a real screenshot. This report intentionally does **not** claim that all 120 designed cases have been executed; the remaining execution matrix is pending expansion of the collection into each atomic data row.
+These are documented as local issue drafts in `bugs/`. They must be re-run by the student and then published manually to GitHub with a real screenshot. The full run also contains failures that require human classification before bug reporting: some login cases share the lockout state of earlier requests, and several malformed-ID/invalid-transition cases require a finer-grained response oracle. They are retained as execution evidence, not inflated into bug claims.
 
 ## 5. Postman/Newman features used
 

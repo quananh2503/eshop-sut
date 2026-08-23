@@ -11,7 +11,7 @@ Sinh viên: **Nguyễn Lê Quan Anh — 23127001 — 23KTPM2**
 | C | `PUT /api/admin/orders/:id/status` | 40 |
 | **Total** |  | **120** |
 
-The 120-case matrix has 35 AI-generated cases plus 5 human-added cases for each API. Test design is in [reports/test-basis-and-design.md](reports/test-basis-and-design.md); generated data is in `data/test-cases.json`.
+The 120-case matrix has 35 AI-generated cases plus 5 human-added cases for each API. Newman invoked all 120 unique primary IDs on 2026-08-23 UTC; 35 failed assertions remain for human audit/classification before final submission. Test design is in [reports/test-basis-and-design.md](reports/test-basis-and-design.md); generated data is in `data/test-cases.json`.
 
 ## Running
 

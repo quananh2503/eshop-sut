@@ -11,4 +11,4 @@ The workflow definition is `ci/hw06-newman.yml`. Copy it to `.github/workflows/h
 | Regression/smoke suite all passing | Pending | Pending | Not fabricated |
 | Suite with one intentionally failing assertion | Pending | Pending | Not fabricated |
 
-The current local regression run correctly contains two specification failures and therefore is not suitable to represent the all-pass CI example.
+The current full local run invoked 120 unique primary IDs and has 35 failed assertions, so it is not suitable to represent the all-pass CI example. Create a separate smoke/regression folder after human audit for the required all-pass run; retain the specification suite as the required failing run.

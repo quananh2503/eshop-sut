@@ -110,6 +110,49 @@ const collection = {
     ] }
   ]
 };
+// Expand every matrix row into a Newman-executable primary request. Each
+// order case creates an isolated pending order before its selected API call.
+function statusScript(expected, id) {
+  return expected.startsWith('200')
+    ? [`pm.test('${id}: succeeds', () => pm.response.to.have.status(200));`]
+    : [`pm.test('${id}: rejected', () => pm.expect(pm.response.code).to.be.within(400,499));`];
+}
+function orderSetupScript(requiredState) {
+  const states = { pending: [], confirmed: ['confirmed'], shipping: ['confirmed', 'shipping'], delivered: ['confirmed', 'shipping', 'delivered'], canceled: ['canceled'] }[requiredState] || [];
+  return [
+    "const auth=pm.environment.get('userToken');",
+    "const admin=pm.environment.get('adminToken');",
+    "pm.sendRequest({url:pm.environment.get('baseUrl')+'/api/checkout',method:'POST',header:{'Content-Type':'application/json','X-Student-Id':'23127001','Authorization':'Bearer '+auth},body:{mode:'raw',raw:JSON.stringify({total_amount:100000,shipping_address:'HW06 isolated case'})}},(err,res)=>{",
+    " if(err||res.code!==200){pm.variables.set('caseOrderId','999999');return;} const id=res.json().orderId;",
+    ` const states=${JSON.stringify(states)}; const advance=(i)=>{if(i>=states.length){pm.variables.set('caseOrderId',id);return;}pm.sendRequest({url:pm.environment.get('baseUrl')+'/api/admin/orders/'+id+'/status',method:'PUT',header:{'Content-Type':'application/json','X-Student-Id':'23127001','Authorization':'Bearer '+admin},body:{mode:'raw',raw:JSON.stringify({status:states[i]})}},()=>advance(i+1));};advance(0);`,
+    "});"
+  ];
+}
+const fullLogin = cases.filter(c => c.api === 'POST /api/login').map(c => {
+  const raw = c.input.email === 'MALFORMED_JSON' ? '{"email":' : JSON.stringify(c.input);
+  const expected = c.expected === '200' ? '200' : c.expected.startsWith('401') ? '401' : c.expected.startsWith('403') ? '403' : '4xx';
+  const tests = expected === '4xx' ? [`pm.test('${c.id}: rejected safely',()=>pm.expect(pm.response.code).to.be.within(400,499));`] : [`pm.test('${c.id}: status',()=>pm.response.to.have.status(${expected}));`];
+  if (c.id === 'LOGIN-035') tests.push("pm.test('LOGIN-035: password absent',()=>pm.expect(pm.response.json().user).not.to.have.property('password'));");
+  return {name:`${c.id} — ${c.name}`,request:{method:'POST',header,url:'{{baseUrl}}/api/login',body:{mode:'raw',raw}},event:[{listen:'test',script:{exec:tests}}]};
+});
+const fullCancel = cases.filter(c => c.api === 'PUT /api/orders/:id/cancel').map(c => {
+  const allowed = c.input.orderState === 'pending' || c.input.orderState === 'confirmed';
+  const noToken = /missing JWT/.test(c.name), badToken = /malformed|tampered/.test(c.name), other = /other user/.test(c.name);
+  const h=[...header]; if (!noToken) h.push({key:'Authorization',value:badToken?'Bearer invalid.token.value':`Bearer {{${other?'adminToken':'userToken'}}}`});
+  const expected=allowed&&!noToken&&!badToken&&!other?'200 and status canceled':'4xx/no state change';
+  return {name:`${c.id} — ${c.name}`,request:{method:'PUT',header:h,url:'{{baseUrl}}/api/orders/{{caseOrderId}}/cancel'},event:[{listen:'prerequest',script:{exec:orderSetupScript(c.input.orderState)}},{listen:'test',script:{exec:statusScript(expected,c.id)}}]};
+});
+const fullAdmin = cases.filter(c => c.api === 'PUT /api/admin/orders/:id/status').map((c,i) => {
+  const success=i<5, user=/ordinary user/.test(c.name), missing=/missing JWT/.test(c.name), invalid=/malformed|tampered/.test(c.name);
+  const state=success?['pending','pending','confirmed','confirmed','shipping'][i]:['pending','confirmed','shipping','delivered','canceled'][i%5];
+  const h=[...header]; if (!missing) h.push({key:'Authorization',value:invalid?'Bearer invalid.token.value':`Bearer {{${user?'userToken':'adminToken'}}}`});
+  const target=success?['confirmed','canceled','shipping','canceled','delivered'][i]:/missing status/.test(c.name)?undefined:/null status/.test(c.name)?null:/numeric status/.test(c.name)?1:/object status/.test(c.name)?{value:'confirmed'}:/unknown|case variant/.test(c.name)?'UNKNOWN':c.input.targetStatus;
+  const body=target===undefined?{}:{status:target};
+  return {name:`${c.id} — ${c.name}`,request:{method:'PUT',header:h,url:'{{baseUrl}}/api/admin/orders/{{caseOrderId}}/status',body:{mode:'raw',raw:JSON.stringify(body)}},event:[{listen:'prerequest',script:{exec:orderSetupScript(state)}},{listen:'test',script:{exec:statusScript(success&&!user&&!missing&&!invalid?'200 and target state persisted':'4xx/no state change',c.id)}}]};
+});
+collection.item.push({name:'Full matrix — Login (40)',item:fullLogin});
+collection.item.push({name:'Full matrix — Cancel order (40)',item:fullCancel});
+collection.item.push({name:'Full matrix — Admin status (40)',item:fullAdmin});
 fs.writeFileSync(collectionPath, JSON.stringify(collection, null, 2) + '\n');
 fs.writeFileSync(envPath, JSON.stringify({ name: 'HW06 local', values: [{ key: 'baseUrl', value: 'http://127.0.0.1:3000', enabled: true }, { key: 'studentId', value: '23127001', enabled: true }, { key: 'userToken', value: '', enabled: true }, { key: 'adminToken', value: '', enabled: true }], _postman_variable_scope: 'environment', _postman_exported_at: new Date().toISOString(), _postman_exported_using: 'HW06 generator' }, null, 2) + '\n');
 console.log(`Generated ${cases.length} traceable test cases and Postman collection.`);
