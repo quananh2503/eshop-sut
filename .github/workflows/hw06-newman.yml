@@ -11,10 +11,6 @@ on:
         options:
           - full
           - smoke
-  push:
-    paths:
-      - 'hw06/**'
-      - 'backend/**'
 
 jobs:
   newman:

@@ -1,0 +1,32 @@
+name: HW06 API smoke
+
+on:
+  push:
+    branches:
+      - hw06-ai-api
+    paths:
+      - 'hw06/ci-smoke-trigger/**'
+      - '.github/workflows/hw06-newman-smoke.yml'
+
+jobs:
+  newman-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+      - name: Start SUT
+        run: |
+          node backend/server.js > /tmp/eshop.log 2>&1 &
+          npx wait-on http://127.0.0.1:3000/api/products
+      - name: Run audited passing smoke suite
+        run: npx newman run hw06/collections/23127001_HW06_API_CI_Smoke.postman_collection.json -r cli,json --reporter-json-export hw06/results/newman-ci-smoke.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hw06-newman-smoke-report
+          path: hw06/results/newman-ci-smoke.json
