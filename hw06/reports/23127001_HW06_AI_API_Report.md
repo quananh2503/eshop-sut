@@ -49,6 +49,8 @@ The collection-level pre-request script printed `HW06 pre-request: X-Student-Id=
 
 These are documented as local issue drafts in `bugs/`. They must be re-run by the student and then published manually to GitHub with a real screenshot. The full run also contains failures that require human classification before bug reporting: some login cases share the lockout state of earlier requests, and several malformed-ID/invalid-transition cases require a finer-grained response oracle. They are retained as execution evidence, not inflated into bug claims.
 
+Published issues: [#23 — SEC-01 password disclosure](https://github.com/quananh2503/eshop-sut/issues/23) and [#24 — SEC-03 admin role bypass](https://github.com/quananh2503/eshop-sut/issues/24).
+
 ## 5. Postman/Newman features used
 
 - Collection and local environment variables (`baseUrl`, user/admin JWT, dynamic `orderId`).
@@ -61,6 +63,8 @@ These are documented as local issue drafts in `bugs/`. They must be re-run by th
 ## 6. CI/CD
 
 Workflow source is `ci/hw06-newman.yml`; before use, copy it to `.github/workflows/hw06-newman.yml`. It installs dependencies, starts the SUT, runs Newman and uploads reports even if a test fails. Two GitHub Actions run links and screenshots remain to be collected from real GitHub executions; they are not fabricated here.
+
+The failing full-suite run is [GitHub Actions job 97165145920](https://github.com/quananh2503/eshop-sut/actions/runs/32627557227/job/97165145920). Its log records execution on localhost, the required student header, and assertion failures.
 
 ## 7. AI-driven test generator
 

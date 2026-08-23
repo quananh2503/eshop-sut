@@ -2,6 +2,15 @@ name: HW06 API tests
 
 on:
   workflow_dispatch:
+    inputs:
+      suite:
+        description: 'Newman suite to run'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - smoke
   push:
     paths:
       - 'hw06/**'
@@ -26,7 +35,12 @@ jobs:
           node backend/server.js > /tmp/eshop.log 2>&1 &
           npx wait-on http://127.0.0.1:3000/api/products
       - name: Run Newman regression suite
-        run: bash hw06/scripts/run_newman.sh
+        run: |
+          if [ "${{ inputs.suite || 'full' }}" = "smoke" ]; then
+            npx newman run hw06/collections/23127001_HW06_API_CI_Smoke.postman_collection.json -r cli,json --reporter-json-export hw06/results/newman-ci-smoke.json
+          else
+            bash hw06/scripts/run_newman.sh
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:

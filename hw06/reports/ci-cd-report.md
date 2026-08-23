@@ -8,7 +8,7 @@ The workflow definition is `ci/hw06-newman.yml`. Copy it to `.github/workflows/h
 
 | Required run | Commit SHA/link | Screenshot | Status |
 |---|---|---|---|
-| Regression/smoke suite all passing | Pending | Pending | Not fabricated |
-| Suite with one intentionally failing assertion | Pending | Pending | Not fabricated |
+| Regression/smoke suite all passing | Pending — run workflow manually with `suite=smoke` after commit | Pending | Ready to run |
+| Suite with one or more failing assertions | [Job 97165145920](https://github.com/quananh2503/eshop-sut/actions/runs/32627557227/job/97165145920) | Captured by student from job log | Completed |
 
-The current full local run invoked 120 unique primary IDs and has 35 failed assertions, so it is not suitable to represent the all-pass CI example. Create a separate smoke/regression folder after human audit for the required all-pass run; retain the specification suite as the required failing run.
+The current full local run invoked 120 unique primary IDs and has 35 failed assertions, so it is not suitable to represent the all-pass CI example. The new `23127001_HW06_API_CI_Smoke` collection covers one audited-passing behavior for each selected API: login contract, missing-JWT rejection on cancel, and admin confirmation of a pending order. Retain the specification suite as the failing run.
