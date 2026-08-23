@@ -1,0 +1,1848 @@
+[
+  {
+    "id": "LOGIN-001",
+    "name": "valid user credentials",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "positive",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "Test1234!"
+    },
+    "expected": "200"
+  },
+  {
+    "id": "LOGIN-002",
+    "name": "valid admin credentials",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "positive",
+    "input": {
+      "email": "admin@eshop.com",
+      "password": "Admin123!"
+    },
+    "expected": "200"
+  },
+  {
+    "id": "LOGIN-003",
+    "name": "unknown well-formed email",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "negative",
+    "input": {
+      "email": "unknown@eshop.com",
+      "password": "Test1234!"
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-004",
+    "name": "wrong password",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "negative",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "Wrong123!"
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-005",
+    "name": "empty email",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "required",
+    "input": {
+      "email": "",
+      "password": "Test1234!"
+    },
+    "expected": "4xx"
+  },
+  {
+    "id": "LOGIN-006",
+    "name": "empty password",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "required",
+    "input": {
+      "email": "test@eshop.com",
+      "password": ""
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-007",
+    "name": "missing email",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "required",
+    "input": {
+      "password": "Test1234!"
+    },
+    "expected": "4xx"
+  },
+  {
+    "id": "LOGIN-008",
+    "name": "missing password",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "required",
+    "input": {
+      "email": "test@eshop.com"
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-009",
+    "name": "null email",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "type",
+    "input": {
+      "email": null,
+      "password": "Test1234!"
+    },
+    "expected": "4xx"
+  },
+  {
+    "id": "LOGIN-010",
+    "name": "null password",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "type",
+    "input": {
+      "email": "test@eshop.com",
+      "password": null
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-011",
+    "name": "numeric email",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "type",
+    "input": {
+      "email": 12345,
+      "password": "Test1234!"
+    },
+    "expected": "4xx"
+  },
+  {
+    "id": "LOGIN-012",
+    "name": "numeric password",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "type",
+    "input": {
+      "email": "test@eshop.com",
+      "password": 12345
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-013",
+    "name": "malformed email no at-sign",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "domain",
+    "input": {
+      "email": "test.eshop.com",
+      "password": "Test1234!"
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-014",
+    "name": "malformed email no domain",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "domain",
+    "input": {
+      "email": "test@",
+      "password": "Test1234!"
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-015",
+    "name": "leading/trailing email spaces",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "boundary",
+    "input": {
+      "email": " test@eshop.com ",
+      "password": "Test1234!"
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-016",
+    "name": "mixed-case email",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "domain",
+    "input": {
+      "email": "TEST@ESHOP.COM",
+      "password": "Test1234!"
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-017",
+    "name": "password one character",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "boundary",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "T"
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-018",
+    "name": "password very long",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "boundary",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-019",
+    "name": "unicode password",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "domain",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "MậtKhẩu123!"
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-020",
+    "name": "SQL-like email",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "security",
+    "input": {
+      "email": "' OR '1'='1",
+      "password": "anything"
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-021",
+    "name": "SQL-like password",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "security",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "' OR '1'='1"
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-022",
+    "name": "JSON object email",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "type",
+    "input": {
+      "email": {
+        "value": "test@eshop.com"
+      },
+      "password": "Test1234!"
+    },
+    "expected": "4xx"
+  },
+  {
+    "id": "LOGIN-023",
+    "name": "JSON object password",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "type",
+    "input": {
+      "email": "test@eshop.com",
+      "password": {
+        "value": "Test1234!"
+      }
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-024",
+    "name": "array email",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "type",
+    "input": {
+      "email": [
+        "test@eshop.com"
+      ],
+      "password": "Test1234!"
+    },
+    "expected": "4xx"
+  },
+  {
+    "id": "LOGIN-025",
+    "name": "array password",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "type",
+    "input": {
+      "email": "test@eshop.com",
+      "password": [
+        "Test1234!"
+      ]
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-026",
+    "name": "content-type text/plain",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "protocol",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "Test1234!"
+    },
+    "expected": "415/4xx"
+  },
+  {
+    "id": "LOGIN-027",
+    "name": "malformed JSON",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "protocol",
+    "input": {
+      "email": "MALFORMED_JSON",
+      "password": ""
+    },
+    "expected": "400"
+  },
+  {
+    "id": "LOGIN-028",
+    "name": "first failed attempt increments exactly one",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "lockout",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "Wrong123!"
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-029",
+    "name": "second failed attempt does not lock",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "lockout",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "Wrong123!"
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-030",
+    "name": "third consecutive failure locks account",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "lockout",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "Wrong123!"
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-031",
+    "name": "locked account blocks valid password",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "lockout",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "Test1234!"
+    },
+    "expected": "403"
+  },
+  {
+    "id": "LOGIN-032",
+    "name": "lock duration is 30 seconds",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "lockout",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "Test1234!"
+    },
+    "expected": "200 after 30s"
+  },
+  {
+    "id": "LOGIN-033",
+    "name": "valid login resets failed counter",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "lockout",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "Test1234!"
+    },
+    "expected": "200"
+  },
+  {
+    "id": "LOGIN-034",
+    "name": "success schema has token and user",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-02, SEC-05",
+    "category": "schema",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "Test1234!"
+    },
+    "expected": "200"
+  },
+  {
+    "id": "LOGIN-035",
+    "name": "success response excludes password",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-01",
+    "category": "security",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "Test1234!"
+    },
+    "expected": "200"
+  },
+  {
+    "id": "LOGIN-036",
+    "name": "JWT has three dot-separated segments",
+    "studentId": "23127001",
+    "source": "Human",
+    "audit": "VALID",
+    "auditReason": "Added after risk review: security/state transition gap.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-01",
+    "category": "schema",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "Test1234!"
+    },
+    "expected": "200"
+  },
+  {
+    "id": "LOGIN-037",
+    "name": "error schema is JSON error object",
+    "studentId": "23127001",
+    "source": "Human",
+    "audit": "VALID",
+    "auditReason": "Added after risk review: security/state transition gap.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-01",
+    "category": "schema",
+    "input": {
+      "email": "unknown@eshop.com",
+      "password": "x"
+    },
+    "expected": "401"
+  },
+  {
+    "id": "LOGIN-038",
+    "name": "repeated valid login remains functional",
+    "studentId": "23127001",
+    "source": "Human",
+    "audit": "VALID",
+    "auditReason": "Added after risk review: security/state transition gap.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-01",
+    "category": "reliability",
+    "input": {
+      "email": "admin@eshop.com",
+      "password": "Admin123!"
+    },
+    "expected": "200"
+  },
+  {
+    "id": "LOGIN-039",
+    "name": "extra JSON property ignored safely",
+    "studentId": "23127001",
+    "source": "Human",
+    "audit": "VALID",
+    "auditReason": "Added after risk review: security/state transition gap.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-01",
+    "category": "security",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "Test1234!"
+    },
+    "expected": "200"
+  },
+  {
+    "id": "LOGIN-040",
+    "name": "request without X-Student-Id is documented control",
+    "studentId": "23127001",
+    "source": "Human",
+    "audit": "VALID",
+    "auditReason": "Added after risk review: security/state transition gap.",
+    "api": "POST /api/login",
+    "frSec": "FR-02, SEC-01",
+    "category": "observability",
+    "input": {
+      "email": "test@eshop.com",
+      "password": "Test1234!"
+    },
+    "expected": "200"
+  },
+  {
+    "id": "CANCEL-001",
+    "name": "pending owner cancels",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "pending"
+    },
+    "expected": "200 and status canceled"
+  },
+  {
+    "id": "CANCEL-002",
+    "name": "confirmed owner cancels",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "confirmed"
+    },
+    "expected": "200 and status canceled"
+  },
+  {
+    "id": "CANCEL-003",
+    "name": "shipping owner cannot cancel",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "shipping"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-004",
+    "name": "delivered owner cannot cancel",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "delivered"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-005",
+    "name": "canceled owner cannot cancel",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "canceled"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-006",
+    "name": "other user cannot cancel pending order",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "pending"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-007",
+    "name": "other user cannot cancel confirmed order",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "confirmed"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-008",
+    "name": "missing JWT rejected",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "shipping"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-009",
+    "name": "malformed JWT rejected",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "delivered"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-010",
+    "name": "tampered JWT rejected",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "canceled"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-011",
+    "name": "nonexistent numeric order returns not found",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "pending"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-012",
+    "name": "zero id rejected/not found",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "confirmed"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-013",
+    "name": "negative id rejected/not found",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "shipping"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-014",
+    "name": "decimal id rejected/not found",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "delivered"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-015",
+    "name": "non-numeric id rejected/not found",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "canceled"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-016",
+    "name": "SQL-like id cannot modify order",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "pending"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-017",
+    "name": "very large id does not overflow",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "confirmed"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-018",
+    "name": "empty path id routes safely",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "shipping"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-019",
+    "name": "owner state persists after successful cancel",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "delivered"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-020",
+    "name": "failed cancel preserves shipping state",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "canceled"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-021",
+    "name": "failed cancel preserves delivered state",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "pending"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-022",
+    "name": "failed cancel preserves canceled state",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "confirmed"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-023",
+    "name": "response success schema",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "shipping"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-024",
+    "name": "response error schema",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "delivered"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-025",
+    "name": "content-type irrelevant for empty PUT",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "canceled"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-026",
+    "name": "duplicate cancel is idempotently rejected",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "pending"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-027",
+    "name": "cancel A does not modify B",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "confirmed"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-028",
+    "name": "JWT user id determines ownership not body",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "shipping"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-029",
+    "name": "extra body cannot change owner",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "delivered"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-030",
+    "name": "concurrent cancel permits at most one transition",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "canceled"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-031",
+    "name": "cancel after admin confirmed is allowed",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "pending"
+    },
+    "expected": "200 and status canceled"
+  },
+  {
+    "id": "CANCEL-032",
+    "name": "cancel after admin shipping is denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "confirmed"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-033",
+    "name": "cancel after admin delivered is denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "shipping"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-034",
+    "name": "cancel after admin canceled is denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "delivered"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-035",
+    "name": "method GET is not accepted as cancel",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "state/security",
+    "input": {
+      "orderState": "canceled"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-036",
+    "name": "method POST is not accepted as cancel",
+    "studentId": "23127001",
+    "source": "Human",
+    "audit": "VALID",
+    "auditReason": "Added after risk review: security/state transition gap.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "human security/state",
+    "input": {
+      "orderState": "pending"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-037",
+    "name": "Authorization Bearer format required",
+    "studentId": "23127001",
+    "source": "Human",
+    "audit": "VALID",
+    "auditReason": "Added after risk review: security/state transition gap.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "human security/state",
+    "input": {
+      "orderState": "confirmed"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-038",
+    "name": "case-sensitive bearer/token behavior safe",
+    "studentId": "23127001",
+    "source": "Human",
+    "audit": "VALID",
+    "auditReason": "Added after risk review: security/state transition gap.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "human security/state",
+    "input": {
+      "orderState": "shipping"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-039",
+    "name": "error does not leak another order data",
+    "studentId": "23127001",
+    "source": "Human",
+    "audit": "VALID",
+    "auditReason": "Added after risk review: security/state transition gap.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "human security/state",
+    "input": {
+      "orderState": "delivered"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "CANCEL-040",
+    "name": "X-Student-Id header present",
+    "studentId": "23127001",
+    "source": "Human",
+    "audit": "VALID",
+    "auditReason": "Added after risk review: security/state transition gap.",
+    "api": "PUT /api/orders/:id/cancel",
+    "frSec": "FR-10, SEC-02",
+    "category": "human security/state",
+    "input": {
+      "orderState": "canceled"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-001",
+    "name": "admin pending to confirmed",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "confirmed"
+    },
+    "expected": "200 and target state persisted"
+  },
+  {
+    "id": "ADMINSTATUS-002",
+    "name": "admin pending to canceled",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "canceled"
+    },
+    "expected": "200 and target state persisted"
+  },
+  {
+    "id": "ADMINSTATUS-003",
+    "name": "admin confirmed to shipping",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "shipping"
+    },
+    "expected": "200 and target state persisted"
+  },
+  {
+    "id": "ADMINSTATUS-004",
+    "name": "admin confirmed to canceled",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "delivered"
+    },
+    "expected": "200 and target state persisted"
+  },
+  {
+    "id": "ADMINSTATUS-005",
+    "name": "admin shipping to delivered",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "confirmed"
+    },
+    "expected": "200 and target state persisted"
+  },
+  {
+    "id": "ADMINSTATUS-006",
+    "name": "admin pending to shipping denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "canceled"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-007",
+    "name": "admin pending to delivered denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "shipping"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-008",
+    "name": "admin confirmed to delivered denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "delivered"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-009",
+    "name": "admin shipping to confirmed denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "confirmed"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-010",
+    "name": "admin shipping to canceled denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "canceled"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-011",
+    "name": "admin delivered to pending denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "shipping"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-012",
+    "name": "admin delivered to confirmed denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "delivered"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-013",
+    "name": "admin delivered to shipping denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "confirmed"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-014",
+    "name": "admin delivered to canceled denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "canceled"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-015",
+    "name": "admin canceled to pending denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "shipping"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-016",
+    "name": "admin canceled to confirmed denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "delivered"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-017",
+    "name": "admin canceled to shipping denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "confirmed"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-018",
+    "name": "admin canceled to delivered denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "canceled"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-019",
+    "name": "ordinary user JWT denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "shipping"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-020",
+    "name": "missing JWT denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "delivered"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-021",
+    "name": "malformed JWT denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "confirmed"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-022",
+    "name": "tampered JWT denied",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "canceled"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-023",
+    "name": "nonexistent numeric id not found",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "shipping"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-024",
+    "name": "zero id rejected/not found",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "delivered"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-025",
+    "name": "negative id rejected/not found",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "confirmed"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-026",
+    "name": "decimal id rejected/not found",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "canceled"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-027",
+    "name": "non-numeric id rejected/not found",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "shipping"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-028",
+    "name": "SQL-like id safe",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "delivered"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-029",
+    "name": "missing status rejected",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "confirmed"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-030",
+    "name": "null status rejected",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "canceled"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-031",
+    "name": "numeric status rejected",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "shipping"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-032",
+    "name": "object status rejected",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "delivered"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-033",
+    "name": "unknown status rejected",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "confirmed"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-034",
+    "name": "case variant status rejected",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "canceled"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-035",
+    "name": "extra body cannot bypass state rules",
+    "studentId": "23127001",
+    "source": "AI",
+    "audit": "INCOMPLETE",
+    "auditReason": "Awaiting student review against SRS and an execution result.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "state/security",
+    "input": {
+      "targetStatus": "shipping"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-036",
+    "name": "invalid transition preserves current state",
+    "studentId": "23127001",
+    "source": "Human",
+    "audit": "VALID",
+    "auditReason": "Added after risk review: security/state transition gap.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "human security/state",
+    "input": {
+      "targetStatus": "delivered"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-037",
+    "name": "success response schema",
+    "studentId": "23127001",
+    "source": "Human",
+    "audit": "VALID",
+    "auditReason": "Added after risk review: security/state transition gap.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "human security/state",
+    "input": {
+      "targetStatus": "confirmed"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-038",
+    "name": "error response schema",
+    "studentId": "23127001",
+    "source": "Human",
+    "audit": "VALID",
+    "auditReason": "Added after risk review: security/state transition gap.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "human security/state",
+    "input": {
+      "targetStatus": "canceled"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-039",
+    "name": "no cross-order modification",
+    "studentId": "23127001",
+    "source": "Human",
+    "audit": "VALID",
+    "auditReason": "Added after risk review: security/state transition gap.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "human security/state",
+    "input": {
+      "targetStatus": "shipping"
+    },
+    "expected": "4xx/no state change"
+  },
+  {
+    "id": "ADMINSTATUS-040",
+    "name": "X-Student-Id header present",
+    "studentId": "23127001",
+    "source": "Human",
+    "audit": "VALID",
+    "auditReason": "Added after risk review: security/state transition gap.",
+    "api": "PUT /api/admin/orders/:id/status",
+    "frSec": "FR-10, FR-18, SEC-02, SEC-03",
+    "category": "human security/state",
+    "input": {
+      "targetStatus": "delivered"
+    },
+    "expected": "4xx/no state change"
+  }
+]

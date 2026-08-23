@@ -1,0 +1,34 @@
+name: HW06 API tests
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'hw06/**'
+      - 'backend/**'
+
+jobs:
+  newman:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+      - name: Install Newman and HTML reporter
+        run: npm install --no-save --prefix hw06 newman newman-reporter-htmlextra
+      - name: Generate collection and start SUT
+        run: |
+          node hw06/scripts/generate_artifacts.js
+          node backend/server.js > /tmp/eshop.log 2>&1 &
+          npx wait-on http://127.0.0.1:3000/api/products
+      - name: Run Newman regression suite
+        run: bash hw06/scripts/run_newman.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hw06-newman-report
+          path: hw06/results/
